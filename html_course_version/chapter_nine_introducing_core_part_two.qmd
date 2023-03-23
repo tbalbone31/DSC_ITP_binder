@@ -1,0 +1,225 @@
+---
+title: "Chapter 9 - Introducing Core Part 2"
+format:
+  html:
+    highlight: null
+    theme: default
+    toc: true
+    toc-title: Contents
+    toc-location: right
+    toc-depth: 3
+    number-sections: true 
+    link-external-newwindow: true
+---
+
+![](../images/AF_DSC_banner.png){fig-alt="Government Analysis Function and Data Science Campus Logos."}
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+Sys.setenv(RETICULATE_PYTHON = "/Users/jakemarshall/Library/r-miniconda-arm64/envs/my_python/bin/python") # Set path for my venv
+
+library(reticulate) # Initialise
+
+library(kableExtra) # For tables
+``` 
+
+This is a HTML document. The Introduction to Python course is written and intended to be used in a Jupyter Notebook file. These HTML documents have been made available for users who require screen readers or other accessibility needs. These HTML documents have been tested, but if you notice any errors or any compatibility issues please contact us on the GSS Capability email inbox.
+
+If you are using a screen reader you will need to set your punctuation level (sometimes called verbosity) to full, especially for the code sections.
+
+
+*Chapter Overview and Learning Objectives*:
+
+* [Core Part 2 Outline](#outline)
+  - Learning Outcomes
+  - Prerequiste Knowledge
+  - Format
+  - Duration
+
+* [Packages and Data](#packages)
+  - Packages
+  - Data
+ 
+* [Comparison and Logical Operators](#comparison)
+  - Comparison operators
+  - Logical operators
+ 
+<a id='outline'></a>
+
+# Core Part 2 Outline
+
+The content for Core Part 2 originated in the Introduction to Python course. A decision was taken in July 2021 to split the section on loops, control flow and functions away from the main course to allow more time to develop skills.
+
+However, during the 2022 curriculum review carried out by the Data Science Campus Faculty, following discussion with various stakeholders who use these courses, it was decided to incorporate this content back into Introduction to Python, as the separation led to many missing out on the key content covered in this course, which is deemed as **essential** to work in the Data Science teams in the public sector.
+
+To compromise with the issue of this enlargening Introduction to Python, the decision was made to split the Core material (compulsory) into two parts, to preserve the structure of the original two courses, with Reference material covering optional add-ons for those who wish to develop some advanced skills. 
+
+* If you completed the Introduction to Python course before August 2021 you will have covered at least some of the content in this module previously. 
+
+* From August 2021 to September 2022 this content was an individual course called Control Flow, Loops and Functions in Python so if you have done this course you will recognise alot of the content. However, this update adds some new sections and allows it flow from Core Part 1.
+
+## Learning Outcomes
+
+By the end of Core Part 2 you should be able to:
+
+* Use For loops
+* Use While loops
+* Use If Elif and Else Control Flow
+* Use list comprehensions
+* Write your own functions
+* Understand Scope in terms of Functions
+* Use and write Lambda Functions
+* Be aware of how Functions can be applied to DataFrames
+* The map function as an alternative to loops
+
+## Prerequiste Knowledge
+
+This is the follow on to Core Part 1, which was previously the standalone Introduction to Python course. As such, that content is the pre-requisite for Core Part 2. Breaking this down, we assume familiarity with:
+
+* Logical Operators such as less than (<) , greater than (>), equivalent to (==) etc.
+* Knowledge of the Pandas package, such as reading in data; basic data manipulation.
+* General basic knowledge of Python code provided by Core Part 1 (you should not start with Core Part 2 if you haven't been introduced to the language). 
+* Jupyter Notebooks (A stand alone Jupyter Notebooks Overview is also available on the Learning Hub)
+
+## Format
+
+This course was designed using Jupyter Notebooks. The HTML files are availible for accessibility purposes. The learner is expected to follow along with the code in an enviroment of their choice. Please note that some "magic" commands (Using a % or %% symbol) will not work in VSCode or other IDEs.
+
+
+## Duration
+
+Core Part 2 will take approximately 3 and a half hours to complete.
+
+# Packages and Datasets
+
+## Packages
+
+In this course we will use pandas, and give it the nickname pd. It was written using Pandas version 1.4.2, Python Version 3.8.3 and Anaconda 2020.07. Note that Python is generally versatile with backwards and forwards compatability.
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+
+Import the package pandas and give it the well known nickname pd.
+
+### **Show Answer**{-}
+```{python}
+import pandas as pd
+```
+
+:::
+
+## Datasets
+
+In this course we’ll be using the following datasets:
+
+| variable name | file name  |
+| --- |  --- |
+| animals | animals.csv |
+| titanic | titanic.xlsx |
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+Load in the datasets mentioned above using the pd.read_ family of functions.
+
+### **Show Answer**{-}
+```{python}
+animals = pd.read_csv("../data/animals.csv")
+titanic = pd.read_excel("../data/titanic.xlsx")
+```
+
+:::
+
+You can check your variables are loaded by using %whos in Jupyter. In other IDE's they should appear in your **variable explorer**.
+
+<a id='comparison'></a>
+
+# Comparison and Logical Operators
+
+When we use control flow or functions, we will often use comparison operators. We discussed this much earlier in the course during Chapter 4, but since they are so imperative to the use of the programmatic objects we will discuss in this half of the course, we will revise them here.
+
+## Comparison Operators
+
+As a reminder our comparison operators are in the following table.
+
+Operator | Description
+--------------|-----------------
+== | Equivalent to
+!= | Not equivalent to
+< | Less than
+<= | Less than or equal to
+> | Greater than
+>= | Greater than or equal to
+
+Our comparison operators return us a Boolean value = True or False. Let's see some examples.
+
+### Examples
+
+```{python}
+print(4 == 2)
+print("Hannah" != "hannah")
+print(True > False)
+print(1 > 0) # Same as the one above - think about the numbers behind Boolean values
+```
+
+This also applies to pandas Series where it checks each element individually.
+
+```{python}
+(titanic["sex"] == "female").head()
+```
+
+## Logical Operators
+
+We also have our logical operators in the following table.
+
+|Operator | Description |
+|--------------|-------------- |
+| & | And |
+| &#124; | Or |
+| ! | Not |
+
+We can use these to join our conditional statements, which we covered in the Multi-Conditional Filtering section in Chapter 4. Here we include the truth table again just for completeness should you want to keep your tabs open restricted to Core Part 2.
+
+
+| Condition 1 | Condition 2  | & (AND) Equates to | &#124; (OR) Equates to |
+|:-----------:|:------------:|:------------------:|:------------------:|
+|     True    |     True     |        True        |        True        |
+|     True    |     False    |        False       |        True        |
+|    False    |     True     |        False       |        True        |
+|    False    |     False    |        False       |        False       |
+
+### Examples
+
+Here I've filtered the titanic dataframe to show female passengers with a recorded age under 18.
+
+```{python eval = F}
+titanic_f_kids = titanic[(titanic["sex"] == "female") & (titanic["age"] < 18)]
+
+titanic_f_kids.head()
+```
+
+```{python include=FALSE }
+
+titanic_f_kids = titanic[(titanic["sex"] == "female") & (titanic["age"] < 18)]
+
+display = titanic_f_kids.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%")
+```
+
+For more examples and involved exercises on this topic, consult Chapter 4 - Working with DataFrames.
+
+# Chapter Summary
+
+Awesome job getting started with Core Part 2! Now that you have revised some of the operators that will be incredibly important for the chapters here, you can move forward!
+
+In Chapter 10, we will introduce some incredibly important programmatic concepts, including
+
+* For Loops
+* While Loops
+* Control Flow: if-elif-else chains

@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.120">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 10 - Loops and Control Flow</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="chapter_ten_loops_control_flow_files/libs/clipboard/clipboard.min.js"></script>
+<script src="chapter_ten_loops_control_flow_files/libs/quarto-html/quarto.js"></script>
+<script src="chapter_ten_loops_control_flow_files/libs/quarto-html/popper.min.js"></script>
+<script src="chapter_ten_loops_control_flow_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="chapter_ten_loops_control_flow_files/libs/quarto-html/anchor.min.js"></script>
+<link href="chapter_ten_loops_control_flow_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="chapter_ten_loops_control_flow_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="chapter_ten_loops_control_flow_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="chapter_ten_loops_control_flow_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="chapter_ten_loops_control_flow_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#loops" id="toc-loops" class="nav-link active" data-scroll-target="#loops"><span class="toc-section-number">1</span>  Loops</a>
+  <ul class="collapse">
+  <li><a href="#for-loops" id="toc-for-loops" class="nav-link" data-scroll-target="#for-loops"><span class="toc-section-number">1.1</span>  For Loops</a>
+  <ul class="collapse">
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="toc-section-number">1.1.1</span>  Example 1</a></li>
+  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="toc-section-number">1.1.2</span>  Example 2</a></li>
+  <li><a href="#example-3" id="toc-example-3" class="nav-link" data-scroll-target="#example-3"><span class="toc-section-number">1.1.3</span>  Example 3</a></li>
+  <li><a href="#extended-example-4" id="toc-extended-example-4" class="nav-link" data-scroll-target="#extended-example-4"><span class="toc-section-number">1.1.4</span>  Extended Example 4</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="toc-section-number">1.2</span>  Exercises</a>
+  <ul class="collapse">
+  <li><a href="#weaknesses-of-loops" id="toc-weaknesses-of-loops" class="nav-link" data-scroll-target="#weaknesses-of-loops"><span class="toc-section-number">1.2.1</span>  Weaknesses of Loops</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#while-loops" id="toc-while-loops" class="nav-link" data-scroll-target="#while-loops"><span class="toc-section-number">2</span>  While Loops</a>
+  <ul class="collapse">
+  <li><a href="#the-structure-of-a-while-loop" id="toc-the-structure-of-a-while-loop" class="nav-link" data-scroll-target="#the-structure-of-a-while-loop"><span class="toc-section-number">2.1</span>  The structure of a while loop</a>
+  <ul class="collapse">
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="toc-section-number">2.1.1</span>  Example</a></li>
+  </ul></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="toc-section-number">2.2</span>  Exercise</a></li>
+  </ul></li>
+  <li><a href="#control-flow" id="toc-control-flow" class="nav-link" data-scroll-target="#control-flow"><span class="toc-section-number">3</span>  Control Flow</a>
+  <ul class="collapse">
+  <li><a href="#if-elif-and-else-statements" id="toc-if-elif-and-else-statements" class="nav-link" data-scroll-target="#if-elif-and-else-statements"><span class="toc-section-number">3.1</span>  If, Elif and Else Statements</a>
+  <ul class="collapse">
+  <li><a href="#example-1-if-else" id="toc-example-1-if-else" class="nav-link" data-scroll-target="#example-1-if-else"><span class="toc-section-number">3.1.1</span>  Example 1: if-else</a></li>
+  <li><a href="#example-2-if-elif-else" id="toc-example-2-if-elif-else" class="nav-link" data-scroll-target="#example-2-if-elif-else"><span class="toc-section-number">3.1.2</span>  Example 2: if-elif-else</a></li>
+  <li><a href="#multiple-conditions-in-a-chain" id="toc-multiple-conditions-in-a-chain" class="nav-link" data-scroll-target="#multiple-conditions-in-a-chain"><span class="toc-section-number">3.1.3</span>  Multiple Conditions in a Chain</a></li>
+  <li><a href="#example-4" id="toc-example-4" class="nav-link" data-scroll-target="#example-4">Example</a></li>
+  <li><a href="#the-workings-of-control-flow" id="toc-the-workings-of-control-flow" class="nav-link" data-scroll-target="#the-workings-of-control-flow"><span class="toc-section-number">3.1.4</span>  The Workings of Control Flow</a></li>
+  <li><a href="#example-5" id="toc-example-5" class="nav-link" data-scroll-target="#example-5">Example</a></li>
+  </ul></li>
+  <li><a href="#end-of-chapter-exercise" id="toc-end-of-chapter-exercise" class="nav-link" data-scroll-target="#end-of-chapter-exercise"><span class="toc-section-number">3.2</span>  End of Chapter Exercise</a></li>
+  </ul></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary"><span class="toc-section-number">4</span>  Chapter Summary</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 10 - Loops and Control Flow</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><img src="../images/AF_DSC_banner.png" class="img-fluid" alt="Government Analysis Function and Data Science Campus Logos."></p>
+<div class="cell">
+
+</div>
+<p>This is a HTML document. The Introduction to Python course is written and intended to be used in a Jupyter Notebook file. These HTML documents have been made available for users who require screen readers or other accessibility needs. These HTML documents have been tested, but if you notice any errors or any compatibility issues please contact us on the GSS Capability email inbox.</p>
+<p>If you are using a screen reader you will need to set your punctuation level (sometimes called verbosity) to full, especially for the code sections.</p>
+<p><em>Chapter Overview and Learning Objectives</em>:</p>
+<ul>
+<li><a href="#loops">Loops</a>
+<ul>
+<li>For Loops</li>
+<li>While Loops</li>
+</ul></li>
+<li><a href="#flow">Control Flow</a>
+<ul>
+<li>If, Elif and Else Chains</li>
+</ul></li>
+</ul>
+<p><a id="loops" href=""></a></p>
+<section id="loops" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Loops</h1>
+<p>You may be wondering why we revised comparison and logical operators in the lead up to this chapter of Core Part 2. This is because we use these conditional statements and comparison operators when we create loops (seen in this section) and control flow (seen in a later section).</p>
+<p>Loops are useful for when we need to repeat a section of code, such as for each piece of data in a list. Often we have large Data Structures which we must apply various methods across, and whilst there are functions that allow us to do this easily, sometimes we must resort to the method of looping.</p>
+<p>Python gives us two forms of loops, a for loop and a while loop.</p>
+<section id="for-loops" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="for-loops"><span class="header-section-number">1.1</span> For Loops</h2>
+<p>When we use a for loop, we take each item in an <strong>iterable</strong> and repeat an action over it. True to its name, an iterable is something we can <strong>iterate</strong> over (a.k.a perform repeatedly) and we have seen many of these already in Core Part 1. For example we have:</p>
+<ul>
+<li>Lists</li>
+<li>Tuples</li>
+<li>Ranges (recall range() and np.arange())</li>
+<li>Strings (Yes, you can iterate over these, character by character!)</li>
+</ul>
+<p>In general, the syntax for coding these goes as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> each_thing <span class="kw">in</span> my_iterable:</span>
+<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a>    do_this_action()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/for_loop.png" class="img-fluid figure-img" alt="A flow diagram demonstrating the for loop."></p>
+<p></p><figcaption class="figure-caption">For Loop as a flow diagram</figcaption><p></p>
+</figure>
+</div>
+<p>Let’s break this down as there are some interesting concepts here:</p>
+<ul>
+<li><p>For loops start with the keyword for (syntax highlighting is in play!).</p></li>
+<li><p>This is followed by a variable that refers to each item within the iterable in turn. This is chosen <strong>by you</strong> so using a name that makes sense allows your code to be more readable (for example if you have a list of numbers, this could be <strong>num</strong>).</p></li>
+<li><p>The keyword in is followed by the iterable we want to loop over.</p></li>
+<li><p>The line is finished with a colon :. This tells python that whatever follows belongs to this loop.</p></li>
+</ul>
+<p>The next lines contain the actions that will happen for each item in the iterable. This is indented by 4 spaces or a tab. Most code writing tools will automatically indent for you. To tell Python that something is <strong>outside</strong> the loop, you need to un-indent the code, so that it is effectively a separate statement.</p>
+<p>Let’s see an example where we print out each number of a list.</p>
+<section id="example-1" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="example-1"><span class="header-section-number">1.1.1</span> Example 1</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Create my iterable</span></span>
+<span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a>number_list <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>]</span>
+<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Create my for loop</span></span>
+<span id="cb2-5"><a aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> each_number <span class="kw">in</span> number_list:</span>
+<span id="cb2-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(each_number)</span>
+<span id="cb2-7"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Something outside the loop</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0
+1
+2
+3
+4
+5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"This is outside of the loop!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>This is outside of the loop!</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Here I’ve created a list called number_list with the numbers 0 to 5.</p></li>
+<li><p>Again the keyword for is followed by a variable that refers to each item in my iterable at a given point in the loop. I’ve called this variable each_number . You’ll often see letters like i used here, which is particularly common when using range() objects.</p></li>
+<li><p>The keyword in is followed by the iterable I want to loop over and the line is finished with a colon : .</p></li>
+<li><p>My action is indented (by 4 spaces or a tab, remember, Jupyter did this automatically and so do many other IDEs), and tells the computer to use the print() function to print each_number.</p></li>
+</ul>
+</section>
+<section id="example-2" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="example-2"><span class="header-section-number">1.1.2</span> Example 2</h3>
+<p>Let’s see a more complex example where we double each number and print it, using a different iterable, the range() object.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> each_item <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">6</span>): <span class="co"># Remember that 6 is exclusive!</span></span>
+<span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(each_item<span class="op">*</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0
+2
+4
+6
+8
+10</code></pre>
+</div>
+</div>
+<p>We can apply these tools to much more complex objects and even contain more complex processes as well. For example, we can use functions, it doesn’t have to be printing numbers.</p>
+</section>
+<section id="example-3" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="example-3"><span class="header-section-number">1.1.3</span> Example 3</h3>
+<p>Here we’re using the len() function to return the length of the string of each day of the week.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>days_list <span class="op">=</span> [<span class="st">"Monday"</span>, <span class="st">"Tuesday"</span>, <span class="st">"Wednesday"</span>, <span class="st">"Thursday"</span>,</span>
+<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a>             <span class="st">"Friday"</span>, <span class="st">"Saturday"</span>, <span class="st">"Sunday"</span>]</span>
+<span id="cb8-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> day <span class="kw">in</span> days_list:</span>
+<span id="cb8-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(day, <span class="st">"has a length of"</span>, <span class="bu">len</span>(day))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Monday has a length of 6
+Tuesday has a length of 7
+Wednesday has a length of 9
+Thursday has a length of 8
+Friday has a length of 6
+Saturday has a length of 8
+Sunday has a length of 6</code></pre>
+</div>
+</div>
+</section>
+<section id="extended-example-4" class="level3" data-number="1.1.4">
+<h3 data-number="1.1.4" class="anchored" data-anchor-id="extended-example-4"><span class="header-section-number">1.1.4</span> Extended Example 4</h3>
+<p>I want to add each day and it’s length as a list into a new list called days_and_length.</p>
+<p>I create a new blank list using [] and in my for loop I use .extend() to add a list of the day and the number of letters in the day to my list.</p>
+<p>The reason we use .extend() and not .append() is because we are adding another <strong>iterable</strong>, in this case a list, to the end of an empty list. It is worth remembering that using .append() is fine for single values, whereas .extend() is recommended for adding an iterable into another.</p>
+<p>Note that the creation of the new list is done outside of the loop. Why is this? It’s because everytime the loop returns to the first step, it will create a new list and overwrite each time, meaning we will end up with just the final pair of values at the end! Whereas if we create the container first, it will continually fill via the loop.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a>days_list <span class="op">=</span> [<span class="st">"Monday"</span>, <span class="st">"Tuesday"</span>, <span class="st">"Wednesday"</span>, <span class="st">"Thursday"</span>,</span>
+<span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a>             <span class="st">"Friday"</span>, <span class="st">"Saturday"</span>, <span class="st">"Sunday"</span>]</span>
+<span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a aria-hidden="true" tabindex="-1"></a>days_and_length <span class="op">=</span> [] <span class="co"># Create a new blank list</span></span>
+<span id="cb10-5"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> day <span class="kw">in</span> days_list:</span>
+<span id="cb10-7"><a aria-hidden="true" tabindex="-1"></a>    days_and_length.extend([ day, <span class="bu">len</span>(day)])</span>
+<span id="cb10-8"><a aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-9"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Return my new list</span></span>
+<span id="cb10-10"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a aria-hidden="true" tabindex="-1"></a>days_and_length</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['Monday', 6, 'Tuesday', 7, 'Wednesday', 9, 'Thursday', 8, 'Friday', 6, 'Saturday', 8, 'Sunday', 6]</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="exercises"><span class="header-section-number">1.2</span> Exercises</h2>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href=""><strong>Exercise 1</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href=""><strong>Show Answer</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href=""><strong>Exercise 2</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href=""><strong>Show Answer</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="unnumbered tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>You are given a list of measurements that are grams (g).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a>grams <span class="op">=</span> [<span class="dv">100000</span>, <span class="dv">7899900</span>, <span class="dv">967312</span>, <span class="dv">49185</span>, <span class="dv">6100</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Write a for loop to convert all of these measurements to kilograms (kg) and store these values in a new list kg_conversion. Since we are just adding a single value, we can use .append() this time.</p>
+<p>For reference, 1kg is the same as 1000 grams.</p>
+</div>
+<div id="tabset-1-2" class="unnumbered tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a>grams <span class="op">=</span> [<span class="dv">100000</span>, <span class="dv">7899900</span>, <span class="dv">967312</span>, <span class="dv">49185</span>, <span class="dv">6100</span>]</span>
+<span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-4"><a aria-hidden="true" tabindex="-1"></a>kg_conversion <span class="op">=</span> [] <span class="co"># Outside of the loop!</span></span>
+<span id="cb13-5"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> each_weight <span class="kw">in</span> grams:</span>
+<span id="cb13-7"><a aria-hidden="true" tabindex="-1"></a>  kg <span class="op">=</span> each_weight<span class="op">/</span><span class="dv">1000</span></span>
+<span id="cb13-8"><a aria-hidden="true" tabindex="-1"></a>  kg_conversion.append(kg) <span class="co"># Add the new values </span></span>
+<span id="cb13-9"><a aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-10"><a aria-hidden="true" tabindex="-1"></a>kg_conversion      </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[100.0, 7899.9, 967.312, 49.185, 6.1]</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>You are given a list of temperatures in Fahrenheit.</p>
+<p>Use the following formula and a for loop to convert these into Degrees Celsius. Store the values in fahrenheit <strong>then</strong> celsius as pairs in a new list, named celsius conversion. It is also worth thinking about rounding here, as the numbers can get a big gnarly!</p>
+<p><span class="math inline">\(C= \frac{5}{9}(F - 32)\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a>fahrenheit <span class="op">=</span> [<span class="dv">60</span>, <span class="dv">72</span>, <span class="dv">85</span>, <span class="dv">93</span>, <span class="dv">100</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-4" class="unnumbered tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a>celsius_conversion <span class="op">=</span> []</span>
+<span id="cb16-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> each_temp <span class="kw">in</span> fahrenheit:</span>
+<span id="cb16-4"><a aria-hidden="true" tabindex="-1"></a>  celsius <span class="op">=</span> <span class="bu">round</span>(<span class="dv">5</span><span class="op">/</span><span class="dv">9</span> <span class="op">*</span> (each_temp <span class="op">-</span> <span class="dv">32</span>), <span class="dv">2</span>) <span class="co"># Apply formula</span></span>
+<span id="cb16-5"><a aria-hidden="true" tabindex="-1"></a>  celsius_conversion.extend([each_temp, celsius]) <span class="co"># Extend since we are adding an iterable</span></span>
+<span id="cb16-6"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a aria-hidden="true" tabindex="-1"></a>celsius_conversion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[60, 15.56, 72, 22.22, 85, 29.44, 93, 33.89, 100, 37.78]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="weaknesses-of-loops" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="weaknesses-of-loops"><span class="header-section-number">1.2.1</span> Weaknesses of Loops</h3>
+<p>I mentioned earlier that sometimes we must use loops when particular functions are not available, however, when it comes to large data structures, they normally wouldn’t be our first choice of investigation. It’s worth remembering that although loops can be useful, they can also be less efficient than inbuilt Python methods.</p>
+<p>For example, I could use a for loop to go through each row of the titanic dataframe and find each persons fare as a % of the whole. While this wouldn’t be an incorrect use of code; it would be more inefficient then creating a new column using the pandas methods we’ve seen in previous chapters.</p>
+<p>It’s always a good idea to think when faced with a scenario where you must repeat a task, if there a more “pythonic” way of doing this action, considering the different packages available to us (pandas, numpy and so on).</p>
+<p><a id="while_loops" href=""></a></p>
+</section>
+</section>
+</section>
+<section id="while-loops" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> While Loops</h1>
+<p>Our other type of loops are while loops. Whilst for loops iterate a set amount of times, or over a set number of things, a while loop iterates constantly until it no longer meets a certain condition set by the user.</p>
+<section id="the-structure-of-a-while-loop" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="the-structure-of-a-while-loop"><span class="header-section-number">2.1</span> The structure of a while loop</h2>
+<p>Syntax wise, it goes as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a>condition <span class="op">=</span> value</span>
+<span id="cb18-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> condition <span class="kw">is</span> <span class="va">True</span>:</span>
+<span id="cb18-4"><a aria-hidden="true" tabindex="-1"></a>    do_this_action()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/while_loop.png" class="img-fluid figure-img" alt="A flow diagram illustrating the workings of a while loop."></p>
+<p></p><figcaption class="figure-caption">While Loop as a flow diagram</figcaption><p></p>
+</figure>
+</div>
+<section id="example" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="example"><span class="header-section-number">2.1.1</span> Example</h3>
+<ul>
+<li><p>First we have to set our condition, which is stop_value = 0 here.</p></li>
+<li><p>We start the loop with the keyword while followed by our conditional statement, and we finish, as with the for loop, with a colon :.</p></li>
+<li><p>Underneath, as before we have the instructions that will be carried out until the condition equates to False. Here we’re printing out the value and then adding 1 to it; += 1 is a convenient way of adding 1 to a number. (This also applies to other mathematical operations, -=1 means subtract 1 each time).</p></li>
+</ul>
+<p>It is important that our condition at some point will change so that the while loop will stop, or else it will continue running “forever” (you can always stop your code running with the stop button).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a>stop_value <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb19-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> stop_value <span class="op">&lt;</span> <span class="dv">5</span>: <span class="co"># Condition</span></span>
+<span id="cb19-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(stop_value)</span>
+<span id="cb19-5"><a aria-hidden="true" tabindex="-1"></a>    stop_value <span class="op">+=</span> <span class="dv">1</span>  </span>
+<span id="cb19-6"><a aria-hidden="true" tabindex="-1"></a>    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0
+1
+2
+3
+4</code></pre>
+</div>
+</div>
+<p>What happens if you put the print() statement after the stop_value += 1?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a>stop_value <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb21-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> stop_value <span class="op">&lt;</span> <span class="dv">5</span> :</span>
+<span id="cb21-4"><a aria-hidden="true" tabindex="-1"></a>    stop_value <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb21-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(stop_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1
+2
+3
+4
+5</code></pre>
+</div>
+</div>
+<p>Can you guess what would happen if we remove the stop_value += 1 condition? (Hint: it could go on forever!) To escape your infinite loop press the solid square “stop” button on the menu bar.</p>
+</section>
+</section>
+<section id="exercise" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="exercise"><span class="header-section-number">2.2</span> Exercise</h2>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href=""><strong>Exercise</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href=""><strong>Show Answer</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="unnumbered tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>Code a while loop with the following characteristics:</p>
+<ul>
+<li><p>Assign the value of a variable temperature to be 40.</p></li>
+<li><p>The condition of the while loop, should check if the temperature is higher than or equal to 20.</p></li>
+<li><p>The first command in the body should print out “Its way too hot, it’s” followed by the current value of temperature.</p></li>
+<li><p>The next command should decrease the temperature by 2 and assign this new value to temperature again.</p></li>
+</ul>
+</div>
+<div id="tabset-2-2" class="unnumbered tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a aria-hidden="true" tabindex="-1"></a>temperature <span class="op">=</span> <span class="dv">40</span></span>
+<span id="cb23-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> temperature <span class="op">&gt;=</span> <span class="dv">20</span>:</span>
+<span id="cb23-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"It's way too hot, it's"</span>,  temperature)</span>
+<span id="cb23-5"><a aria-hidden="true" tabindex="-1"></a>    temperature <span class="op">-=</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>It's way too hot, it's 40
+It's way too hot, it's 38
+It's way too hot, it's 36
+It's way too hot, it's 34
+It's way too hot, it's 32
+It's way too hot, it's 30
+It's way too hot, it's 28
+It's way too hot, it's 26
+It's way too hot, it's 24
+It's way too hot, it's 22
+It's way too hot, it's 20</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><a id="flow" href=""></a></p>
+</section>
+</section>
+<section id="control-flow" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Control Flow</h1>
+<p>Now we introduce Control Flow, which concerns the order of which the computer evaluates expressions. We can <strong>control</strong> this <strong>flow</strong> (sorry!) using special keywords in Python. It is worth noting that the concepts introduced here can hold functions, loops and other such processes within their sequence of statements.</p>
+<section id="if-elif-and-else-statements" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="if-elif-and-else-statements"><span class="header-section-number">3.1</span> If, Elif and Else Statements</h2>
+<p>The major keywords we introduce in this sub-chapter are if, elif and else. These are not loops, but are similar in terms of the syntax we make use of to utilise them.</p>
+<ul>
+<li><p>They take a conditional argument, and if that is met (evaluates to True) then the associated action is completed. We usually only have one of these in a singular control flow.</p></li>
+<li><p>If the condition is not met it will move to an elif (stands for else if) condition, and if that condition is met the associated action will be completed. There are often a few of these to cover some alternative if conditions.</p></li>
+<li><p>Finally, if none of the conditions are met the actions in the else block are executed. This is usually known as a <strong>default</strong> condition, i.e.&nbsp;if all else fails, then execute this.</p></li>
+</ul>
+<p>As you can see, this gives us a lot of flexibility in how our code will be written and run. The syntax goes as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a aria-hidden="true" tabindex="-1"></a>condition <span class="op">=</span> value</span>
+<span id="cb25-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> condition_1:</span>
+<span id="cb25-4"><a aria-hidden="true" tabindex="-1"></a>    do_action_1()</span>
+<span id="cb25-5"><a aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> condition_2:</span>
+<span id="cb25-6"><a aria-hidden="true" tabindex="-1"></a>    do_action_2()</span>
+<span id="cb25-7"><a aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb25-8"><a aria-hidden="true" tabindex="-1"></a>    do_action_3()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can see that each keyword starts a new indent when followed with a :, so ensure that the elif, else keywords are not within an indent themselves, as this will mess up the flow!</p>
+<p>A really important note to make here is that there should be <strong>no blank lines</strong> between each statement. If this is done, Python will think that the if statement was the only one in the chain and thus will throw a syntax error upon seeing the elif or else.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/if_elif_else.png" class="img-fluid figure-img" alt="A flow diagram showing the workings of control flow, using if, elif and else statements."></p>
+<p></p><figcaption class="figure-caption">If, Elif and Else as a flow diagram</figcaption><p></p>
+</figure>
+</div>
+<p>Let’s look at an example!</p>
+<section id="example-1-if-else" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="example-1-if-else"><span class="header-section-number">3.1.1</span> Example 1: if-else</h3>
+<p>Here we will use an equivalence condition (==) in an if-else chain without the use of an elif.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a aria-hidden="true" tabindex="-1"></a>my_height <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb26-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> my_height <span class="op">==</span> <span class="dv">5</span>:</span>
+<span id="cb26-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"We're the same height"</span>)</span>
+<span id="cb26-5"><a aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb26-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Your height is different"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Your height is different</code></pre>
+</div>
+</div>
+<p>A few very important things to note here:</p>
+<ul>
+<li><p>We can just have an if, or we can just have an if and an else.</p></li>
+<li><p>If the first criteria isn’t met it will move to an elif if one exists and evaluate that statement. If True that code will be actioned.</p></li>
+<li><p>If the elif equates to False it will skip that code block and move to the next elif if one exists. If not it will skip to the else.</p></li>
+</ul>
+</section>
+<section id="example-2-if-elif-else" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="example-2-if-elif-else"><span class="header-section-number">3.1.2</span> Example 2: if-elif-else</h3>
+<p>We can add in more choices using an elif statement.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a aria-hidden="true" tabindex="-1"></a>my_height <span class="op">=</span> <span class="dv">7</span></span>
+<span id="cb28-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> my_height <span class="op">==</span> <span class="dv">5</span>:</span>
+<span id="cb28-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"We're the same height"</span>)</span>
+<span id="cb28-5"><a aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> my_height <span class="op">&gt;</span> <span class="dv">7</span>:</span>
+<span id="cb28-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"You're tall!"</span>)</span>
+<span id="cb28-7"><a aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb28-8"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Your height is different"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Your height is different</code></pre>
+</div>
+</div>
+</section>
+<section id="multiple-conditions-in-a-chain" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="multiple-conditions-in-a-chain"><span class="header-section-number">3.1.3</span> Multiple Conditions in a Chain</h3>
+<p>We can use multiple conditions too, using our logical operators &amp; (and) , | (or). Like our filters in Core Part 1, each condition gets it’s own set of round brackets to ensure Python evaluates them correctly.</p>
+</section>
+<section id="example-4" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-4">Example</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a aria-hidden="true" tabindex="-1"></a>my_height <span class="op">=</span> <span class="dv">9</span></span>
+<span id="cb30-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (my_height <span class="op">==</span> <span class="dv">5</span>):</span>
+<span id="cb30-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"We're the same height"</span>)</span>
+<span id="cb30-5"><a aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> (my_height <span class="op">&gt;</span> <span class="dv">7</span>) <span class="op">&amp;</span> (my_height <span class="op">&lt;</span> <span class="dv">10</span>):</span>
+<span id="cb30-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"You're tall!"</span>)</span>
+<span id="cb30-7"><a aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb30-8"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Your height is different"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>You're tall!</code></pre>
+</div>
+</div>
+<p>Here we want the action to happen if the value is greater than 7 and less than 10. The brackets are important as they tell Python to evaluate the elif as a whole.</p>
+<p>If we didn’t have the brackets inputting 11 still evaluates as “You’re tall” because it meets the condition “my_height &gt; 7” and performs the action. Let’s see this in action:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a aria-hidden="true" tabindex="-1"></a>my_height <span class="op">=</span> <span class="dv">11</span></span>
+<span id="cb32-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> my_height <span class="op">==</span> <span class="dv">5</span>:</span>
+<span id="cb32-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"We're the same height"</span>)</span>
+<span id="cb32-5"><a aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> my_height <span class="op">&gt;</span> <span class="dv">7</span> <span class="op">&amp;</span> my_height <span class="op">&lt;</span> <span class="dv">10</span>:</span>
+<span id="cb32-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"You're tall!"</span>)</span>
+<span id="cb32-7"><a aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> my_height <span class="op">==</span> <span class="dv">11</span>:</span>
+<span id="cb32-8"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"It's 11"</span>)</span>
+<span id="cb32-9"><a aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb32-10"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Your height is different"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>You're tall!</code></pre>
+</div>
+</div>
+</section>
+<section id="the-workings-of-control-flow" class="level3" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="the-workings-of-control-flow"><span class="header-section-number">3.1.4</span> The Workings of Control Flow</h3>
+<p>It’s important to know how the if, elif, else works. When the condition is met it performs the action associated with it and then stops evaluating the rest of the conditional code.</p>
+</section>
+<section id="example-5" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-5">Example</h3>
+<p>Here we have two options for when the value is 5. However it will only print out “We’re the same height!” as the if evaluated to true and it stopped there without reading the rest.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a aria-hidden="true" tabindex="-1"></a>my_height <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb34-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (my_height <span class="op">==</span> <span class="dv">5</span>):</span>
+<span id="cb34-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"We're the same height"</span>)</span>
+<span id="cb34-5"><a aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> (my_height <span class="op">&gt;</span> <span class="dv">7</span>) <span class="op">&amp;</span> (my_height <span class="op">&lt;</span> <span class="dv">10</span>):</span>
+<span id="cb34-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"You're tall!"</span>)</span>
+<span id="cb34-7"><a aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> (my_height <span class="op">==</span> <span class="dv">5</span>):</span>
+<span id="cb34-8"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Wow, it's still 5!"</span>)</span>
+<span id="cb34-9"><a aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb34-10"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Your height is different"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>We're the same height</code></pre>
+</div>
+</div>
+<p>If you use other languages you may be used to using switch cases; or case_when() in R, which are faster and more efficient methods. Python is starting to introduce switch cases, but only from <a href="https://towardsdatascience.com/switch-case-statements-are-coming-to-python-d0caf7b2bfd3">Python version 3.10</a>.</p>
+<p>There are ways to implement something similar using either functions or classes. <a href="https://data-flair.training/blogs/python-switch-case/">This tutorial</a> from Data Flair explains how.</p>
+<p>If you’re looking to apply something similar to a DataFrame np.select() might be a useful tool and is covered in the <strong>Core Part 1 Reference Materials</strong>.</p>
+</section>
+</section>
+<section id="end-of-chapter-exercise" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="end-of-chapter-exercise"><span class="header-section-number">3.2</span> End of Chapter Exercise</h2>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href=""><strong>Exercise</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href=""><strong>Show Expected Output</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false" href=""><strong>Pseudocode</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-4" role="tab" aria-controls="tabset-3-4" aria-selected="false" href=""><strong>Answer</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="unnumbered tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<p>Write a loop containing control flow with an if, elif and else statement, that loops through the numbers from 1 to 30. It should have the following properties:</p>
+<ul>
+<li><p>If the number is a multiple of both 3 and 5, print FizzBuzz.</p></li>
+<li><p>If the number is a mutiple of 3, print the word Fizz.</p></li>
+<li><p>If the number is a mutiple of 5, print the word Buzz.</p></li>
+<li><p>For all other values print the number.</p></li>
+</ul>
+<p>You can use the modulus operator for this, which is the % in python, and shows us our remainder when dividing integers.</p>
+<p>For example checking if something is completely divisible by 7 we could do</p>
+<p>item % 7 == 0</p>
+<p>If this returns True we know it’s divisible by 7, if it returns False then it’s not!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Example of Modulo</span></span>
+<span id="cb36-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span></span>
+<span id="cb36-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Returns False (10 / 3 has a remainder of 1, so does not have a remainder of 0. However if we just used 10 % 3 it would give 1)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>False</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Second example of Modulo</span></span>
+<span id="cb38-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a aria-hidden="true" tabindex="-1"></a><span class="dv">9</span> <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span></span>
+<span id="cb38-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Returns True (9 / 3 has a remainder of 0))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>True</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="unnumbered tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<p>1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz 16 17 Fizz 19 Buzz Fizz 22 23 Fizz Buzz 26 Fizz 28 29 FizzBuzz</p>
+</div>
+<div id="tabset-3-3" class="unnumbered tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
+<p>This is pseudo code, which is code written in english to help you structure your code. You have been seeing this alot when introducing the syntax of this chapter.</p>
+<p>my_iterable = create a range or a list</p>
+<p>for each_thing in my_iterable:</p>
+<pre><code>if my first conditon(s) :
+    action for first conditon
+
+elif my second conditon:
+    action for second conditon
+
+elif my third conditon:
+    action for third conditon    
+
+else:
+    action for everything else</code></pre>
+</div>
+<div id="tabset-3-4" class="unnumbered tab-pane" role="tabpanel" aria-labelledby="tabset-3-4-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Create my list of numbers - here using the list function </span></span>
+<span id="cb41-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># and the range function, remember range is exclusive!</span></span>
+<span id="cb41-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a aria-hidden="true" tabindex="-1"></a>numbers_range <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">31</span>)</span>
+<span id="cb41-5"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Create the control flow</span></span>
+<span id="cb41-7"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-8"><a aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> each_number <span class="kw">in</span> numbers_range:</span>
+<span id="cb41-9"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (each_number <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span> (each_number <span class="op">%</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">0</span>) :</span>
+<span id="cb41-10"><a aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"FizzBuzz"</span>)</span>
+<span id="cb41-11"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> (each_number <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span>) :</span>
+<span id="cb41-12"><a aria-hidden="true" tabindex="-1"></a>         <span class="bu">print</span>(<span class="st">"Fizz"</span>)</span>
+<span id="cb41-13"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> (each_number <span class="op">%</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">0</span>) :</span>
+<span id="cb41-14"><a aria-hidden="true" tabindex="-1"></a>         <span class="bu">print</span>(<span class="st">"Buzz"</span>)</span>
+<span id="cb41-15"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb41-16"><a aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(each_number)</span>
+<span id="cb41-17"><a aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb41-18"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-19"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Or you could use a while loop</span></span>
+<span id="cb41-20"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-21"><a aria-hidden="true" tabindex="-1"></a><span class="co">#number = 1</span></span>
+<span id="cb41-22"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-23"><a aria-hidden="true" tabindex="-1"></a><span class="co">#while number &lt; 31:</span></span>
+<span id="cb41-24"><a aria-hidden="true" tabindex="-1"></a><span class="co">#    if (number % 3 == 0) &amp; (number % 5 == 0):</span></span>
+<span id="cb41-25"><a aria-hidden="true" tabindex="-1"></a><span class="co">#        print("FizzBuzz")</span></span>
+<span id="cb41-26"><a aria-hidden="true" tabindex="-1"></a><span class="co">#    elif (number % 3 == 0):</span></span>
+<span id="cb41-27"><a aria-hidden="true" tabindex="-1"></a><span class="co">#        print("Fizz")</span></span>
+<span id="cb41-28"><a aria-hidden="true" tabindex="-1"></a><span class="co">#    elif (number % 5 == 0):</span></span>
+<span id="cb41-29"><a aria-hidden="true" tabindex="-1"></a><span class="co">#        print("Buzz")</span></span>
+<span id="cb41-30"><a aria-hidden="true" tabindex="-1"></a><span class="co">#    else:</span></span>
+<span id="cb41-31"><a aria-hidden="true" tabindex="-1"></a><span class="co">#        print(number)</span></span>
+<span id="cb41-32"><a aria-hidden="true" tabindex="-1"></a><span class="co">#    number += 1          </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1
+2
+Fizz
+4
+Buzz
+Fizz
+7
+8
+Fizz
+Buzz
+11
+Fizz
+13
+14
+FizzBuzz
+16
+17
+Fizz
+19
+Buzz
+Fizz
+22
+23
+Fizz
+Buzz
+26
+Fizz
+28
+29
+FizzBuzz</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="chapter-summary" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Chapter Summary</h1>
+<p>Congratulations! You have conquered the world of control flow and laborious looping! You can now move on to Chapter 11, which covers a very useful alternative to looping in Python when working with certain data structures, as follows:</p>
+<ul>
+<li>Comprehension</li>
+<li>List Comprehension</li>
+<li>Dictionary Comprehension (Overview)</li>
+</ul>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,645 @@
+---
+title: "Chapter 7 - Netflix Case Study"
+format:
+  html:
+    highlight: null
+    theme: default
+    toc: true
+    toc-title: Contents
+    toc-location: right
+    toc-depth: 3
+    number-sections: true 
+    link-external-newwindow: true
+---
+
+![](../images/AF_DSC_banner.png){fig-alt="Government Analysis Function and Data Science Campus Logos."}
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+Sys.setenv(RETICULATE_PYTHON = "/Users/jakemarshall/Library/r-miniconda-arm64/envs/my_python/bin/python") # Set path for my venv
+
+library(reticulate) # Initialise
+
+library(kableExtra) # For tables
+``` 
+
+This is a HTML document. The Introduction to Python course is written and intended to be used in a Jupyter Notebook file. These HTML documents have been made available for users who require screen readers or other accessibility needs. These HTML documents have been tested, but if you notice any errors or any compatibility issues please contact us on the GSS Capability email inbox.
+
+If you are using a screen reader you will need to set your punctuation level (sometimes called verbosity) to full, especially for the code sections.
+
+# Chapter Information
+
+## Learning Outcomes
+
+By the end of this chapter you should have more confidence with manipulating data and using techniques covered in the first six chapters of the course. This is an excellent opportunity for you to have more data to play with and reinforce learning from the previous chapters. 
+
+These data sets and question are designed to be an initial springboard for you to continue your learning. Answers are provided; but these may only show one or two ways of solving the issue. While you should always aim to follow clean code standards and best practice, answers may be different to those provided here and as long as the same outputs are achieved, this is fine. 
+
+It is worth noting that you attempt to understand the differences in the solutions though, this can help you learn something new or reinforce another concept by appreciating an alternate way of answering a question.
+
+## Task Format:
+
+Questions will be presented in tabs.
+
+* Tab 1 will contain the question.
+* Tab 2 will contain some hints for the solution.
+* Tab 3 will contain the solution in Python.
+
+An example is below.
+
+## Example{-}
+::: {.panel-tabset} 
+### **Question**
+
+This is an example question.
+
+### **Hint**
+
+To hint or not to hint? 
+
+### **Solution**  
+
+```{python}
+print("This tab contains Python code")
+```
+ 
+:::
+
+## Duration
+
+This case study should take approximately 3 hours to complete.
+
+# Question 1{-}
+::: {.panel-tabset} 
+## **Question**
+
+(a) Load the following package into your session.
+
+* pandas
+* numpy
+
+(b) Read in the following two files and assign to the given variables.
+
+* netflix - nextflix_data.csv
+* imdb_scores - imdb_scores.csv
+
+(c) Display the first 10 rows of the netflix data.
+
+(d) Display the last 5 rows of the imdb_scores data.
+
+Note - The data is sourced from [Tidy Tuesday](https://github.com/rfordatascience/tidytuesday) and directly from IMDB. Some data has been altered to suit the difficulty level of this course. This data should be treated as a training set, and so shouldn't be relied upon for 100% accuracy.
+
+## **Hint** 
+
+(a) Remember that we use the keywords "import" and "as" when performing this task.
+
+(b) Remember that we use the read_csv() function from pandas to accomplish this. 
+
+(c) .head()
+
+(d) Opposite of (c) in words as well as process!
+
+## **Solution** 
+
+```{python}
+# (a)
+import pandas as pd
+import numpy as np
+
+# (b)
+netflix = pd.read_csv("../data/netflix_data.csv")
+imdb_scores = pd.read_csv("../data/imdb_scores.csv")
+```
+
+```{python, eval = FALSE}
+# (c) 
+netflix.head(10)
+```
+
+```{python include=FALSE}
+display = netflix.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "400px" ) 
+   
+```
+```{python eval = FALSE}
+# (d)
+imdb_scores.tail()
+```
+
+```{python include=FALSE}
+display = imdb_scores.tail()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "400px" ) 
+   
+```
+:::
+
+# Question 2{-} 
+::: {.panel-tabset} 
+
+## **Question**
+
+Clean up the column names of imdb_scores. 
+
+## **Hint**
+
+Remember that we need to use .str methods for this, and we must consider replacing empty spaces. Python is case sensitive!
+
+## **Solution**  
+
+```{python}
+imdb_scores.columns = imdb_scores.columns.str.replace(pat = " ", repl = "_") # Replace spaces with underscores
+
+imdb_scores.columns = imdb_scores.columns.str.lower() # Convert to lowercase
+
+imdb_scores.columns
+```
+
+:::
+
+# Question 3{-} 
+::: {.panel-tabset} 
+
+## **Question** 
+
+What are the dimensions of the Netflix data? Display the result in a sentence. 
+
+## **Hint** 
+
+Remember that we can use multi-variable assignment to assign both elements (rows and columns) to their own variables. 
+
+## **Solution** 
+
+```{python}
+
+# Way 1 - Good practice
+
+rows, columns = netflix.shape
+
+print("There are", rows, "rows and", columns, "columns in the Netflix DataFrame.")
+
+
+# Way 2
+
+# rows = netflix.shape[0]
+# colums = netflix.shape[1]
+
+# print("There are", rows, "rows and", columns, "columns in the Netflix DataFrame.")
+
+
+# Way 3
+
+# rows = len(netflix) 
+# columns = len(netflix.columns) 
+
+# print("There are", rows, "rows and", columns, "columns in the Netflix DataFrame.")
+
+```
+
+:::
+
+# Question 4{-} 
+::: {.panel-tabset}  
+
+## **Question** 
+
+What data types does Netflix have?
+
+## **Hint** 
+
+We use the attribute dtypes.
+
+## **Solution** 
+
+```{python}
+# Way 1
+
+netflix.dtypes
+
+# Way 2
+
+# netflix.info()
+```
+:::
+
+# Question 5{-} 
+::: {.panel-tabset}  
+
+## **Question** 
+
+(a) How many missing values do we have in the columns of netflix?
+
+(b) How many missing values do we have in the columns of imdb_scores?
+
+(c) Can you find the total missing values in netflix in general?
+
+## **Hint** 
+
+(a) & (b) We need to use the .isna() method and one of the summary statistics functions **chained** together to compute the missing values by column.
+
+(c) Chain a second summary statistic to your answer to (a) and observe!
+
+## **Solution**  
+
+```{python}
+# (a)
+netflix.isna().sum()
+```
+
+```{python}
+# (b)
+imdb_scores.isna().sum()
+```
+
+```{python}
+# (c)
+netflix.isna().sum().sum()
+```
+
+:::
+
+# Question 6{-}
+::: {.panel-tabset}
+
+## **Question** 
+
+(a) Output a new DataFrame from imdb_scores, where the average rating is greater than 5, name it 'above_avg_movies'.
+
+(b) Output a new DataFrame from Netflix, where the films were directed by 'Marcus Raboy' **and** the rating was one of "TV-MA, R, PG-13". Name it 'raboy_mature_films'.
+
+## **Hint**
+
+(a) Remember that we use the indexing brackets [] and specify our condition inside. 
+
+(b) Remember that when specifying equivalence, we use '==' and we use the .isin() function for a **list** of strings.
+
+## **Solution**
+
+```{python eval = FALSE}
+# (a)
+above_avg_movies = imdb_scores[imdb_scores['average_rating'] > 5.0]
+
+above_avg_movies.head()
+```
+
+```{python include = FALSE}
+
+above_avg_movies = imdb_scores[imdb_scores['average_rating'] > 5.0]
+
+display = above_avg_movies.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "400px" ) 
+   
+```
+
+```{python eval = FALSE}
+# (b) 
+raboy_mature_films = netflix[(netflix['director'] == 'Marcus Raboy') & (netflix['rating'].isin(['TV-MA', 'PG-13', 'R']))]
+
+raboy_mature_films.head()
+```
+
+```{python include = FALSE}
+raboy_mature_films = netflix[(netflix['director'] == 'Marcus Raboy') & (netflix['rating'].isin(['TV-MA', 'PG-13', 'R']))]
+
+display = raboy_mature_films.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "400px" ) 
+   
+```
+:::
+
+# Question 7{-} 
+::: {.panel-tabset}  
+
+## **Question** 
+
+How many unique countries are in the column primary_country?
+
+## **Hint** 
+
+Remember that .unique() returns an array, so how do we find out the number of values within it?
+
+## **Solution**  
+
+```{python}
+len(netflix["primary_country"].unique())
+
+# Note that nunique() will give 81 as it skips the missing values
+```
+
+:::
+
+# Question 8{-} 
+::: {.panel-tabset} 
+
+## **Question** 
+
+(a) Create a new Dataframe that just contains "Movie" data. Ensure that this is a copy so we avoid the "SettingWithCopy" warning. 
+Look at the column called type; this contains if something is a movie or a tv series.
+
+(b) Within the movies DataFrame created in part (a), create a new column called runtime, where duration has "min" removed, make sure it's numeric!
+
+(c) Use the new runtime column to create a binned column containing labels for different lengths of runtime, grouping the films into "0-60", "61-120", "121-180", "181-240", and "241 or more". Name this 'runtime_group'. It is recommended that you use pd.cut() for this. 
+
+## **Hint**
+
+(a) Remember that .copy() can be placed on the end of the filtering statement.
+
+(b) For Python you can use .str.replace() to remove some text. Recall that the type to change to is int64.
+
+(c) Remember that we can use np.arange(start =, stop =, step =) for this, and it is a good idea to set the stop as the maximum of the column + 1. 
+
+## **Solution** 
+
+```{python eval = FALSE}
+# (a)
+movies = netflix[netflix["type"] == "Movie"].copy()
+
+movies.head()
+```
+
+```{python include=FALSE}
+movies = netflix[netflix["type"] == "Movie"].copy()
+
+display = movies.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "400px" ) 
+   
+```
+
+```{python}
+# (b)
+movies["runtime"] = movies["duration"].str.replace(pat= " min", repl= "")
+
+movies["runtime"] = movies["runtime"].astype("int64")
+
+movies["runtime"].dtype # Check if it's worked
+```
+
+```{python}
+# (c)
+movies['runtime_group'] = pd.cut(movies['runtime'], 
+                                  bins = np.arange(start = 0,
+                                                   stop = (movies['runtime'].max() + 1),
+                                                   step = 60),
+                                  labels = ['0-60', '61-120', '121-180', '181-240', '241 or more'])
+
+movies['runtime_group']
+```
+:::
+
+# Question 9{-}
+::: {.panel-tabset}
+
+## **Question**
+(a) How many missing values are there in the 'num_cast' column of the movies DataFrame?
+
+(b) Fill in the missing values of the column with the mean number of cast numbers from the column overall. Ensure that this is rounded to the correct number of decimal places. 
+
+## **Hint**
+
+(a) .isna()
+
+(b) Remember that we use .fillna() for filling in values and round() for rounding. 
+
+## **Solution**
+
+```{python}
+# (a)
+num_cast_missing = movies['num_cast'].isna().sum()
+
+print("There are", num_cast_missing, "missing values in the num_cast column.")
+```
+
+```{python}
+# (b)
+
+movies['num_cast'].fillna(value = round((movies['num_cast'].mean()), 1), 
+                          inplace = True)
+
+# Check
+
+movies['num_cast'].isna().sum()
+```
+:::
+
+# Question 10{-}
+::: {.panel-tabset} 
+
+## **Question** 
+
+(a) What's the median runtime of the movie data?
+
+(b) What's the mean runtime of the movie data?
+
+(c) What's the variance of the runtime of the movie data? Use it to find the standard deviation (without the .std() function!).
+
+## **Hint** 
+
+(a) The function for this is the same as the word.
+
+(b) The function for this is the same as the word.
+
+(c) Remember that the standard deviation is the square root of the variance (np.sqrt()).
+
+## **Solution** 
+
+```{python}
+# (a)
+movies["runtime"].median()
+```
+ 
+```{python}
+# (b)
+movies["runtime"].mean()
+```
+
+```{python}
+# (c)
+var_runtime = movies["runtime"].var()
+
+std_runtime = np.sqrt(var_runtime)
+
+print(var_runtime, std_runtime)
+```
+:::
+
+# Question 11{-} 
+::: {.panel-tabset} 
+
+## **Question** 
+
+(a) Sort the movies DataFrame to find the longest movie and return just the columns title and runtime for this data. 
+
+(b) Sort the movies DataFrame by release_year **and** runtime to find the oldest movie with the longest runtime, returning its director, title, runtime, release year and rating. Remember to reset the index and drop that column in the result. 
+
+## **Hint**
+
+(a) Remember that we must use a list within the index statement to select multiple columns, df[[my_cols]].
+
+(b) Remember that order is important so it will order by year first and then runtime. We can use .reset_index() and the optional parameter 'drop' to accomplish this.
+
+## **Solution**  
+
+```{python eval = FALSE}
+# (a)
+sorted_movies = movies[["title", "runtime"]].sort_values("runtime", ascending = False)
+
+sorted_movies.head()
+```
+ 
+```{python include = FALSE}
+sorted_movies = movies[["title", "runtime"]].sort_values("runtime", ascending = False)
+display = sorted_movies.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "400px" ) 
+   
+```
+
+```{python eval = FALSE}
+# (b)
+
+short_movie_high_ratings = movies[["title", "director", "runtime", "rating", "release_year"]].sort_values(["release_year", "runtime"], ascending = [True, False]).reset_index(drop = True)
+
+short_movie_high_ratings.head()
+```
+
+```{python include = FALSE}
+short_movie_high_ratings = movies[["title", "director", "runtime", "rating", "release_year"]].sort_values(["release_year", "runtime"], ascending = [True, False]).reset_index(drop = True)
+
+display = short_movie_high_ratings.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "400px" ) 
+   
+```
+
+:::
+
+# Question 12{-} 
+::: {.panel-tabset} 
+
+## **Question**  
+
+Group the Netflix data by the primary country and find the mean number of cast listed.
+
+## **Hint**
+
+Remember that we first .groupby(), followed with the column name [] and then the summary statistic. 
+
+## **Solution**  
+
+```{python}
+mean_cast_per_country = netflix.groupby("primary_country")["num_cast"].mean()
+
+mean_cast_per_country.head()
+```
+:::
+
+# Question 13{-} 
+::: {.panel-tabset} 
+
+## **Question**  
+
+Group the Netflix data by type and rating and obtain the overall counts of each **type** and the average **cast numbers** for each group.
+
+## **Hint**
+
+Remember that grouping by multiple columns requires a list to be specified and we must use the .agg({key:value}) function for multiple aggregations. 
+
+## **Solution**  
+
+```{python}
+rating_by_type = netflix.groupby(["type", "rating"]).agg({"type": "count", "num_cast":"mean"})
+
+rating_by_type
+```
+
+:::
+
+# Question 14{-}
+::: {.panel-tabset} 
+
+## **Question**  
+
+Join the imdb data to the Netflix data to add rating scores to the overall dataset. In your join you should include the column that specifies whether the value came from the left or right DataFrame. 
+
+## **Hint**
+
+Remember that there are two ways to do this, left joining from A to B or right joining from B to A. The column we should join on is the same in both DataFrames. 
+
+## **Solution** 
+
+```{python eval = FALSE}
+netflix_imdb = netflix.merge(imdb_scores, on = "title", how = "left", indicator = True)
+
+# OR 
+
+# netflix_imdb = pd.merge(left = netflix, right = imdb_scores, on = "title", how = "left", indicator = True)
+
+# netflix_imdb = pd.merge(left = imdb_scores, right = netflix, on = "title", how = "right", indicator = True)
+```
+
+```{python include=FALSE}
+netflix_imdb = netflix.merge(imdb_scores, on = "title", how = "left", indicator = True)
+
+display = netflix_imdb.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "400px" ) 
+   
+```
+
+:::
+
+# Summary 
+
+In this case study you have had the opportunity to apply some of the techniques you have learned to some new data. This is not exhaustive however; have a look at the data and experiment with other techniques you can use. 
+
+A good start would be to continue cleaning the movies dataset, analysing the other columns' missing values and seeing what can be done with them, as there are some that are more complex to consider!
+
+For additional datasets we recommend exploring:
+
+* [Kaggle](https://www.kaggle.com/)
+* [Tidy Tuesday](https://github.com/rfordatascience/tidytuesday)
+* [Data.gov](https://data.gov.uk/)
+
+# What's Next?
+
+Congratulations! You have reached the end of the compulsory materials for Core Part 1 of Introduction to Python. You have consolidated the variety of skills shown throughout the course in a large structured exercise and you should feel very accomplished!
+
+You have two options on where to go next, you can either take a look at the Part 1 Reference Materials that build on some more advanced concepts at this level, or you can move on to Core Part 2 that introduces more programmatic concepts in Python that are key to developing your technical skills!
+
+Whatever you chose to do, thank-you so much for your dedication in completing these materials! Please do give your honest feedback in the post course survey as we are always looking to improve the quality of our training offering. 

@@ -1,0 +1,229 @@
+---
+title: "Chapter 11 - Comprehension"
+format:
+  html:
+    highlight: null
+    theme: default
+    toc: true
+    toc-title: Contents
+    toc-location: right
+    toc-depth: 3
+    number-sections: true 
+    link-external-newwindow: true
+---
+
+![](../images/AF_DSC_banner.png){fig-alt="Government Analysis Function and Data Science Campus Logos."}
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+Sys.setenv(RETICULATE_PYTHON = "/Users/jakemarshall/Library/r-miniconda-arm64/envs/my_python/bin/python") # Set path for my venv
+
+library(reticulate) # Initialise
+
+library(kableExtra) # For tables
+``` 
+
+This is a HTML document. The Introduction to Python course is written and intended to be used in a Jupyter Notebook file. These HTML documents have been made available for users who require screen readers or other accessibility needs. These HTML documents have been tested, but if you notice any errors or any compatibility issues please contact us on the GSS Capability email inbox.
+
+If you are using a screen reader you will need to set your punctuation level (sometimes called verbosity) to full, especially for the code sections.
+
+*Chapter Overview and Learning Objectives*:
+
+* [List Comprehension](#list)
+  - The building blocks
+  - Conditions in Comprehensions
+  - Comprehension with Control Flow
+
+* [Aside - Dictionary Comprehension](#dict)
+
+<a id='list'></a>
+
+# List Comprehension
+
+We saw in Chapter 10 that a new list can be created by looping through an existing one and applying a specific process, then appending (or extending) the values in. This is a very robust method, allowing us to break down complex conditions and will always have its uses, but can be quite laborious and makes you wonder how slow it would be with enormous lists. 
+
+To combat this, we have an extremely useful tool that is known as **list comprehension**, which allows us to accomplish these processes in a single line of code. Much of this section will be adapted from the [W3Schools](https://www.w3schools.com/python/python_lists_comprehension.asp) tutorials, which are incredibly useful. 
+
+## The Building Blocks of Comprehensions
+
+We will start by looking at how the syntax borrows elements from Chapter 10 and how we can potentially streamline those solutions in many cases.
+
+### Example - For Loop 
+
+Say that we have a list of numbers, and we want to double them like we did before. Let's review the way we did this with a for loop.
+
+```{python}
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+double_list = [] # We can create a blank list to store our doubled numbers
+
+for each_number in numbers:
+    double_list.append(each_number * 2) 
+    
+print(double_list)
+
+```
+
+Now for the list comprehension, let's first view the syntax:
+
+```{python, eval = FALSE}
+original_list = []
+
+new_list = [expression for our_item in iterable if condition is True]
+```
+
+This seems a bit obtuse at first glance, but let's break it down!
+
+* The expression denotes what we wish to do to each `our_item` in the iterable.
+
+* Each our_item is the name we give to each element as with loops.
+
+* The condition is actually optional, we don't necessarily need a condition say, if we just want to apply a mathematical operation to the values of the iterable. We will see examples of both.
+
+Our goal now is to recreate the for loop example using comprehensions! Let's start small though, not to overcomplicate things too fast!
+
+### Example - List for List
+
+To illustrate the functionality of this method, let's get it to essentially 'do nothing' and replace one list for the same list.
+
+```{python}
+names = ["Jake", "Hannah", "Katherine", "Josh"]
+
+my_names = [name for name in names] # Inputting it item for item (word for word)
+
+my_names
+```
+You see that this is not only powerful but fast at what it does even with the smallest example we can come up with as seen here.
+
+### Example - Using a range() Object
+
+Let's create a new list from another kind of iterable this time, namely the range() object, which is exclusive! This can be done in one line as follows:
+
+```{python}
+# Use the range() function within a list comprehension
+
+zero_to_ten = [num for num in range(0, 11)]
+
+zero_to_ten
+```
+So you can see that this method is incredibly useful when it comes to creating data structures quickly, without the need for enormous amounts of code. 
+
+### Example - Recreating the for loop example
+
+Now we are ready to recreate that earlier example! The only thing we are missing is the change to the expression part of the comprehension, which is where we tell Python what to do to each element of the original list, here this will be multiplying by 2!
+
+```{python}
+# take each number in the numbers list and double it
+
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+double_list_comprehension = [(each_number * 2) for each_number in numbers]
+
+double_list_comprehension
+```
+
+## Conditions in List Comprehensions
+
+We have now seen a few examples of comprehensions without the optional condition statement. Lets' spice things up a bit by making our comprehension more powerful, calling on similar statements like we used in the previous chapter.
+
+### Example - List Comprehension with Condition
+
+Here we will make it so that the new list will contain  all even numbers doubled! To evaluate an even number, it must return 0 when we use "% 2" as all even numbers are divisible by 2.
+
+```{python}
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+double_even_numbers = [(each_number * 2) for each_number in numbers if (each_number % 2 == 0)]
+
+double_even_numbers
+```
+
+You see that I wrapped up the condition in brackets, which will be helpful for Python when evaluating this comprehension from left to right. 
+
+Note that we can also use our **logical operators** and (&), or (|) to construct more complex condition chains as well. These become unreadable fast so proceed with caution when writing such comprehensions. 
+
+### Exercise 
+::: {.panel-tabset}
+### **Exercise**
+
+Create a new list from a range object of odd numbers from 1 to 30, raising them all to the power of 2 in the new list. Call it "odd_numbers_squared". The condition here is that the numbers themselves are odd!
+
+Hint: For a number to be odd its remainder when dividing by 2 should either:
+* **not** be 0  
+* be equivalent to 1.
+
+### **Show Answer**
+
+```{python}
+# Way 1 
+
+odd_numbers_squared = [(odd_number ** 2) for odd_number in range(1, 31) if (odd_number % 2 != 0)]
+
+odd_numbers_squared
+
+# Way 2
+
+#odd_numbers_squared = [(odd_number ** 2) for odd_number in range(1, 31) if (odd_number % 2 == 1)]
+
+#odd_numbers_squared
+```
+
+:::
+
+## Comprehension with Control Flow 
+
+We can also construct some more complex comprehensions using control flow, where we can bring else statements into the mix. This allows us to really tailor the outcome of the final list we create, using some more complex logic.
+
+### Example - Including an else keyword 
+
+Here we will utilise similar logic to before, doubling the numbers if they are even, however, if they are odd, the default condition will leave them unaltered and input them as they are.
+
+```{python}
+
+odd_same_evens_doubled = [(number * 2) if (number % 2 == 0) else number for number in range(1, 31)]
+
+odd_same_evens_doubled
+```
+Note the difference in syntax here, we must specify the if and else conditions first and **then** the object we are taking the values from (the original iterable).
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+
+Create a new list from a range() object from 1 to 30, where they are raised to the power of 3 (cubed) if they are multiples of 10 **or** 14, else add 1 to them. 
+
+### **Show Answer**{-}
+
+```{python}
+playing_with_maths = [(number ** 3) if ((number % 10 == 0) | (number % 14 == 0)) else (number + 1) for number in range(1, 31)]
+
+playing_with_maths
+```
+
+This looks incorrect but remember that 9 evaluates to False on both conditions and thus gets 1 added to it. 
+
+:::
+
+<a id='dict'></a>
+
+# Aside - Dictionary Comprehension
+
+We can also perform comprehension on Dictionaries as well, utilising the curly braces {} and associated methods for this data structure. However, the methods used to create these are outside the scope of the course and as such, methods for which will be included in the list of resources below. 
+
+* [DataCamp](https://www.datacamp.com/tutorial/python-dictionary-comprehension) provides an excellent all in one tutorial for working with dictionaries and creating them using the method of comprehension. This is worthy reference material if you have extra time!
+
+* [Geeks for Geeks tutorial on comprehensions](https://www.geeksforgeeks.org/comprehensions-in-python/) is useful for understanding more about this concept and more advanced things you can do with list and dictionary comprehensions.
+
+A big point to remember though is that comprehensions can be harder for humans to read, and require a bit more understanding about how they work. As mentioned above if you have complicated logic or multiple commands, using a for loop may be better, and more readable.
+
+# Chapter Summary
+
+Congratulations on **comprehending** the comprehensions (these puns are killing me too, honest!) and completing Chapter 11! Your toolset has expanded tenfold so far in Core Part 2, and we will complete this well rounded Introduction to all things Python by looking at Functions in depth. We will cover:
+
+* Function Structure
+* Named and Default parameters
+* Function Scope
+* Docstrings
+* Indentation
+* Lambda Functions
+* Functions for DataFrames

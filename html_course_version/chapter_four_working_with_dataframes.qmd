@@ -1,0 +1,2350 @@
+---
+title: "Chapter 4 - Working with DataFrames"
+format:
+  html:
+    highlight: null
+    theme: default
+    toc: true
+    toc-title: Contents
+    toc-location: right
+    toc-depth: 3
+    number-sections: true 
+    link-external-newwindow: true
+---
+
+![](../images/AF_DSC_banner.png){fig-alt="Government Analysis Function and Data Science Campus Logos."}
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+Sys.setenv(RETICULATE_PYTHON = "/Users/jakemarshall/Library/r-miniconda-arm64/envs/my_python/bin/python") # Set path for my venv
+
+library(reticulate) # Initialise
+
+library(kableExtra) # For tables
+``` 
+
+This is a HTML document. The Introduction to Python course is written and intended to be used in a Jupyter Notebook file. These HTML documents have been made available for users who require screen readers or other accessibility needs. These HTML documents have been tested, but if you notice any errors or any compatibility issues please contact us on the GSS Capability email inbox.
+
+If you are using a screen reader you will need to set your punctuation level (sometimes called verbosity) to full, especially for the code sections.
+
+*Chapter Overview and Learning Objectives*:
+
+* [Packages and Datasets](#packages)
+
+
+* [Exploring Datasets](#exploring)
+    - Quick Previews
+    - Size
+    - Data Types
+    - Column Names
+
+
+* [Sorting Data](#sorting)
+ 
+
+* [Subsetting Data](#subsetting)
+    - Selecting Single Columns
+    - Selecting Multiple Columns
+    
+    
+* [Filtering](#filter)    
+    - Single Conditional Filtering
+    - Multiple Conditional Filtering
+
+
+* [Deriving New Columns](#new_columns)
+    - Constant Values
+    - Numeric Values
+    - Boolean and Binary Values
+    - Mapping new values
+    - Deleting columns
+    
+    
+* [Merging Data](#merge)
+    - About Merging
+    - Merging using Pandas
+    - Union joins
+    
+<a id='packages'></a>
+
+# Packages and Datasets
+
+## Packages
+As a reminder, we should always import our packages at the top of our script. In this chapter (and for the rest of the course) we will use pandas, and give it the alias pd.
+
+### Exercise
+::: {.panel-tabset}
+### **Packages**{-}
+Import Pandas and give it the alias pd
+
+### **Show Answer**{-}
+```{python}
+import pandas as pd
+```
+
+:::
+
+## Datasets
+Good practice also dictates that we import our datasets at the top of our script too, following the import of packages.
+
+In this session we’ll be using the following datasets.
+
+| variable name | file name  |
+| --- | --- | --- |
+| animals | animals.csv |
+| titanic | titanic.xlsx |
+| joining_data1 | joining_data1.csv |
+| joining_data2 | joining_data2.csv |
+| union_join_data | union_data.csv |
+| marvel_left | joining_exercise1.csv |
+| marvel_right | joining_exercise2.csv |
+
+These are all straight forward data imports with no additional parameters required. This is a good test of the techniques covered in Chapter 3.
+
+### Exercise
+::: {.panel-tabset}
+### **Load in the Data**{-}
+Load in these datasets listed above
+
+You can check your variables are loaded by using %whos in Jupyter. In Spyder or other IDE's they should appear in your variable explorer. 
+
+### **Show Answer**{-}
+```{python}
+animals = pd.read_csv("../data/animals.csv")
+titanic = pd.read_excel("../data/titanic.xlsx")
+joining_data1 = pd.read_csv("../data/joining_data1.csv")
+joining_data2 = pd.read_csv("../data/joining_data2.csv")
+union_join_data = pd.read_csv("../data/union_data.csv")
+marvel_left = pd.read_csv("../data/joining_exercise1.csv")
+marvel_right = pd.read_csv("../data/joining_exercise2.csv")
+```
+:::
+
+<a id='exploring'></a>
+
+# Exploring Datasets
+
+Before you start working with a dataset it is important to examine it. For example:
+
+* Do the values look how you would expect?
+* Does the data have the right number of rows and columns? 
+* Do the columns have your expected data types?
+* Is your data [clean?](https://en.wikipedia.org/wiki/Data_cleansing)
+
+In this section we’ll look at various ways of exploring our data, with the aim of answering the above questions.
+
+In chapter 5 we will look at how we can clean our data. When working with data, cleaning is normally a step we’d do first. Those concepts are a little more complicated; and we like to establish a good base knowledge of how Python works first. For these sessions we’ll be using data that has already been cleaned to make it easy to handle.
+
+
+## Quick Previews
+
+In the last section we looked at three methods of quickly inspecting our dataframes.
+
+* .head()  - Top 5 rows (can be altered with parameter n =)
+* .tail()  - Bottom 5 Rows (can be altered with paramter n =)
+* .sample() - 1 Randomly sampled row.
+
+We use these because we do not always want Jupyter Notebooks to print out large datasets; we just want to check that certain operations have worked on a smaller amount of data.
+
+To review, we can modify how many rows are returned by putting a number within the round brackets. The number in the round brackets is known as an argument. .head() and .tail() have a default argument of 5; if we don't pass an argument that default behaviour is used. 
+
+You may recall that we mentioned this parameter is 'n =', but we need not specify the name, just the argument. Why is this? This is because Python knows what parameter we are giving an argument for when specifying the integer to .head() or .tail(). 
+
+However, don't always rely on this, as order comes into play when functions/methods have a large number of parameters (and particularly multiple ones of the same type, integers etc). As such, it is good practice to use the name of the parameter in most cases.
+
+### Example
+
+```{python eval = FALSE}
+animals.head(3)
+
+# Best Practice
+# animals.head(n = 3)
+```
+
+```{python include=FALSE }
+display = animals.head(3)
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+  
+```
+
+If you run just animals, you may notice that Jupyter does not display all of the rows in our DataFrame.
+
+![image showing rows of a DataFrame, it displays the first 30 rows then some elipsis and the last 30 rows.](../images/sort_missing_rows.PNG)
+
+Instead it represents these rows using three dots, … (ellipsis) symbol. You may also see this with columns. This often happens in large datasets; and helps to save computational power. This is similar to the max print option in Spyder and other IDEs.
+
+While there are various ways of changing this setting with Jupyter (Stack Overflow has several answers), if you are regularly using large DataFrames, and wish to inspect all rows you may wish to use VSCode or another IDE, since many of these have in built data viewers (which allow us to view the whole dataset). 
+
+We can also use .info() this gives us information about:
+
+* The class of the object – a pandas DataFrame
+* The range (or length of our index), a.k.a the number of rows
+* How many columns we have
+* The column names
+* The number of non-null entries (a.k.a without missing values)
+* The data type of the column
+* The number of columns of each data type.
+
+### Example
+```{python}
+animals.info()
+```
+
+## Size
+Knowing the size of our DataFrame is also useful (a.k.a the number of rows and columns), separately to what .info() gives us. Often we want to save these elements to variables and this is difficult with that method and as such, we use other methods to draw out this information for further analysis. 
+
+### Example
+
+.shape provides us a tuple with the dimensions of the object, in the form (number of rows, number of columns).
+
+```{python}
+animals.shape
+```
+
+Notice this is the first example of an attribute of the DataFrame rather than a method, so doesn't require the round brackets at the end of its call. We talk a bit more about the similarities and differences between functions, methods and attributes in chapter 2. Feel free to review that section if you are stuck.
+
+We can use our indexing brackets (also discussed at length in chapter 2) to return an item in this tuple, for example the number rows at index 0.
+
+```{python}
+animals.shape[0]
+```
+
+And the number of columns at index 1.
+
+```{python}
+animals.shape[1]
+```
+
+As an aside:
+
+Because .shape returns us a tuple we can assign each of these to it’s own variable. To do this we give our variable names in the order of the tuple output, separated by a comma before our assignment operator (=).
+
+### Example
+
+Our tuple outputs rows first then columns, so we give our variables as nrow and ncol. This is also a great chance to show off multi-variable assignment introduced in chapter 2.
+
+
+```{python}
+nrow, ncol = animals.shape
+
+print("There are", nrow, "rows, and", ncol, "columns in the animals DataFrame.")
+```
+
+Of course, you can always do this separately without multi-variable assignment as below, but that way is certainly the most efficient. 
+
+```{python}
+nrow = animals.shape[0]
+ncol = animals.shape[1]
+```
+
+We can also use the inbuilt len() function to find the **len**gth. This will return us the number of rows.
+
+```{python}
+len(animals)
+```
+
+We can also modify this to return us the number of columns as follows. 
+
+```{python}
+len(animals.columns)
+```
+
+Note that the .columns **attribute** is also very useful, returning something called an Index object containing the ordered column names of the pandas object. Returning the length of such an object gives us the number of values (a.k.a the number of columns). 
+
+More info on this datatype is available [here](https://pandas.pydata.org/docs/reference/indexing.html), but I would suggest returning to this later as **reference** material. 
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+Look at the dimensions of the titanic DataFrame.
+
+(a) Use shape to return the tuple of rows and columns.
+(b) Use multi-variable assignment to obtain the rows and columns as variables.
+(c) Print the results from (b) in a suitable sentence. 
+
+### **Show Answer**{-}
+```{python}
+# (a) 
+
+titanic.shape
+```
+```{python}
+# (b)
+
+nrow, ncol = titanic.shape
+
+print(nrow, ncol)
+```
+```{python}
+# (c)
+
+print("There are", nrow, "rows and", ncol, "columns in the titanic DataFrame.")
+```
+:::
+
+# Data Types
+
+It is also important to check the data types when we bring in data. If you’ve worked with other analytical software before you’ll know that sometimes data doesn’t come in as we would expect.
+
+## Observing the datatypes in our data
+
+We do this using .dtypes, another very useful attribute (delivering on that promise that we will use attributes as well as methods!).
+
+### Example
+
+```{python}
+animals.dtypes
+```
+
+We have some of the data types we’re seen before
+
+* **int** represents integers; our whole numbers
+	* CalYear (Calendar Year) is column of whole numbers
+    
+    
+* **float** represents ‘floating point’ numbers or decimals
+	* IncidentNominalCost(£) (The financial cost of each incident) is a decimal number.
+
+
+* **object** or **O**  here represents what we’ve been calling *string* data so far, in that they are text values
+	* AnimalClass (The kind of animal) is a text based value.
+
+We may also see
+
+* **bool** - representing Boolean values; our True and False
+* **datetime** - date and time values
+* **category** - a special pandas datatype for categorical or factor variables (see Chapter 7 for more info, this is **reference** material)
+
+You may notice that some categories have not come in quite how we would expect.
+
+### Example
+
+```{python}
+animals['DateTimeOfCall'].dtypes
+
+# This is how we select a single column; we'll cover this later
+```
+
+DateTimeOfCall has come in as an object or text value; when it should be datetime. This is extremely common with dates and times in a variety of software; not just Python! 
+
+![An XKCD comic showing a variety of date formats, ranging from standardised to ridiculous. The comic states that the correct way to write numeric dates is following ISO standards with a 4 number year, two digit month and two digit date, seperated by hypens. ](../images/iso_8601.png)
+<center> <a href = "https://xkcd.com/1179/"> Source: xkcd ISO 8601</a> </center>
+
+Python will often choose an object data type for columns: if there’s any ambiguity over the data type. This is because this data type retains all the characteristics of the data and allows us to make the choice about how to process it.
+
+For example, the date 01/11/19 could be interpreted as either:
+
+* 1st November 2019
+* 11th January 2019
+* 19th November 2001 
+
+depending on region (which makes the most sense to you?).
+
+Since we don’t look at handling date and time data in this course; we’ll leave these columns alone for now. This is a perfect time to reference the **Dates and Times in Python** course on the Learning Hub! This is a recommended follow up to the Introduction to Python course. 
+
+For an overview that is much less in-depth than that course, the following resource is available:
+
+[This Geeks for Geeks tutorial link]( https://www.geeksforgeeks.org/python-working-with-date-and-time-using-pandas/) is a tutorial for handling dates and times using pandas.
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+Look at the data types of the titanic DataFrame.
+
+Are there any values you didn't expect to see?
+
+You can check the Data Dictionary (an explanation of each column) [here](https://www.kaggle.com/c/titanic/data)
+
+
+### **Show Answer**{-}
+```{python}
+# Look at the data types of the titanic DataFrame.
+
+titanic.dtypes
+```
+* We may expect "survived" to be a boolean (since it is a binary choice, yes or no) but it's a numeric. To come over as boolean it would've needed to be 'TRUE', 'FALSE' or 'True', 'False'. 
+
+* We may expect "boat" to be a number, but some boats are referred to by letters.
+
+:::
+
+## Column Names
+
+It is important to know what your columns are called because in Python we commonly select our columns by name. It is also key to know how they are constructed (lower case, snake case etc) as Python is case sensitive. 
+
+### Example
+
+First we give the DataFrame name then the name of our column, in quotes, inside square brackets.
+
+```{python}
+animals['AnimalClass']
+```
+
+We can then add a method to the end, for example .head().
+
+```{python}
+animals['AnimalClass'].head()
+```
+
+While Python can handle column names with spaces, symbols and irregular capitalization; it is often easier to clean them. We’ll have a look at how to do this in Chapter 5.
+
+### Example
+
+As a reminder, We can access our columns by using the .columns attribute to return an Index datatype filled with the column names. 
+
+```{python}
+animals.columns
+```
+
+It would be nice to display them as a list to make the object easier to work with, so we can add (or **chain**) the method .tolist() on the end.
+
+```{python}
+animals.columns.tolist()
+```
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+
+(a) Look at the column names of the titanic DataFrame and convert them to a list, giving it an appropriate variable name.
+
+(b) Use indexing to return the column name 'embarked'.
+
+(c) Use negative indexing to return the list without 'boat'.
+
+### **Show Answer**{-}
+```{python}
+# (a)
+titanic_cols = titanic.columns.tolist()
+
+titanic_cols
+```
+```{python}
+# (b)
+titanic_cols[10]
+```
+
+```{python}
+# (c)
+titanic_cols[:-1]
+```
+:::
+
+We can also use Jupyter’s auto complete feature to help us when accessing the names of our columns. Copy the cell below place your cursor after the H and hit tab.
+
+```{python, eval = F}
+animals['H']
+```
+
+You’ll see that the auto complete option gives us the name of our HourlyNominalCost(£) column. This can be a really useful shortcut when we’re writing our code, circumventing the need to type out full column names.
+
+<a id='sorting'></a>
+
+# Sorting Data
+
+Our data is displayed in the same order as the source data, which means that we may want to sort our data, based on specific columns.
+
+## The method of sorting in Pandas
+
+### Example
+To do this we use the method .sort_values(by="column name"). When transforming data like this, we want to assign the new object as we don't want to re-type this process each time.
+
+```{python eval = FALSE}
+animals_sorted = animals.sort_values(by="IncidentNominalCost(£)")
+animals_sorted.head()
+```
+
+```{python include=FALSE }
+animals_sorted = animals.sort_values(by="IncidentNominalCost(£)")
+display = animals_sorted.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+  
+```
+
+
+There are additional arguments we can set, for example, by default the values are sorted in ascending order, by changing ascending= to ascending=False we can sort in descending order instead. 
+
+
+```{python eval = FALSE}
+animals_sorted = animals.sort_values(by="IncidentNominalCost(£)", ascending=False)
+animals_sorted.head()
+```
+
+```{python include=FALSE }
+animals_sorted = animals.sort_values(by="IncidentNominalCost(£)", ascending=False)
+display = animals_sorted.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+  
+```
+
+
+We can also sort by more than one column, but we can't just type out the column names in succession to the .sort_values() method. We must include them in a list instead, where order is important. 
+
+### Example
+
+Here we are sorting by "IncidentNominalCost(£)"; and then by "AnimalClass". Notice object (text/string) columns are sorted by *alphabetical* order. The reason order is important is because it creates a dependence, namely that sorting by the second column is entirely dependent on the sorting of the first column. 
+
+```{python eval = FALSE}
+animals_sorted = animals.sort_values(by=["IncidentNominalCost(£)", "AnimalClass"])
+animals_sorted.head()
+```
+
+```{python include=FALSE }
+animals_sorted = animals.sort_values(by=["IncidentNominalCost(£)", "AnimalClass"])
+display = animals_sorted.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+  
+```
+
+
+When sorting more than one column, it’s best to specify ascending=  as a list as well, to improve the readability and accessibility of our code. This list is in the same order as our columns and as such .sort_values() will apply column wise (first column, ascending, second column, descending etc).
+
+Some versions of Pandas will sort both columns as descending if we just supply ascending = False ; however some won’t, so it’s better to be clear about what we want to do. By using a list I also have finer control in that I could have one in ascending order, and one in descending order if I wished.
+
+### Example
+
+```{python eval = FALSE}
+animals_sorted_desc = animals.sort_values(by=["IncidentNominalCost(£)", "AnimalClass"], 
+                                          ascending=[False, False])
+
+animals_sorted_desc.head()
+```
+
+```{python include=FALSE }
+animals_sorted_desc = animals.sort_values(by=["IncidentNominalCost(£)", "AnimalClass"], 
+                                          ascending=[False, False])
+
+display = animals_sorted_desc.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+  
+```
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+
+(a) Sort the titanic DataFrame by the age column in descending order, name it titanic_sorted.
+
+(b) Sort the titanic DataFrame by the age **then** sex columns, both in ascending order. 
+
+(c) Using (b), pick out the sex and of the youngest person on board the titanic. 
+
+(d) Sort the titanic DataFrame by ascending fare **then** descending age, naming it appropriately.
+
+(e) Use your answer to part (d) to identify the oldest person who paid the least fare. 
+
+### **Show Answer**{-}
+```{python eval = FALSE}
+# (a)
+titanic_sorted = titanic.sort_values(by="age", ascending=False)
+titanic_sorted.head()
+```
+
+```{python include=FALSE}
+titanic_sorted = titanic.sort_values(by="age", ascending=False)
+display = titanic_sorted.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+  
+```
+
+```{python eval = FALSE}
+# (b)
+
+titanic_age_sex = titanic.sort_values(by = ['age', 'sex'], ascending = [True, True])
+
+# This also works but is not good practice
+
+# titanic_age_sex = titanic.sort_values(by = ['age', 'sex'])
+```
+
+```{python, eval = FALSE, include = FALSE}
+# (b)
+
+titanic_age_sex = titanic.sort_values(by = ['age', 'sex'], ascending = [True, True])
+
+display = titanic_age_sex.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+  
+```
+
+(c) The youngest person aboard the titanic was in fact a female  at 0.17 years, which is just over 2 months (thanks Google!).
+
+```{python, eval = FALSE}
+# (d)
+
+titanic_fare_age = titanic.sort_values(by = ['fare', 'age'], ascending = [True, False])
+```
+
+```{python, eval = FALSE, include = FALSE}
+# (d)
+
+titanic_fare_age = titanic.sort_values(by = ['fare', 'age'], ascending = [True, False])
+
+display = titanic_fare_age.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+  
+```
+
+(e) We see that there were actually two people aged 49 who paid no fare to board the titanic, and they were the oldest to do so. 
+
+:::
+
+# Revisiting parameters and arguments 
+
+I mentioned earlier that not including parameter names can sometimes confuse Python when it comes to the order in which they can be specified for larger functions. Now we will see this in practice. 
+
+## Important Example{-}
+
+Parameters are key words that tell python what the following argument relates to. We have two in the code below:
+
+* by=  is a parameter and the string representing the column "IncidentNominalCost(£)" is the argument.
+
+* ascending= is a parameter and the Boolean value False is the argument
+
+If we don’t specify parameters Python will assume our arguments are in the order specified in the Signature (press shift + tab with your cursor in .sort_values() to see this), and because of this the code below won’t work.
+
+```{python, eval = F}
+# This code will give us an error!
+
+# After you've tried it, you may want to comment it out!
+
+animals_sorted = animals.sort_values("IncidentNominalCost(£)", False)
+
+animals_sorted.head()
+```
+
+Our first argument IncidentNominalCost(£) maps directly to the by= parameter as expected. However, Python assumes the second argument False relates to the axis =  parameter; which in some versions isn't a valid argument, and in some pandas versions is treated effectively as axis =0.
+
+It is personal preference if you use parameters before your arguments. It is considered good practice, and can make your code more readable, especially to new coders. We would strongly advise doing so.
+
+As a bonus when you use parameters with your arguments you can pass them in any order as Python no longer relies on it being a positional based argument.
+
+```{python eval = FALSE}
+animals_sorted = animals.sort_values(ascending=False, by="IncidentNominalCost(£)")
+animals_sorted.head()
+```
+
+```{python include=FALSE }
+animals_sorted = animals.sort_values(ascending=False, by="IncidentNominalCost(£)")
+display = animals_sorted.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+```
+
+
+<a id='subsetting'></a>
+
+# Subsetting
+
+## Selecting Single Columns
+
+Sometimes we will want to work with smaller “cut down” DataFrames that contain fewer columns. As we saw earlier the simplest way to select a column from a DataFrame is to use the name of the column in the indexing brackets []. 
+
+### Example
+
+Here I am creating a new Series called ‘animal_grp_parent’ using the ‘AnimalGroupParent’ column from the animals DataFrame.
+
+```{python}
+animal_grp_parent = animals['AnimalGroupParent']
+
+animal_grp_parent.head()
+```
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+
+(a) Select the fare column from the titanic DataFrame and name it titanic_fare.
+
+(b) Randomly Sample 12 rows from the titanic_fare object you created. 
+
+### **Show Answer**{-}
+```{python}
+# (a)
+
+titanic_fare = titanic["fare"]
+titanic_fare.head()
+```
+
+```{python}
+# (b) 
+
+titanic_fare.sample(n = 12)
+```
+:::
+
+## Selecting Multiple Columns
+
+### Example
+
+Similarly as with **sorting** by multiple columns, we can select multiple columns by providing them in a list.
+
+```{python eval = FALSE}
+# Create a list of columns
+my_list_of_columns = [ "DateTimeOfCall", "AnimalGroupParent", "IncidentNominalCost(£)"]
+
+# Pass that list to my indexing brackets, creating a dataframe
+animal_small_df = animals[my_list_of_columns]
+```
+
+We can, however do this in one step by using two sets of square brackets next to each other. It’s important to realise that they are doing two separate roles:
+
+* Our first set is selecting or indexing from the animals DataFrame.
+* Our second set is creating a list of our columns we wish to select.
+
+```{python eval = FALSE}
+# This gives the same result as the cell above.
+animal_small_df = animals[[ "DateTimeOfCall", "AnimalGroupParent", "IncidentNominalCost(£)"]]
+animal_small_df.sample(6)
+```
+
+```{python include=FALSE}
+animal_small_df = animals[[ "DateTimeOfCall", "AnimalGroupParent", "IncidentNominalCost(£)"]]
+display = animal_small_df.sample(6)
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%") 
+```
+
+
+Two important things to note are the following:
+
+* When we return one column we get a Series object (as DataFrames are collections of Series objects)
+
+* When we return more than one column we get a DataFrame.
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+
+(a) Select the name, sex, age and survived column from the titanic DataFrame, naming it accordingly.
+
+(b) Create two sub DataFrames from your answer to part (a), one containing sex and age and another containing name and survived, naming them accordingly.
+
+### **Show Answer**{-}
+```{python eval = FALSE}
+# (a)
+
+titanic_select = titanic[["name","sex","age", "survived"]]
+titanic_select.head()
+```
+
+```{python include=FALSE}
+titanic_select = titanic[["name","sex","age", "survived" ]]
+display = titanic_select.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%") 
+```
+
+```{python}
+# (b)
+
+titanic_ages_sexes = titanic_select[["age", "sex"]]
+
+titanic_names_survived = titanic_select[["name", "survived"]]
+```
+:::
+
+Note that you may see people selecting columns using dataframe.column_name, which is a legal practice, but certainly not a recommended one! 
+
+```{python}
+# This will work - but is not good practice!
+
+titanic.sex.head()
+```
+
+We don’t recommend this because it looks too much like an attribute or method. This also won’t work if you had a column that was something like mean as Python can’t determine if you mean the column mean or the method .mean(). 
+
+There’s no ambiguity with 
+
+```{python, eval = FALSE}
+dataframe[“column”]
+```
+
+which is why we will always recommend it over the dataframe.column_name.
+
+## Selecting on data type
+
+We can also use the method .select_dtypes() if we want to include or exclude specific kinds of data from our dataframe.
+
+```{python eval = FALSE}
+# Select just the object columns
+animal_object_cols = animals.select_dtypes(include=["object"])
+
+# Return the top of the animal columns
+
+animal_object_cols.head()
+```
+
+```{python include=FALSE}
+animal_object_cols = animals.select_dtypes(include=["object"])
+display = animal_object_cols.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%") 
+```
+
+
+We must specify our include data types as a list here, even if we’re just specifying one value. It’s just the way this function was written (it will tell you this in the help documentation).
+
+* “object” includes our string columns, I could also use "O" here.
+* "float64” and “int64” will select floating point numbers and integer numbers respectively.
+* If you have the numpy package loaded (import numpy as np) you can use np.number (no quotes) to return numerical data.
+
+You can even use the parameter exclude= which may be easier if you wish to omit just one data type. 
+
+### Exercise
+::: {.panel-tabset}
+
+### **Exercise**{-}
+
+Create a new DataFrame titanic_int_no_float where we include all integer columns, but exclude all float columns.
+
+### **Show Answer**{-}
+
+```{python, eval = FALSE}
+titanic_int_no_float = titanic.select_dtypes(include = ['int64'], exclude = ['float64'])
+```
+
+```{python, include = FALSE}
+titanic_int_no_float = titanic.select_dtypes(include = ['int64'], exclude = ['float64'])
+
+display = titanic_int_no_float.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%") 
+```
+
+:::
+
+
+<a id='filter'></a>
+
+# Filtering
+
+## Filtering by Index Position
+
+We can achieve really simple filtering by passing a range to the DataFrame indexer.
+
+### Example
+
+```{python eval = FALSE}
+animals[0:5]
+```
+
+```{python include=FALSE }
+display = animals[0:5]
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%") 
+```
+
+
+Which returns us the same rows as .head(). We can however modify this to return any range of rows within the DataFrame we like - for example the middle of our DataFrame.
+
+```{python eval = FALSE}
+animals[200:210]
+```
+
+```{python include=FALSE}
+display = animals[200:210]
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%") 
+```
+
+However, we can do more involved, conditional filtering using pandas, which is one of the key processes for any Data Analysis task.
+
+## Single Conditional Filtering
+
+Pandas filters data in a two step process.
+
+1.	It creates a mask that specifies inclusion or exclusion for each row in the DataFrame.
+2.	Apply the mask on to the DataFrame to return the subset of rows that are included.
+
+In the code below I will create a few simple DataFrames to illustrate my point. Don’t worry too much about how these bits of code works; as previously mentioned you’ll often be working with much larger DataFrames that you’ll load in using one of the pd.read_ commands.
+
+```{python include=FALSE}
+# Let's create a simple DataFrame to look at this in practice
+# Again, you don't need to worry about how this works
+
+cat_dog = pd.DataFrame({"animal": ["Cat", "Cat", "Dog", "Cat"] , 
+                        "name": ["Catalie Portman","Pico de Gato", "Chewbarka", "Sir Isaac Mewton"]})
+
+# Print out the DataFrame
+
+cat_dog
+```
+
+```{r echo=FALSE}
+kable(py$cat_dog) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%") 
+```
+
+### Example
+
+I want to filter so I just have ‘Cat’ Rows.
+
+My **condition** can be written like this:
+
+```{python}
+mask = cat_dog['animal'] == 'Cat'
+```
+
+* I am assigning my output to the variable mask with the single = sign
+* The column I want to look for values in is "animal" from the catdog Dataframe - catdog["animal"]
+* From that column I want to find values that meet my condition – I state this with the double equals ==
+* Finally I am telling Pandas what value I want to find; a string containing “Cat”
+
+If we run the cell we can see the output is a Boolean Series, our True and False values.
+
+```{python}
+# Run me to see the Series of Boolean values
+mask
+```
+
+Just to make things clearer, Here I’ve added this series as a new column on our cat_dog DataFrame to demonstrate.
+
+|   | animal  |       name      | included |
+|:-:|:-------:|:---------------:|----------|
+| 0 |   Cat   | Catalie Portman | True     |
+| 1 |   Cat   |   Pico de Gato  | True     |
+| 2 |   Dog   |    Chewbarka    | False    |
+| 3 |   Cat   |   Sir Isaac Mewton   | True     |
+
+We can see where the value in the animal column was "Cat"; the mask column is True. Where the value was not cat (e.g "Dog") the mask column is False. However I want to return just the rows where the value in mask was True.
+
+To do this we apply the mask variable on to the cat_dog Dataframe using our indexing or selection brackets.
+
+```{python}
+just_cats = cat_dog[mask]
+just_cats
+```
+
+```{r echo=FALSE}
+kable(py$just_cats) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%") 
+```
+
+
+This will only return the rows where our **conditional filter** equated to True.
+
+This seems a little long but thankfully, rather than create and apply a mask separately we can do the whole filter operation in one step. We teach it this way to break down the process into component parts, before wrapping it up in a one line bow. 
+
+### Example
+
+```{python}
+just_cats = cat_dog[cat_dog['animal'] == "Cat"]
+just_cats
+```
+
+```{r echo=FALSE}
+kable(py$just_cats) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%") 
+```
+
+
+You’ll notice the cell with the “Dog” value has been dropped. 
+
+You’ll also notice that our index has not changed. You will sometimes want to reset the index after filtering to restore it to sequential integers starting at 0 as this can cause some problems in certain circumstances.
+
+### Example
+
+You can do this like so.
+
+```{python}
+just_cats.reset_index(drop=True, inplace=True)
+just_cats
+```
+
+```{r echo=FALSE}
+kable(py$just_cats) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%") 
+```
+
+
+* By default the previous column index is put in as a new column. By using drop=True we can remove this behaviour.
+
+* inplace=True updates the DataFrame in place and is an alternative to overwriting the data with just_cats = just_cats.reset_index(drop=True).
+
+## Other Comparison Operators 
+
+We have seen the equivalence sign "==" thus far, but there are other very useful operators we can utilise when conditional filtering:
+   
+| Symbol | Meaning|   
+|------------|------------|
+| ==       | Is equivalent to|
+| !=| Does not equal|
+|> |Greater than|
+|>=| Greater than or equivalent too|
+|< |Less than|
+|<= |Less than or equivalent too|
+
+### Example
+
+Let's use our animals **DataFrame**  to find the rows where IncidentNominalCost(£) is over £1000.
+
+```{python eval = FALSE}
+# Note here we're using the animals DataFrame
+
+cost_over_1k = animals[animals['IncidentNominalCost(£)'] > 1000]
+cost_over_1k.sample(6)
+```
+
+```{python include=FALSE}
+cost_over_1k = animals[animals['IncidentNominalCost(£)'] > 1000]
+display = cost_over_1k.sample(6)
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+Here we have done the following:
+
+* Assigned a new name cost_over_1k which will hold our output
+* Give our DataFrame name, and our indexing or selection brackets:  animals[]
+* The column we want to look for values in is ”IncidentNominalCost” from the Animals Dataframe animals[‘IncidentNominalCost(£)’]
+* The condition I want is  > 1000 , greater than a thousand. As this is a numeric column I can just specify the number.
+* Printing out the variable, using .sample(6) method to display 6 rows of the new DataFrame.
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+(a) Filter the titanic DataFrame by sex, returning only the rows where this is female. Name this something appropriate
+
+(b) Filter the titanic DataFrame to return the rows where the passenger age is smaller than 40 (It is useful to practice these without the exact columns to filter by given). 
+
+(c) Filter the titanic DataFrame, returning only the rows where the fare paid is at least £30.50 (Hint: which operator would 'at least' correspond to?)
+
+### **Show Answer**{-}
+```{python eval = FALSE}
+# (a)
+
+titanic_female = titanic[titanic['sex'] ==  "female"]
+titanic_female.head()
+```
+
+```{python include=FALSE}
+titanic_female = titanic[titanic['sex'] ==  "female"]
+display = titanic_female.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+```{python, eval = FALSE}
+# (b)
+
+titanic_younger = titanic[titanic['age'] < 40]
+
+titanic_younger.head()
+```
+
+```{python, include = FALSE}
+# (b)
+
+titanic_younger = titanic[titanic['age'] < 40]
+
+display = titanic_younger.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+```{python, eval = FALSE}
+# (c) At least means bigger than or equal to that value
+
+titanic_fares = titanic[titanic['fare'] >= 30.50]
+
+titanic_fares.head()
+```
+
+```{python, include = FALSE}
+# (c) At least means bigger than or equal to that value
+
+titanic_fares = titanic[titanic['fare'] >= 30.50]
+
+display = titanic_fares.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+:::
+
+## Multiple Conditional Filtering
+
+Just as we can filter by one condition we can also filter by multiple conditions. Let’s add in a new column, representing age to the cat_dog DataFrame.
+
+```{python include=FALSE}
+# Let's create a simple DataFrame to look at this in practice
+# Again, we don't need to worry about how we do this!
+
+cat_dog = pd.DataFrame({"animal": ["Cat", "Cat", "Dog", "Cat", "Dog"], 
+                        "name": ["Catalie Portman","Pico de Gato", "Chewbarka", "Sir Isaac Mewton", "K9"],
+                        "age": [3, 5, 1, 7, 11]}, 
+                       columns=["name", "animal", "age"])
+
+
+# Print out the DataFrame
+
+cat_dog
+```
+
+```{r echo=FALSE}
+kable(py$cat_dog) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+When we want to filter on more than one condition, we have to consider how those conditions relate to each other in terms of what is included and what is excluded from the final filtering. 
+
+* AND relationships use the & symbol (Shift and 7 on the keyboard) and require **both** or **all** conditions to evaluate to True.
+
+* OR relationships use the | symbol (Alt and 124) and require **one** of the conditions to evaluate to True
+
+Below is a “Truth table” that can be handy as a look up.
+
+
+| Condition 1 | Condition 2  | & (AND) Equates to |  &#124; (OR) Equates to |
+|:-----------:|:------------:|:------------------:|:------------------:|
+|     True    |     True     |        True        |        True        |
+|     True    |     False    |        False       |        True        |
+|    False    |     True     |        False       |        True        |
+|    False    |     False    |        False       |        False       |
+
+
+### Example
+
+Now that we have an age column, we can now select all Cats that are older than 4. Again, in this example we will create a mask so we can see what Boolean values are happening behind the scenes, but in the exercises we will do this in one line. 
+
+```{python}
+# Create my mask
+mask = (cat_dog['animal'] == "Cat") & (cat_dog['age'] > 4)
+
+# have a look at the mask
+mask
+```
+
+This is quite overwhelming upon first viewing, let's break it down a little bit!
+
+* I am assigning my output to the variable mask with a single = sign.
+
+* My first conditional statement:
+    * Has round brackets surrounding it (
+    * The first column I want to look for values in is "animal" from the catdog Dataframe - catdog[“animal”]
+    * From that column I want to find values that meet my condition, which I state with the double equals ==
+    * Finally I am telling pandas what value I want to find; a string containing “Cat”
+    * My first condition complete I close my round brackets )
+    
+* I use a symbol to represent the relationship between my conditions. Here an ampersand - & (Shift and 7) is used to represent AND
+
+* My second conditional statement:
+    * Has round brackets surrounding it (
+    * The first column I want to look for values in is "age" from the catdog Dataframe - catdog[“age”]
+    * From that column I want to find values that are greater than my condition, which I state with the  >
+    * Finally I am telling Pandas what value I want to find; an int 4
+    * My second condition complete I close my round brackets )
+    
+    
+Let's look at the mask values alongside the DataFrame:
+
+|   | animal  |       name      | age | included |
+|:-:|:-------:|:---------------:|-----|----------|
+| 0 |   Cat   | Catalie Portman | 3   | False     |
+| 1 |   Cat   |   Pico de Gato  | 5   | True     |
+| 2 |   Dog   |    Chewbarka    | 1   | False    |
+| 3 |   Cat   |   Sir Isaac Mewton   | 7   | True     |
+| 4 | Dog     | K9              | 11  | False     |
+
+
+And when we apply the mask to the DataFrame we can see the filtered Dataframe - with only Cats over 4.
+
+```{python}
+mask = (cat_dog['animal'] == "Cat") & (cat_dog['age'] > 4)
+
+cats_over_4 = cat_dog[mask]
+cats_over_4
+```
+
+To do this in one line, we reference the DataFrame we are selecting from, and then place our filter condition within the indexing or selection brackets.
+
+```{python}
+cats_over_4 = cat_dog[(cat_dog["animal"] == "Cat") & (cat_dog["age"] > 4)]
+```
+
+```{r echo=FALSE}
+kable(py$cats_over_4) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+If we can use the AND condition (&) we can also use the OR condition where only one of the conditions must be met to evaluate to True.
+
+The OR condition is represented by a vertical bar symbol ( | ) – press shift and the backslash.
+
+Lets add a condition where the animal is a cat **OR** the age is greater than 4.
+
+```{python}
+# Create my mask
+mask = (cat_dog["animal"] == "Cat") | (cat_dog["age"] > 4)
+
+# View mask
+
+mask
+```
+
+Let's look at the mask values alongside the DataFrame:
+
+|   | animal  |       name      | age | included |
+|:-:|:-------:|:---------------:|-----|----------|
+| 0 |   Cat   | Catalie Portman | 3   | True     |
+| 1 |   Cat   |   Pico de Gato  | 5   | True     |
+| 2 |   Dog   |    Chewbarka    | 1   | False    |
+| 3 |   Cat   |   Sir Isaac Mewton   | 7   | True     |
+| 4 | Dog     | K9              | 11  | True     |
+
+Catalie Portman now evaluates to True. While she is younger than 3 she is a Cat, and by meeting one of the conditions, she is included.
+
+K9 also evaluates to True. He is not a cat; but meets the age condition by being older than 4 and so is included.
+
+We can of course apply this mask to filter the DataFrame
+
+```{python}
+cats_or_over4 = cat_dog[mask]
+```
+
+```{r echo=FALSE}
+kable(py$cats_or_over4) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+Or do the whole action in one line of code.
+
+```{python}
+cats_or_over4 = cat_dog[(cat_dog["animal"] == "Cat") | (cat_dog["age"] > 4)]
+```
+
+```{r echo=FALSE}
+kable(py$cats_or_over4) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+Here are some more examples using the titanic DataFrame.
+
+Here we are filtering for survivors (value 1), who were female. Using an AND (&) condition
+
+```{python eval = FALSE}
+female_survivors = titanic[(titanic["survived"] == 1) & (titanic["sex"] == "female")]
+female_survivors.tail()
+```
+
+```{python include=FALSE}
+female_survivors = titanic[(titanic["survived"] == 1) & (titanic["sex"] == "female")]
+display = female_survivors.tail()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+  
+```
+
+
+And here we are filtering for those with more than 3 sibling/spouses (sibsp) on board or who paid more than £400 for their fare.
+
+```{python eval = FALSE}
+siblings_or_expensive = titanic[(titanic['sibsp'] > 3) | (titanic['fare'] > 400)]
+siblings_or_expensive.head()
+```
+
+```{python include=FALSE}
+siblings_or_expensive = titanic[(titanic['sibsp'] > 3) | (titanic['fare'] > 400)]
+display = siblings_or_expensive.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+
+(a) Filter the animals DataFrame where the IncidentNominalCost(£) Column was less than £400 **and** where the Borough column value is Croydon. 
+
+(b) Filter the animals DataFrame where the 'PropertyType' was "River/canal" **or** the "PumpHoursTotal" was at most 8. 
+
+### **Show Answer**{-}
+```{python eval = FALSE}
+# (a)
+
+cost_u400_croydon = animals[(animals['IncidentNominalCost(£)'] < 400) & (animals['Borough'] == "Croydon")]
+
+cost_u400_croydon.tail()
+```
+
+```{python include=FALSE}
+cost_u400_croydon = animals[(animals['IncidentNominalCost(£)'] < 400) & (animals['Borough'] == "Croydon")]
+
+display = cost_u400_croydon.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+```{python eval = FALSE}
+# (b)
+
+river_pumphours = animals[(animals['PropertyType'] == "River/canal") | (animals['PumpHoursTotal'] > 8)]
+
+```
+
+```{python include=FALSE}
+river_pumphours = animals[(animals['PropertyType'] == "River/canal") | (animals['PumpHoursTotal'] > 8)]
+
+display = river_pumphours.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+:::
+
+## Some Filter short cuts.
+
+We can also use some other filters to make life easier.
+
+### Example 1
+
+With the method .isin() we can provide a list of things to filter, here the boat identities [“2”, “C”, “15”].
+
+```{python eval = FALSE}
+titanic[titanic["boat"].isin(["2", "C", "15"])].head()
+```
+
+```{python include=FALSE}
+display = titanic[titanic["boat"].isin(["2", "C", "15"])].head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+### Example 2
+
+If dealing with numeric values we can use .between() and specify an upper and lower bound. Here we’re looking where the age column was between 0 and 12.
+
+```{python eval = FALSE}
+titanic[titanic["age"].between(0, 12)].head()
+```
+
+```{python include=FALSE}
+display = titanic[titanic["age"].between(0, 12)].head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100", height = "500px") 
+   
+```
+
+### Example 3
+
+We also have the ~ tilde symbol to invert an expression, this works similarly to the != for does not equal. For example, I can invert the filter for female passengers to return just male passengers.
+
+Note that I have to wrap my conditional statement in round brackets to ensure this works.
+
+```{python eval = FALSE}
+titanic[~(titanic["sex"] == "female")].head()  # Inverts the results of == Female; effectively giving == Male
+```
+
+```{python include=FALSE}
+display = titanic[~(titanic["sex"] == "female")].head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100", height = "500px") 
+   
+```
+
+
+The tilde ~ can be useful for other scenarios, there’s a variety of .is methods for example that do not have an is not equivalent; but we can invert the .is method instead. We’ll see a useful example of that in chapter 5. 
+
+### Filtering Text
+
+So far when we've talked about filtering text we do so on exact matches. However, as Python is case sensitive, filtering for “cat” will not show the values “CAT” or “Cat” in our cat_dog DataFrame, should they exist (which they often will in real world data). 
+
+```{python eval = FALSE}
+# Lets create our cat_dog DataFrame again with some variation in the capitalisation of "cat"
+
+cat_dog_wrong_spelling = pd.DataFrame({"animal": ["cat", "Cat", "Dog", "cat", "Dog", "Rat", "Bat"] , 
+                                       "name": ["Catalie Portman","Pico de Gato", "Chewbarka", "Sir Isaac Mewton", "K9", "Roland", "Vlad"],
+                                       "age": [3, 5, 1, 7, 11, 1, 3]} , 
+                                      columns = ["name", "animal", "age"])
+
+cat_dog_wrong_spelling
+```
+
+```{python include=FALSE}
+
+cat_dog_wrong_spelling = pd.DataFrame({"animal": ["cat", "Cat", "Dog", "cat", "Dog", "Rat", "Bat"] , 
+                                       "name": ["Catalie Portman","Pico de Gato", "Chewbarka", "Sir Isaac Mewton", "K9", "Roland", "Vlad"],
+                                       "age": [3, 5, 1, 7, 11, 1, 3]} , 
+                                      columns = ["name", "animal", "age"])
+
+display = cat_dog_wrong_spelling
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+Here the filter condition we previously used (== Cat) will only now only return us Pico De Gato
+
+```{python eval = FALSE}
+cat_only_spelling = cat_dog_wrong_spelling[cat_dog_wrong_spelling["animal"] == "Cat"]
+cat_only_spelling
+```
+
+```{python include=FALSE}
+cat_only_spelling = cat_dog_wrong_spelling[cat_dog_wrong_spelling["animal"] == "Cat"]
+display = cat_only_spelling
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+Which is not the result we wanted.
+
+### Example
+
+For simple instances we can use the string method str.contains() like in the example below. Here, in our DataFrame, some entries in the "Animal" column have "Cat" and others have "cat". By using .str.contains(“at”), we can bring in both values because both contain the partial string "at". 
+
+```{python eval = FALSE}
+# Filter to find instances where the string in "animal" contains "at"
+cat_only_spelling = cat_dog_wrong_spelling[cat_dog_wrong_spelling["animal"].str.contains("at")]
+cat_only_spelling
+```
+
+```{python include=FALSE}
+cat_only_spelling = cat_dog_wrong_spelling[cat_dog_wrong_spelling["animal"].str.contains("at")]
+display = cat_only_spelling
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+This is clearly not foolproof however, as both Rat and Bat also have at in them, and as such are displayed in the output. 
+
+In chapter 5 we'll look at changing the column values and column names to lowercase letters, which would allow a straight forward filter to work in this case.
+
+## Aside - Regular Expressions
+
+For more complex cases we can use what is known as Regular Expressions or RegEx in Python to search for partial strings with specified conditions (such as placing where the letters are located, starting with, ending with etc).
+
+We do not cover these in this introduction course; but here are some more resources you may wish to explore. If you have used Regular Expressions in other languages you will find this very familiar.
+
+[RegEx How to]( https://docs.python.org/3/howto/regex.html)
+
+[Python Regular Expressions]( https://developers.google.com/edu/python/regular-expressions)
+
+[Datacamp RegEx tutorial]( https://www.datacamp.com/community/tutorials/python-regular-expression-tutorial)
+
+## More Filtering Methods
+
+We’ve looked here at the base Python way of filtering, but as with many things in Python there are other alternatives. 
+
+### Example 1
+
+```{python eval = FALSE}
+titanic.query('fare > 50 & sex == "male"').head()
+```
+
+```{python include=FALSE}
+display = titanic.query('fare > 50 & sex == "male"').head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+Here we use .query() which allows us to type a more SQL style query in words and symbols without utilising our filtering brackets.
+
+### Example 2
+
+We also have .filter(), which works on the *index*, rather then the contents! Here I’m looking for like = “1” which will give me index 1 , 11 and 12 as they contain the number 1. Note that axis = 0 means apply to the **rows**, whereas axis = 1 applies to the columns. 
+
+So far we’ve worked with indexes that are numerical, from 0 to n; but they can also be text based; and using the pandas .filter() would be useful here. 
+
+```{python eval = FALSE}
+titanic.filter(like = "1", axis = 0).head()
+```
+
+```{python include=FALSE}
+display = titanic.filter(like = "1", axis = 0).head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+You may find even more ways of filtering your data when researching, there’s lots out there!
+
+# Deriving New Columns
+
+We create new columns in very similar to filtering them:
+
+<center> titanic["new_column"] = 1 </center>
+
+In the example above we are creating a new column in the titanic DataFrame called "new_column", which will have the constant value of 1 in each row.
+
+* To create a new column we first give the DataFrame name and use square brackets to specify, as a string our column name, here this is "new_column".
+    * If the column name does not exist in our Dataframe (like in the example) the contents will be placed in a new column, at the end of the DataFrame.
+    * If the column already exists in our DataFrame the contents of that column will be **overwritten**.
+    
+We then use the assignment operator  "=" and after this is what we fill our column with, in this example it was a constant value of the integer 1. 
+
+We’ll now look at various different ways we can fill these new columns.
+
+## Other Constant Values
+
+Some more examples are in the cell below, filling with both floats as well as objects/strings. The syntax remains the same, subsetting the column and assigning it to the value.
+
+### Example
+As a reminder, our cat_dog dataframe looks as follows:
+```{python eval = FALSE}
+# Let's remind ourselves what cat_dog looks like
+
+cat_dog.head()
+```
+
+```{python include=FALSE}
+display = cat_dog.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+Now let's add some more constant columns!
+
+```{python eval = FALSE}
+# Let's add new columns
+
+cat_dog["constant_string"] = "mammal"   # adds a string/object constant
+cat_dog["constant_float"] = 3.2 # adds a floating point constant
+cat_dog["constant_int"] = 2   # adds an interger constant
+
+cat_dog
+```
+
+```{python include=FALSE}
+cat_dog["constant_string"] = "mammal"   # adds a string/object constant
+cat_dog["constant_float"] = 3.2 # adds a floating point constant
+cat_dog["constant_int"] = 2   # adds an interger constant
+display = cat_dog
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+
+Add a new constant column to the animals DataFrame called attended and set the value to be True.
+
+### **Show Answer**{-}
+```{python eval = FALSE}
+
+animals['attended'] = True
+
+# View the dataframe
+
+animals.head()
+```
+
+```{python include=FALSE}
+animals['attended'] = True
+display = animals.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+So as you can see, we can set up constant boolean columns as well!
+
+:::
+
+## Numeric Values
+
+We can create numeric columns as well, which are often referred to as 'calculated columns' as they can be calculated referencing many other numeric columns. 
+
+### Example
+
+We can do any form of operations we like here, for example creating the family size of the person. This is the number of siblings or spouses on board (sibsp), the number of parents or children on board (parch), plus 1 (the person themselves).
+
+```{python eval = FALSE}
+titanic["family_size"] = titanic["sibsp"] + titanic["parch"] + 1
+
+titanic.head()
+```
+
+```{python include=FALSE}
+titanic["family_size"] = titanic["sibsp"] + titanic["parch"] + 1
+display = titanic.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+## Boolean and Binary Values
+
+Using the same conditions as we do when filtering we can also create Boolean (True/False) columns. This is very common practice when we want to create binary columns (which can be very useful for visualisation and analysis purposes).
+
+### Example
+
+In the example below I am assigning True to all values in the age column that are under 18. My new column is called "under_18"
+
+```{python eval = FALSE}
+titanic["under_18_bool"] = titanic["age"] < 18
+titanic.head()
+```
+
+```{python include=FALSE}
+titanic["under_18_bool"] = titanic["age"] < 18
+display = titanic.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+We can also change these values from the Boolean True and False to the binary values 1 and 0, which is the key change we make when it comes to building models (it is often required that all values are numeric for example). 
+
+We can convert columns by using the code .astype(“int64”).
+
+```{python eval = FALSE}
+titanic["under_18_binary"] = titanic["under_18_bool"].astype("int64")
+
+titanic.head()
+```
+
+```{python include=FALSE}
+titanic["under_18_binary"] = titanic["under_18_bool"].astype("int64")
+display = titanic.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+We can also do this in one step when we create the column. We can wrap the first part of the code in brackets; like our order of operations in mathematics (BIDMAS, BODMAS whatever you referred to it as) this tells Python which bit to do first.
+
+In the cell below we add the new column in one line, and then sort out the missing values in the next.
+
+```{python}
+# Add the new column and change the type in one line
+
+titanic["under_18_binary"] = (titanic["age"] < 18).astype("int64")
+```
+
+It’s important to note that where we have missing values, it will mark those as False (or 0). We’ll look at one way of fixing this after the exercises, but for a full look into missing values, stay tuned for Chapter 5!
+
+### Example
+
+The following code uses the .isnull() method to single out where there are missing values. This is wrapped up in the indexing brackets [], so we end up with all rows containing missing values.
+
+```{python eval = FALSE}
+titanic[titanic['age'].isnull()].head()
+```
+
+```{python include=FALSE}
+display = titanic[titanic['age'].isnull()].head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+
+(a) Create a new boolean column in the animals DataFrame called fish_bool. Use the AnimalClass column to find the values that are eqivalant to Fish.
+
+(b) Convert fish_bool to a numeric column
+
+### **Show Answer**{-}
+```{python eval = FALSE}
+# (a)
+
+animals["fish_bool"] = animals["AnimalClass"] == "Fish"
+
+# Test if it's worked with a filter
+animals[animals['AnimalClass'] == "Fish"] 
+```
+
+```{python include=FALSE}
+animals["fish_bool"] = animals["AnimalClass"] == "Fish"
+
+# Test if it's worked with a filter
+display = animals[animals['AnimalClass'] == "Fish"] 
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+```{python eval = FALSE}
+# (b)
+
+animals["fish_bool"] = animals["fish_bool"].astype("int64")
+
+# Check with a filter
+
+animals[animals["AnimalClass"] == "Fish"]
+```
+
+```{python include=FALSE}
+animals["fish_bool"] = animals["fish_bool"].astype("int64")
+
+# Check with a filter
+
+display = animals[animals["AnimalClass"] == "Fish"]
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+:::
+
+### More on the issue of Booleans and Missing Values
+
+Earlier we declared a boolean column that has True for under 18, and False for over 18. One issue with this method is that if an entry in the age column is a missing value (NaN) then it is classified as False here.
+
+While Pandas has done exactly as we asked (it does not meet the criteria so is False) we’re artificially inflating the number of adults in our two end columns. 
+
+Statistically this isn’t right. There's 263 missing values in the age column, as we don’t know the passengers age; so we should preserve the missing data types rather than assume they're over 18 (as it currently does!)
+
+### Example
+
+To illustrate, the cell below is filtering the titanic dataframe, showing the values that are null (using .isnull()) in the age column.
+
+You can see that they show False in the under_18 column.
+
+```{python eval = FALSE}
+# Create the "under_18" column again - in case it's not been run yet!
+titanic["under_18_bool"] = titanic["age"] < 18
+
+# Look at missing values in the age column
+# Note that in the "under_18" column - they are True!
+
+titanic[titanic['age'].isnull()].head()
+```
+
+```{python include = FALSE}
+
+titanic["under_18_bool"] = titanic["age"] < 18
+
+
+display = titanic[titanic['age'].isnull()].head()
+```
+
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+## Example - Filling in missing values with a constant
+
+We’ll look at more ways to action missing values in chapter 6; but for now we can use .loc[] to fill in these values. 
+We’ll also talk about .loc[] in chapter 5 and in the extension chapter 7. Basically, .loc[] can look up rows or columns based on either their index; or as we’re doing here, a logical statement like a filter statement.
+
+Here we’re using .loc[] to find rows where the age column has a null value; and updating our new column under_18 to show null (NaN) too using the keyword None. See that loc[] takes two inputs, the condition (here that is whether it is null), then the column to apply that too. 
+
+```{python}
+titanic.loc[titanic['age'].isnull(), 'under_18_bool'] = None
+```
+
+Now our NaN in age are also NaN values in under_18, as we can see if we run the cell below.
+
+```{python eval = FALSE}
+titanic[titanic['age'].isnull()].head()
+```
+
+```{python include=FALSE}
+display = titanic[titanic['age'].isnull()].head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+While we still have missing data in this column that we may want to deal with later (see chapter 6); at least our “under_18” column is now more accurate. It's really important we think about missing values whenever we perform operations using our data.
+
+Even just recoding values not considered missing is a very important step when analysing and cleaning our data, as this informs us on how to treat the column.
+
+## Mapping New Values
+
+We can also use .map() to map a dictionary to a column.
+
+This can be useful when we want to explain coded variables for other users; e.g. the column embarked has the values S, C and Q.  We can use .map() to give the full names of these ports.
+
+```{python eval = FALSE}
+titanic["port"] = titanic["embarked"].map({"S":"Southampton",
+                                           "C":"Cherbourg", 
+                                           "Q": "Queenstown (Cobh)"})
+
+titanic.tail()
+
+```
+
+```{python include=FALSE}
+titanic["port"] = titanic["embarked"].map({"S":"Southampton",
+                                           "C":"Cherbourg", 
+                                           "Q": "Queenstown (Cobh)"})
+
+display = titanic.tail()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+The usefulness of this process cannot be overstated, many times we will be handed data in the real world that has many of these very confusing acronyms, initials etc. Recoding them to be more descriptive and easier to work with can be a lifesaver in certain situations!
+
+## Deleting columns
+
+There are a few ways to remove or drop columns.
+
+Let's look at cat_dog again
+
+```{python eval = FALSE}
+cat_dog
+```
+
+```{r echo=FALSE}
+kable(py$cat_dog) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+### Example 1
+
+We have the inbuilt python statement del, which we can follow with a selected column to permanently delete it.
+
+```{python eval = FALSE}
+del cat_dog["constant_float"]
+cat_dog
+```
+
+```{python include=FALSE}
+del cat_dog["constant_float"]
+display = cat_dog
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+### Example 2
+
+We can also use the .drop() method.
+
+For Pandas version 1.4.2:
+
+```{python eval = FALSE}
+cat_dog.drop(columns = ["constant_string", "constant_int"], inplace = True)
+
+cat_dog
+
+# If this cell doesn't work check your version using pd.__version__
+# If lower than 0.21.0 use the code in the text below.
+```
+
+```{python include=FALSE}
+display = cat_dog
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+Here note:
+
+* I’m passing my column names as a list, as there’s more than one
+* inplace=True updates the original Dataframe
+* For older versions of Pandas, you may need to include axis = 1 to specify that this is being applied to columns and not rows. A great example of how functions evolve over time and become streamlined. 
+
+<a id='merge'></a>
+
+# Merging Data
+
+Let’s have a look at the two joining_data DataFrames we loaded in at the start of the chapter:
+
+```{python eval = FALSE}
+joining_data1
+```
+
+```{r echo=FALSE}
+kable(py$joining_data1) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+```{python eval = FALSE}
+joining_data2
+```
+
+```{r echo=FALSE}
+kable(py$joining_data2) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+* In joining_data1 we have the columns name, animal and age.
+* In joining_data2 we have the columns name and vaccinated.
+
+We see that Arf Vader only appears in joining_data1 and Spiderpig only appears in joining_data2. The remainder of the animals appear in both DataFrames.
+
+## Types of Join 
+
+These two DataFrames have a column in common that we could use to join them on, which is name. Without this we could not join the datasets together as this is the stipulation to perform a merge/join. 
+
+We can create a variety of joins. These are often best demonstrated with a Venn diagram. From here, I’m going to say that joining_data1 is my “left” DataFrame, and that joining_data2 is my “right” DataFrame.
+
+For this I’m going to highlight the position of 3 animal names. As we mentioned earlier:
+
+* Arf Vader is only in joining_data1, our “left” DataFrame.
+* Spiderpig is only in joining_data2, our “right” DataFrame 
+* Catalie Portman is in both joining_data1 and joining_data2 and will represent values in BOTH DataFrames. 
+
+!["examples of merge"](../images/pdmerge.png){fig-alt="The many types of join that can be applied to dataframes."}
+
+As you can see left and right merges take the data from that DataFrame and any matches from the opposite one. 
+
+This means that in our left:
+
+* Arf Vader is included because he has data in the left DataFrame. 
+* Arf Vader has missing values for vaccinated, as he isn’t in that DataFame
+* `atalie Portman has data in all columns, as she appears in both the left and right
+* Spiderpig doesn’t have any data. We’re only taking data from the left, and he’s only in the right.
+
+### Example
+
+Let’s look at how we do this left merge in code. We’re going to use pd.merge() and do a left join.
+
+```{python eval = FALSE}
+left_merge = pd.merge(left = joining_data1,
+                      right=joining_data2, 
+                                 how="left",
+                                 on="name",
+                                 indicator=True)
+
+left_merge
+```
+
+```{python include=FALSE}
+left_merge = joining_data1.merge(right=joining_data2, 
+                                 how="left",
+                                 on="name",
+                                 indicator=True)
+                                 
+left_merge["_merge"] = left_merge["_merge"].astype("str")                                 
+
+display = left_merge
+
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+This is the most layered method we have seen so far, with numerous arguments we must utilise to perform the joins we want. 
+
+* left =  is our left hand DataFrame
+* right =  is our right hand DataFrame
+* how =  is how we want to perform the join, other options are
+  - right
+  - outer
+  - inner  (default behaviour)
+*  on =  is the name of the column both DataFrames have in common. If we're joining on more than one column we can specify a list here.
+* indicator set to True adds an additional column showing if the data was in the left_only, both or right_only as applicable, which is excellent for checking.
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+
+(a) Using marvel_left and marvel_right that we loaded in earlier, perform an outer join using the column name. Include the column that specifies whether they came from the left or right DataFrame.
+
+(b) Using marvel_left and marvel_right perform a left join on the column containing the years. Note that the names of these columns may not be the same in both DataFrames! (Hint: Use the help function to observe optional arguments to help with this).
+
+### **Show Answer**{-}
+```{python eval = FALSE}
+# (a)
+
+marvel_outer = marvel_left.merge(right=marvel_right, 
+                                 how="outer",
+                                 on="name", 
+                                 indicator=True)
+marvel_outer.head()
+```
+
+```{python include=FALSE}
+marvel_outer = marvel_left.merge(right=marvel_right, 
+                                 how="outer",
+                                 on="name", 
+                                 indicator=True)
+                                 
+marvel_outer["_merge"] = marvel_outer["_merge"].astype("str")   
+
+display = marvel_outer.head()
+
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+```{python eval = FALSE}
+# (b) Using left_on and right_on since the column names are not the same in each DataFrame
+
+marvel_left_merge = marvel_left.merge(right=marvel_right , 
+                                      how="left",
+                                      left_on="year",
+                                      right_on="release_year",
+                                      indicator=True)
+marvel_left_merge.head()
+
+```
+
+```{python include=FALSE}
+marvel_left_merge = marvel_left.merge(right=marvel_right , 
+                                      how="left",
+                                      left_on="year",
+                                      right_on="release_year",
+                                      indicator=True)
+                                      
+marvel_left_merge["_merge"] = marvel_left_merge["_merge"].astype("str")                                     
+display = marvel_left_merge.head()
+
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+Notice here we use the parameter left_on to list the names of the columns in our left dataframe and right_on for the names of the columns in our right.
+
+We see here that maybe the year is not the best joining column! We’re getting multiple joins for movies that have different names because we only need that “year” data to match. 
+
+:::
+
+The solution to this is to join on more than one column, which you will do next!
+
+## Extension Exercise
+::: {.panel-tabset}
+### **Extension Exercise**{-}
+Modify the join from (b) in the previous Exercise to:
+
+* Join on **BOTH** the column containing names and the column containing years. Remember that the names may differ across the dataframes! 
+
+Hint: How did we specify multiple columns in previous chapters? Remember order is important. 
+
+### **Show Answer**{-}
+
+```{python eval = FALSE}
+marvel_left_merge = marvel_left.merge(right=marvel_right , 
+                                      how="left" ,
+                                      left_on=["name", "year"],
+                                      right_on=["name", "release_year"],
+                                      indicator=True)
+marvel_left_merge.head()
+```
+
+```{python include=FALSE}
+marvel_left_merge = marvel_left.merge(right=marvel_right , 
+                                      how="left" ,
+                                      left_on=["name", "year"],
+                                      right_on=["name", "release_year"],
+                                      indicator=True)
+                                      
+marvel_left_merge["_merge"] = marvel_left_merge["_merge"].astype("str")
+
+display = marvel_left_merge.head()
+
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+Notice here we use the parameter left_on to list the names of the columns in our left dataframe and right_on for the names of the columns in our right and as we're using multiple columns these are in lists. This would be a great solution if we had a larger dataset to work with.
+
+For example in 1998 there was a movie called “The Avengers”. It's not a marvel movie, and does not star Iron Man, but instead Uma Thurman and Ralph Fiennes as spys! By using the name and year we'd ensure a higher level of accuracy, being as specific as you can is good.
+
+:::
+
+## Union Merge
+
+We can also do what's known as union merges, which is implemented using pd.concat().This is where we can add data on to the bottom of an existing dataFrame (like an appending motion).
+
+It is so important that the columns of each DataFrame are in the same order, otherwise the union operation will fail (remember, columns can only have one datatype!).
+
+### Example
+
+For example we have some new animals to add on to joining_data1, these are contained in the union_joined DataFrame we loaded in earlier.
+
+```{python eval = FALSE}
+union_joined = pd.concat(objs=[joining_data1, union_join_data], ignore_index=True)
+union_joined
+```
+
+```{python include=FALSE}
+union_joined = pd.concat(objs=[joining_data1, union_join_data], ignore_index=True)
+display = union_joined
+
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100") 
+   
+```
+
+
+We can see our new additions, namely Andy Warhowl, Voldetort and Repecka here now.
+
+Our parameters and arguments in pd.conact() are:
+* objs= - Our objects that we wish to concatenate, here as a list
+* ignore_index= - My new DataFrame will have it’s “own” index starting from 0. If I set this to False then I will have two things with an index of 0 and I don’t want that as this will cause frustration later!
+
+This is a very rich topic (as are most processes in Pandas!) and other interesting methods exist that allow us to combine in different ways. For example, .append() and .join() also exist, here’s a link with a lot more detail about joining together data. [Merge, Join, Concatenate and Compare]( https://pandas.pydata.org/pandas-docs/stable/user_guide/merging.html)
+
+# Chapter Summary 
+
+Amazing work! Congratulations on completing Chapter 4 of the Introduction to Python Course, you are now a DataFrame Wizard! 
+
+In Chapter 5 we will focus on applying the various methods we covered here to clean our data, preparing it ready for the tasks that follow such as Aggregation and Summary (Chapter 6) and Visualisation (Future courses on the Learning Hub). We will cover:
+
+* Copies and Views
+* Updating Values
+* Changing Column Names
+* Missing Values

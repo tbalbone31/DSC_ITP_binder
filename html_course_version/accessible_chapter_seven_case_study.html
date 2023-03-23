@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.120">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 7 - Netflix Case Study</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="chapter_seven_case_study_files/libs/clipboard/clipboard.min.js"></script>
+<script src="chapter_seven_case_study_files/libs/quarto-html/quarto.js"></script>
+<script src="chapter_seven_case_study_files/libs/quarto-html/popper.min.js"></script>
+<script src="chapter_seven_case_study_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="chapter_seven_case_study_files/libs/quarto-html/anchor.min.js"></script>
+<link href="chapter_seven_case_study_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="chapter_seven_case_study_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="chapter_seven_case_study_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="chapter_seven_case_study_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="chapter_seven_case_study_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<script src="chapter_seven_case_study_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="chapter_seven_case_study_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#chapter-information" id="toc-chapter-information" class="nav-link active" data-scroll-target="#chapter-information"><span class="toc-section-number">1</span>  Chapter Information</a>
+  <ul class="collapse">
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes"><span class="toc-section-number">1.1</span>  Learning Outcomes</a></li>
+  <li><a href="#task-format" id="toc-task-format" class="nav-link" data-scroll-target="#task-format"><span class="toc-section-number">1.2</span>  Task Format:</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  <li><a href="#duration" id="toc-duration" class="nav-link" data-scroll-target="#duration"><span class="toc-section-number">1.3</span>  Duration</a></li>
+  </ul></li>
+  <li><a href="#question-1" id="toc-question-1" class="nav-link" data-scroll-target="#question-1">Question 1</a></li>
+  <li><a href="#question-2-1" id="toc-question-2-1" class="nav-link" data-scroll-target="#question-2-1">Question 2</a></li>
+  <li><a href="#question-3-1" id="toc-question-3-1" class="nav-link" data-scroll-target="#question-3-1">Question 3</a></li>
+  <li><a href="#question-4-1" id="toc-question-4-1" class="nav-link" data-scroll-target="#question-4-1">Question 4</a></li>
+  <li><a href="#question-5-1" id="toc-question-5-1" class="nav-link" data-scroll-target="#question-5-1">Question 5</a></li>
+  <li><a href="#question-6-1" id="toc-question-6-1" class="nav-link" data-scroll-target="#question-6-1">Question 6</a></li>
+  <li><a href="#question-7-1" id="toc-question-7-1" class="nav-link" data-scroll-target="#question-7-1">Question 7</a></li>
+  <li><a href="#question-8-1" id="toc-question-8-1" class="nav-link" data-scroll-target="#question-8-1">Question 8</a></li>
+  <li><a href="#question-9-1" id="toc-question-9-1" class="nav-link" data-scroll-target="#question-9-1">Question 9</a></li>
+  <li><a href="#question-10-1" id="toc-question-10-1" class="nav-link" data-scroll-target="#question-10-1">Question 10</a></li>
+  <li><a href="#question-11-1" id="toc-question-11-1" class="nav-link" data-scroll-target="#question-11-1">Question 11</a></li>
+  <li><a href="#question-12-1" id="toc-question-12-1" class="nav-link" data-scroll-target="#question-12-1">Question 12</a></li>
+  <li><a href="#question-13-1" id="toc-question-13-1" class="nav-link" data-scroll-target="#question-13-1">Question 13</a></li>
+  <li><a href="#question-14-1" id="toc-question-14-1" class="nav-link" data-scroll-target="#question-14-1">Question 14</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="toc-section-number">2</span>  Summary</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next"><span class="toc-section-number">3</span>  What’s Next?</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 7 - Netflix Case Study</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><img src="../images/AF_DSC_banner.png" class="img-fluid" alt="Government Analysis Function and Data Science Campus Logos."></p>
+<div class="cell">
+
+</div>
+<p>This is a HTML document. The Introduction to Python course is written and intended to be used in a Jupyter Notebook file. These HTML documents have been made available for users who require screen readers or other accessibility needs. These HTML documents have been tested, but if you notice any errors or any compatibility issues please contact us on the GSS Capability email inbox.</p>
+<p>If you are using a screen reader you will need to set your punctuation level (sometimes called verbosity) to full, especially for the code sections.</p>
+<section id="chapter-information" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Chapter Information</h1>
+<section id="learning-outcomes" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="learning-outcomes"><span class="header-section-number">1.1</span> Learning Outcomes</h2>
+<p>By the end of this chapter you should have more confidence with manipulating data and using techniques covered in the first six chapters of the course. This is an excellent opportunity for you to have more data to play with and reinforce learning from the previous chapters.</p>
+<p>These data sets and question are designed to be an initial springboard for you to continue your learning. Answers are provided; but these may only show one or two ways of solving the issue. While you should always aim to follow clean code standards and best practice, answers may be different to those provided here and as long as the same outputs are achieved, this is fine.</p>
+<p>It is worth noting that you attempt to understand the differences in the solutions though, this can help you learn something new or reinforce another concept by appreciating an alternate way of answering a question.</p>
+</section>
+<section id="task-format" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="task-format"><span class="header-section-number">1.2</span> Task Format:</h2>
+<p>Questions will be presented in tabs.</p>
+<ul>
+<li>Tab 1 will contain the question.</li>
+<li>Tab 2 will contain some hints for the solution.</li>
+<li>Tab 3 will contain the solution in Python.</li>
+</ul>
+<p>An example is below.</p>
+</section>
+<section id="example" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="example">Example</h2>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href=""><strong>Question</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href=""><strong>Hint</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href=""><strong>Solution</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>This is an example question.</p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>To hint or not to hint?</p>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"This tab contains Python code"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>This tab contains Python code</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="duration" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="duration"><span class="header-section-number">1.3</span> Duration</h2>
+<p>This case study should take approximately 3 hours to complete.</p>
+</section>
+</section>
+<section id="question-1" class="level1 unnumbered">
+<h1 class="unnumbered">Question 1</h1>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href=""><strong>Question</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href=""><strong>Hint</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false" href=""><strong>Solution</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<ol type="a">
+<li>Load the following package into your session.</li>
+</ol>
+<ul>
+<li>pandas</li>
+<li>numpy</li>
+</ul>
+<ol start="2" type="a">
+<li>Read in the following two files and assign to the given variables.</li>
+</ol>
+<ul>
+<li>netflix - nextflix_data.csv</li>
+<li>imdb_scores - imdb_scores.csv</li>
+</ul>
+<ol start="3" type="a">
+<li><p>Display the first 10 rows of the netflix data.</p></li>
+<li><p>Display the last 5 rows of the imdb_scores data.</p></li>
+</ol>
+<p>Note - The data is sourced from <a href="https://github.com/rfordatascience/tidytuesday">Tidy Tuesday</a> and directly from IMDB. Some data has been altered to suit the difficulty level of this course. This data should be treated as a training set, and so shouldn’t be relied upon for 100% accuracy.</p>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<ol type="a">
+<li><p>Remember that we use the keywords “import” and “as” when performing this task.</p></li>
+<li><p>Remember that we use the read_csv() function from pandas to accomplish this.</p></li>
+<li><p>.head()</p></li>
+<li><p>Opposite of (c) in words as well as process!</p></li>
+</ol>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (a)</span></span>
+<span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (b)</span></span>
+<span id="cb3-6"><a aria-hidden="true" tabindex="-1"></a>netflix <span class="op">=</span> pd.read_csv(<span class="st">"../data/netflix_data.csv"</span>)</span>
+<span id="cb3-7"><a aria-hidden="true" tabindex="-1"></a>imdb_scores <span class="op">=</span> pd.read_csv(<span class="st">"../data/imdb_scores.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (c) </span></span>
+<span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a>netflix.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; overflow-x: scroll; width:100%; "><table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> show_id </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> type </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> title </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> director </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> cast </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> primary_country </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> country_2 </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> country_3 </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> country_4 </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> countries_5_up </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> date_added </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> release_year </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> rating </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> duration </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> listed_in </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> description </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> num_cast </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> s1 </td>
+   <td style="text-align:left;"> TV Show </td>
+   <td style="text-align:left;"> 3% </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> João Miguel, Bianca Comparato, Michel Gomes, Rodolfo Valente, Vaneza Oliveira, Rafael Lozano, Viviane Porto, Mel Fronckowiak, Sergio Mamberti, Zezé Motta, Celso Frateschi </td>
+   <td style="text-align:left;"> Brazil </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> August 14, 2020 </td>
+   <td style="text-align:right;"> 2020 </td>
+   <td style="text-align:left;"> TV-MA </td>
+   <td style="text-align:left;"> 4 Seasons </td>
+   <td style="text-align:left;"> International TV Shows, TV Dramas, TV Sci-Fi &amp; Fantasy </td>
+   <td style="text-align:left;"> In a future where the elite inhabit an island paradise far from the crowded slums, you get one chance to join the 3% saved from squalor. </td>
+   <td style="text-align:right;"> 11 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> s2 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> 07:19 </td>
+   <td style="text-align:left;"> Jorge Michel Grau </td>
+   <td style="text-align:left;"> Demián Bichir, Héctor Bonilla, Oscar Serrano, Azalia Ortiz, Octavio Michel, Carmen Beato </td>
+   <td style="text-align:left;"> Mexico </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> December 23, 2016 </td>
+   <td style="text-align:right;"> 2016 </td>
+   <td style="text-align:left;"> TV-MA </td>
+   <td style="text-align:left;"> 93 min </td>
+   <td style="text-align:left;"> Dramas, International Movies </td>
+   <td style="text-align:left;"> After a devastating earthquake hits Mexico City, trapped survivors from all walks of life wait to be rescued while trying desperately to stay alive. </td>
+   <td style="text-align:right;"> 6 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> s3 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> 23:59 </td>
+   <td style="text-align:left;"> Gilbert Chan </td>
+   <td style="text-align:left;"> Tedd Chan, Stella Chung, Henley Hii, Lawrence Koh, Tommy Kuan, Josh Lai, Mark Lee, Susan Leong, Benjamin Lim </td>
+   <td style="text-align:left;"> Singapore </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> December 20, 2018 </td>
+   <td style="text-align:right;"> 2011 </td>
+   <td style="text-align:left;"> R </td>
+   <td style="text-align:left;"> 78 min </td>
+   <td style="text-align:left;"> Horror Movies, International Movies </td>
+   <td style="text-align:left;"> When an army recruit is found dead, his fellow soldiers are forced to confront a terrifying secret that's haunting their jungle island training camp. </td>
+   <td style="text-align:right;"> 9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> s4 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> 9 </td>
+   <td style="text-align:left;"> Shane Acker </td>
+   <td style="text-align:left;"> Elijah Wood, John C. Reilly, Jennifer Connelly, Christopher Plummer, Crispin Glover, Martin Landau, Fred Tatasciore, Alan Oppenheimer, Tom Kane </td>
+   <td style="text-align:left;"> United States </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> November 16, 2017 </td>
+   <td style="text-align:right;"> 2009 </td>
+   <td style="text-align:left;"> PG-13 </td>
+   <td style="text-align:left;"> 80 min </td>
+   <td style="text-align:left;"> Action &amp; Adventure, Independent Movies, Sci-Fi &amp; Fantasy </td>
+   <td style="text-align:left;"> In a postapocalyptic world, rag-doll robots hide in fear from dangerous machines out to exterminate them, until a brave newcomer joins the group. </td>
+   <td style="text-align:right;"> 9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> s5 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> 21 </td>
+   <td style="text-align:left;"> Robert Luketic </td>
+   <td style="text-align:left;"> Jim Sturgess, Kevin Spacey, Kate Bosworth, Aaron Yoo, Liza Lapira, Jacob Pitts, Laurence Fishburne, Jack McGee, Josh Gad, Sam Golzari, Helen Carey, Jack Gilpin </td>
+   <td style="text-align:left;"> United States </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> January 1, 2020 </td>
+   <td style="text-align:right;"> 2008 </td>
+   <td style="text-align:left;"> PG-13 </td>
+   <td style="text-align:left;"> 123 min </td>
+   <td style="text-align:left;"> Dramas </td>
+   <td style="text-align:left;"> A brilliant group of students become card-counting experts with the intent of swindling millions out of Las Vegas casinos by playing blackjack. </td>
+   <td style="text-align:right;"> 12 </td>
+  </tr>
+</tbody>
+</table></div>
+
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (d)</span></span>
+<span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a>imdb_scores.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; overflow-x: scroll; width:100%; "><table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">   </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> title </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> average Rating </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> num Votes </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 7783 </td>
+   <td style="text-align:left;"> Zoo </td>
+   <td style="text-align:right;"> NaN </td>
+   <td style="text-align:right;"> NaN </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 7784 </td>
+   <td style="text-align:left;"> Zoom </td>
+   <td style="text-align:right;"> NaN </td>
+   <td style="text-align:right;"> NaN </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 7785 </td>
+   <td style="text-align:left;"> Zulu Man in Japan </td>
+   <td style="text-align:right;"> NaN </td>
+   <td style="text-align:right;"> NaN </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 7786 </td>
+   <td style="text-align:left;"> Zumbo's Just Desserts </td>
+   <td style="text-align:right;"> NaN </td>
+   <td style="text-align:right;"> NaN </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 7787 </td>
+   <td style="text-align:left;"> ZZ TOP: THAT LITTLE OL' BAND FROM TEXAS </td>
+   <td style="text-align:right;"> NaN </td>
+   <td style="text-align:right;"> NaN </td>
+  </tr>
+</tbody>
+</table></div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="question-2-1" class="level1 unnumbered">
+<h1 class="unnumbered">Question 2</h1>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href=""><strong>Question</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href=""><strong>Hint</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false" href=""><strong>Solution</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<p>Clean up the column names of imdb_scores.</p>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<p>Remember that we need to use .str methods for this, and we must consider replacing empty spaces. Python is case sensitive!</p>
+</div>
+<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a>imdb_scores.columns <span class="op">=</span> imdb_scores.columns.<span class="bu">str</span>.replace(pat <span class="op">=</span> <span class="st">" "</span>, repl <span class="op">=</span> <span class="st">"_"</span>) <span class="co"># Replace spaces with underscores</span></span>
+<span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a>imdb_scores.columns <span class="op">=</span> imdb_scores.columns.<span class="bu">str</span>.lower() <span class="co"># Convert to lowercase</span></span>
+<span id="cb6-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a aria-hidden="true" tabindex="-1"></a>imdb_scores.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Index(['title', 'average_rating', 'num_votes'], dtype='object')</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="question-3-1" class="level1 unnumbered">
+<h1 class="unnumbered">Question 3</h1>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href=""><strong>Question</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href=""><strong>Hint</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false" href=""><strong>Solution</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<p>What are the dimensions of the Netflix data? Display the result in a sentence.</p>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<p>Remember that we can use multi-variable assignment to assign both elements (rows and columns) to their own variables.</p>
+</div>
+<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Way 1 - Good practice</span></span>
+<span id="cb8-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a aria-hidden="true" tabindex="-1"></a>rows, columns <span class="op">=</span> netflix.shape</span>
+<span id="cb8-5"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"There are"</span>, rows, <span class="st">"rows and"</span>, columns, <span class="st">"columns in the Netflix DataFrame."</span>)</span>
+<span id="cb8-7"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Way 2</span></span>
+<span id="cb8-10"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a aria-hidden="true" tabindex="-1"></a><span class="co"># rows = netflix.shape[0]</span></span>
+<span id="cb8-12"><a aria-hidden="true" tabindex="-1"></a><span class="co"># colums = netflix.shape[1]</span></span>
+<span id="cb8-13"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a aria-hidden="true" tabindex="-1"></a><span class="co"># print("There are", rows, "rows and", columns, "columns in the Netflix DataFrame.")</span></span>
+<span id="cb8-15"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Way 3</span></span>
+<span id="cb8-18"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a aria-hidden="true" tabindex="-1"></a><span class="co"># rows = len(netflix) </span></span>
+<span id="cb8-20"><a aria-hidden="true" tabindex="-1"></a><span class="co"># columns = len(netflix.columns) </span></span>
+<span id="cb8-21"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a aria-hidden="true" tabindex="-1"></a><span class="co"># print("There are", rows, "rows and", columns, "columns in the Netflix DataFrame.")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>There are 7787 rows and 17 columns in the Netflix DataFrame.</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="question-4-1" class="level1 unnumbered">
+<h1 class="unnumbered">Question 4</h1>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true" href=""><strong>Question</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false" href=""><strong>Hint</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-3" role="tab" aria-controls="tabset-5-3" aria-selected="false" href=""><strong>Solution</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<p>What data types does Netflix have?</p>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<p>We use the attribute dtypes.</p>
+</div>
+<div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Way 1</span></span>
+<span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a>netflix.dtypes</span>
+<span id="cb10-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Way 2</span></span>
+<span id="cb10-6"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a aria-hidden="true" tabindex="-1"></a><span class="co"># netflix.info()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>show_id             object
+type                object
+title               object
+director            object
+cast                object
+primary_country     object
+country_2           object
+country_3           object
+country_4           object
+countries_5_up      object
+date_added          object
+release_year         int64
+rating              object
+duration            object
+listed_in           object
+description         object
+num_cast           float64
+dtype: object</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="question-5-1" class="level1 unnumbered">
+<h1 class="unnumbered">Question 5</h1>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true" href=""><strong>Question</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false" href=""><strong>Hint</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-3" role="tab" aria-controls="tabset-6-3" aria-selected="false" href=""><strong>Solution</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<ol type="a">
+<li><p>How many missing values do we have in the columns of netflix?</p></li>
+<li><p>How many missing values do we have in the columns of imdb_scores?</p></li>
+<li><p>Can you find the total missing values in netflix in general?</p></li>
+</ol>
+</div>
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
+<ol type="a">
+<li><p>&amp; (b) We need to use the .isna() method and one of the summary statistics functions <strong>chained</strong> together to compute the missing values by column.</p></li>
+<li><p>Chain a second summary statistic to your answer to (a) and observe!</p></li>
+</ol>
+</div>
+<div id="tabset-6-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (a)</span></span>
+<span id="cb12-2"><a aria-hidden="true" tabindex="-1"></a>netflix.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>show_id               0
+type                  0
+title                 0
+director           2389
+cast                718
+primary_country     507
+country_2          6637
+country_3          7397
+country_4          7637
+countries_5_up     7733
+date_added           10
+release_year          0
+rating                7
+duration              0
+listed_in             0
+description           0
+num_cast            718
+dtype: int64</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (b)</span></span>
+<span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a>imdb_scores.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>title                0
+average_rating    4773
+num_votes         4773
+dtype: int64</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (c)</span></span>
+<span id="cb16-2"><a aria-hidden="true" tabindex="-1"></a>netflix.isna().<span class="bu">sum</span>().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>33753</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="question-6-1" class="level1 unnumbered">
+<h1 class="unnumbered">Question 6</h1>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true" href=""><strong>Question</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false" href=""><strong>Hint</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-3" role="tab" aria-controls="tabset-7-3" aria-selected="false" href=""><strong>Solution</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<ol type="a">
+<li><p>Output a new DataFrame from imdb_scores, where the average rating is greater than 5, name it ‘above_avg_movies’.</p></li>
+<li><p>Output a new DataFrame from Netflix, where the films were directed by ‘Marcus Raboy’ <strong>and</strong> the rating was one of “TV-MA, R, PG-13”. Name it ‘raboy_mature_films’.</p></li>
+</ol>
+</div>
+<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
+<ol type="a">
+<li><p>Remember that we use the indexing brackets [] and specify our condition inside.</p></li>
+<li><p>Remember that when specifying equivalence, we use ‘==’ and we use the .isin() function for a <strong>list</strong> of strings.</p></li>
+</ol>
+</div>
+<div id="tabset-7-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (a)</span></span>
+<span id="cb18-2"><a aria-hidden="true" tabindex="-1"></a>above_avg_movies <span class="op">=</span> imdb_scores[imdb_scores[<span class="st">'average_rating'</span>] <span class="op">&gt;</span> <span class="fl">5.0</span>]</span>
+<span id="cb18-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a aria-hidden="true" tabindex="-1"></a>above_avg_movies.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; overflow-x: scroll; width:100%; "><table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">   </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> title </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> average_rating </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> num_votes </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 351 </td>
+   <td style="text-align:left;"> #Roxy </td>
+   <td style="text-align:right;"> 5.1 </td>
+   <td style="text-align:right;"> 284 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 352 </td>
+   <td style="text-align:left;"> 10 Days in Sun City </td>
+   <td style="text-align:right;"> 5.1 </td>
+   <td style="text-align:right;"> 59 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 353 </td>
+   <td style="text-align:left;"> 13 Cameras </td>
+   <td style="text-align:right;"> 5.1 </td>
+   <td style="text-align:right;"> 5093 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 354 </td>
+   <td style="text-align:left;"> A Witches' Ball </td>
+   <td style="text-align:right;"> 5.1 </td>
+   <td style="text-align:right;"> 347 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 355 </td>
+   <td style="text-align:left;"> All the Devil's Men </td>
+   <td style="text-align:right;"> 5.1 </td>
+   <td style="text-align:right;"> 2686 </td>
+  </tr>
+</tbody>
+</table></div>
+
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (b) </span></span>
+<span id="cb19-2"><a aria-hidden="true" tabindex="-1"></a>raboy_mature_films <span class="op">=</span> netflix[(netflix[<span class="st">'director'</span>] <span class="op">==</span> <span class="st">'Marcus Raboy'</span>) <span class="op">&amp;</span> (netflix[<span class="st">'rating'</span>].isin([<span class="st">'TV-MA'</span>, <span class="st">'PG-13'</span>, <span class="st">'R'</span>]))]</span>
+<span id="cb19-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a aria-hidden="true" tabindex="-1"></a>raboy_mature_films.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; overflow-x: scroll; width:100%; "><table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">   </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> show_id </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> type </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> title </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> director </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> cast </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> primary_country </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> country_2 </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> country_3 </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> country_4 </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> countries_5_up </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> date_added </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> release_year </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> rating </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> duration </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> listed_in </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> description </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> num_cast </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 550 </td>
+   <td style="text-align:left;"> s551 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> Anthony Jeselnik: Fire in the Maternity Ward </td>
+   <td style="text-align:left;"> Marcus Raboy </td>
+   <td style="text-align:left;"> Anthony Jeselnik </td>
+   <td style="text-align:left;"> United States </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> April 30, 2019 </td>
+   <td style="text-align:right;"> 2019 </td>
+   <td style="text-align:left;"> TV-MA </td>
+   <td style="text-align:left;"> 64 min </td>
+   <td style="text-align:left;"> Stand-Up Comedy </td>
+   <td style="text-align:left;"> Forging his own comedic boundaries, Anthony Jeselnik revels in getting away with saying things others can't in this stand-up special shot in New York. </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1543 </td>
+   <td style="text-align:left;"> s1544 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> Cristela Alonzo: Lower Classy </td>
+   <td style="text-align:left;"> Marcus Raboy </td>
+   <td style="text-align:left;"> Cristela Alonzo </td>
+   <td style="text-align:left;"> United States </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> January 24, 2017 </td>
+   <td style="text-align:right;"> 2017 </td>
+   <td style="text-align:left;"> TV-MA </td>
+   <td style="text-align:left;"> 67 min </td>
+   <td style="text-align:left;"> Stand-Up Comedy </td>
+   <td style="text-align:left;"> The irrepressible Alonzo skewers Latino stereotypes, pricey luxuries and her mother's tough-love parenting in a night of sly and infectious comedy. </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1585 </td>
+   <td style="text-align:left;"> s1586 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> Dana Carvey: Straight White Male, 60 </td>
+   <td style="text-align:left;"> Marcus Raboy </td>
+   <td style="text-align:left;"> Dana Carvey </td>
+   <td style="text-align:left;"> United States </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> November 4, 2016 </td>
+   <td style="text-align:right;"> 2016 </td>
+   <td style="text-align:left;"> TV-MA </td>
+   <td style="text-align:left;"> 64 min </td>
+   <td style="text-align:left;"> Stand-Up Comedy </td>
+   <td style="text-align:left;"> Emmy-winning comedian Dana Carvey blends pitch-perfect takes on big personalities with so-true-it-hurts stories from his life as a dad of millennials. </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1705 </td>
+   <td style="text-align:left;"> s1706 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> DeRay Davis: How to Act Black </td>
+   <td style="text-align:left;"> Marcus Raboy </td>
+   <td style="text-align:left;"> DeRay Davis </td>
+   <td style="text-align:left;"> United States </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> November 14, 2017 </td>
+   <td style="text-align:right;"> 2017 </td>
+   <td style="text-align:left;"> TV-MA </td>
+   <td style="text-align:left;"> 66 min </td>
+   <td style="text-align:left;"> Stand-Up Comedy </td>
+   <td style="text-align:left;"> Dynamic comic DeRay Davis hits the stage like a ball of fire, nailing the finer points of living, dating and handling show business as a black man. </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 3231 </td>
+   <td style="text-align:left;"> s3232 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> Judd Apatow: The Return </td>
+   <td style="text-align:left;"> Marcus Raboy </td>
+   <td style="text-align:left;"> Judd Apatow </td>
+   <td style="text-align:left;"> United States </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> December 12, 2017 </td>
+   <td style="text-align:right;"> 2017 </td>
+   <td style="text-align:left;"> TV-MA </td>
+   <td style="text-align:left;"> 70 min </td>
+   <td style="text-align:left;"> Stand-Up Comedy </td>
+   <td style="text-align:left;"> Judd Apatow returns to stand-up comedy after 25 years, riffing on living with three women, amusing moments from his career and much more. </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+</tbody>
+</table></div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="question-7-1" class="level1 unnumbered">
+<h1 class="unnumbered">Question 7</h1>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true" href=""><strong>Question</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false" href=""><strong>Hint</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-3" role="tab" aria-controls="tabset-8-3" aria-selected="false" href=""><strong>Solution</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
+<p>How many unique countries are in the column primary_country?</p>
+</div>
+<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
+<p>Remember that .unique() returns an array, so how do we find out the number of values within it?</p>
+</div>
+<div id="tabset-8-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(netflix[<span class="st">"primary_country"</span>].unique())</span>
+<span id="cb20-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Note that nunique() will give 81 as it skips the missing values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>82</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="question-8-1" class="level1 unnumbered">
+<h1 class="unnumbered">Question 8</h1>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true" href=""><strong>Question</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-2" role="tab" aria-controls="tabset-9-2" aria-selected="false" href=""><strong>Hint</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-3" role="tab" aria-controls="tabset-9-3" aria-selected="false" href=""><strong>Solution</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
+<ol type="a">
+<li><p>Create a new Dataframe that just contains “Movie” data. Ensure that this is a copy so we avoid the “SettingWithCopy” warning. Look at the column called type; this contains if something is a movie or a tv series.</p></li>
+<li><p>Within the movies DataFrame created in part (a), create a new column called runtime, where duration has “min” removed, make sure it’s numeric!</p></li>
+<li><p>Use the new runtime column to create a binned column containing labels for different lengths of runtime, grouping the films into “0-60”, “61-120”, “121-180”, “181-240”, and “241 or more”. Name this ‘runtime_group’. It is recommended that you use pd.cut() for this.</p></li>
+</ol>
+</div>
+<div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
+<ol type="a">
+<li><p>Remember that .copy() can be placed on the end of the filtering statement.</p></li>
+<li><p>For Python you can use .str.replace() to remove some text. Recall that the type to change to is int64.</p></li>
+<li><p>Remember that we can use np.arange(start =, stop =, step =) for this, and it is a good idea to set the stop as the maximum of the column + 1.</p></li>
+</ol>
+</div>
+<div id="tabset-9-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (a)</span></span>
+<span id="cb22-2"><a aria-hidden="true" tabindex="-1"></a>movies <span class="op">=</span> netflix[netflix[<span class="st">"type"</span>] <span class="op">==</span> <span class="st">"Movie"</span>].copy()</span>
+<span id="cb22-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a aria-hidden="true" tabindex="-1"></a>movies.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; overflow-x: scroll; width:100%; "><table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">   </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> show_id </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> type </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> title </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> director </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> cast </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> primary_country </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> country_2 </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> country_3 </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> country_4 </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> countries_5_up </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> date_added </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> release_year </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> rating </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> duration </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> listed_in </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> description </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> num_cast </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:left;"> s2 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> 07:19 </td>
+   <td style="text-align:left;"> Jorge Michel Grau </td>
+   <td style="text-align:left;"> Demián Bichir, Héctor Bonilla, Oscar Serrano, Azalia Ortiz, Octavio Michel, Carmen Beato </td>
+   <td style="text-align:left;"> Mexico </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> December 23, 2016 </td>
+   <td style="text-align:right;"> 2016 </td>
+   <td style="text-align:left;"> TV-MA </td>
+   <td style="text-align:left;"> 93 min </td>
+   <td style="text-align:left;"> Dramas, International Movies </td>
+   <td style="text-align:left;"> After a devastating earthquake hits Mexico City, trapped survivors from all walks of life wait to be rescued while trying desperately to stay alive. </td>
+   <td style="text-align:right;"> 6 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:left;"> s3 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> 23:59 </td>
+   <td style="text-align:left;"> Gilbert Chan </td>
+   <td style="text-align:left;"> Tedd Chan, Stella Chung, Henley Hii, Lawrence Koh, Tommy Kuan, Josh Lai, Mark Lee, Susan Leong, Benjamin Lim </td>
+   <td style="text-align:left;"> Singapore </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> December 20, 2018 </td>
+   <td style="text-align:right;"> 2011 </td>
+   <td style="text-align:left;"> R </td>
+   <td style="text-align:left;"> 78 min </td>
+   <td style="text-align:left;"> Horror Movies, International Movies </td>
+   <td style="text-align:left;"> When an army recruit is found dead, his fellow soldiers are forced to confront a terrifying secret that's haunting their jungle island training camp. </td>
+   <td style="text-align:right;"> 9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 3 </td>
+   <td style="text-align:left;"> s4 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> 9 </td>
+   <td style="text-align:left;"> Shane Acker </td>
+   <td style="text-align:left;"> Elijah Wood, John C. Reilly, Jennifer Connelly, Christopher Plummer, Crispin Glover, Martin Landau, Fred Tatasciore, Alan Oppenheimer, Tom Kane </td>
+   <td style="text-align:left;"> United States </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> November 16, 2017 </td>
+   <td style="text-align:right;"> 2009 </td>
+   <td style="text-align:left;"> PG-13 </td>
+   <td style="text-align:left;"> 80 min </td>
+   <td style="text-align:left;"> Action &amp; Adventure, Independent Movies, Sci-Fi &amp; Fantasy </td>
+   <td style="text-align:left;"> In a postapocalyptic world, rag-doll robots hide in fear from dangerous machines out to exterminate them, until a brave newcomer joins the group. </td>
+   <td style="text-align:right;"> 9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 4 </td>
+   <td style="text-align:left;"> s5 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> 21 </td>
+   <td style="text-align:left;"> Robert Luketic </td>
+   <td style="text-align:left;"> Jim Sturgess, Kevin Spacey, Kate Bosworth, Aaron Yoo, Liza Lapira, Jacob Pitts, Laurence Fishburne, Jack McGee, Josh Gad, Sam Golzari, Helen Carey, Jack Gilpin </td>
+   <td style="text-align:left;"> United States </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> January 1, 2020 </td>
+   <td style="text-align:right;"> 2008 </td>
+   <td style="text-align:left;"> PG-13 </td>
+   <td style="text-align:left;"> 123 min </td>
+   <td style="text-align:left;"> Dramas </td>
+   <td style="text-align:left;"> A brilliant group of students become card-counting experts with the intent of swindling millions out of Las Vegas casinos by playing blackjack. </td>
+   <td style="text-align:right;"> 12 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 6 </td>
+   <td style="text-align:left;"> s7 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> 122 </td>
+   <td style="text-align:left;"> Yasir Al Yasiri </td>
+   <td style="text-align:left;"> Amina Khalil, Ahmed Dawood, Tarek Lotfy, Ahmed El Fishawy, Mahmoud Hijazi, Jihane Khalil, Asmaa Galal, Tara Emad </td>
+   <td style="text-align:left;"> Egypt </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> June 1, 2020 </td>
+   <td style="text-align:right;"> 2019 </td>
+   <td style="text-align:left;"> TV-MA </td>
+   <td style="text-align:left;"> 95 min </td>
+   <td style="text-align:left;"> Horror Movies, International Movies </td>
+   <td style="text-align:left;"> After an awful accident, a couple admitted to a grisly hospital are separated and must find each other to escape — before death finds them. </td>
+   <td style="text-align:right;"> 8 </td>
+  </tr>
+</tbody>
+</table></div>
+
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (b)</span></span>
+<span id="cb23-2"><a aria-hidden="true" tabindex="-1"></a>movies[<span class="st">"runtime"</span>] <span class="op">=</span> movies[<span class="st">"duration"</span>].<span class="bu">str</span>.replace(pat<span class="op">=</span> <span class="st">" min"</span>, repl<span class="op">=</span> <span class="st">""</span>)</span>
+<span id="cb23-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a aria-hidden="true" tabindex="-1"></a>movies[<span class="st">"runtime"</span>] <span class="op">=</span> movies[<span class="st">"runtime"</span>].astype(<span class="st">"int64"</span>)</span>
+<span id="cb23-5"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a aria-hidden="true" tabindex="-1"></a>movies[<span class="st">"runtime"</span>].dtype <span class="co"># Check if it's worked</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>dtype('int64')</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (c)</span></span>
+<span id="cb25-2"><a aria-hidden="true" tabindex="-1"></a>movies[<span class="st">'runtime_group'</span>] <span class="op">=</span> pd.cut(movies[<span class="st">'runtime'</span>], </span>
+<span id="cb25-3"><a aria-hidden="true" tabindex="-1"></a>                                  bins <span class="op">=</span> np.arange(start <span class="op">=</span> <span class="dv">0</span>,</span>
+<span id="cb25-4"><a aria-hidden="true" tabindex="-1"></a>                                                   stop <span class="op">=</span> (movies[<span class="st">'runtime'</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span>),</span>
+<span id="cb25-5"><a aria-hidden="true" tabindex="-1"></a>                                                   step <span class="op">=</span> <span class="dv">60</span>),</span>
+<span id="cb25-6"><a aria-hidden="true" tabindex="-1"></a>                                  labels <span class="op">=</span> [<span class="st">'0-60'</span>, <span class="st">'61-120'</span>, <span class="st">'121-180'</span>, <span class="st">'181-240'</span>, <span class="st">'241 or more'</span>])</span>
+<span id="cb25-7"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a aria-hidden="true" tabindex="-1"></a>movies[<span class="st">'runtime_group'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1        61-120
+2        61-120
+3        61-120
+4       121-180
+6        61-120
+         ...   
+7781     61-120
+7782     61-120
+7783     61-120
+7784       0-60
+7786     61-120
+Name: runtime_group, Length: 5377, dtype: category
+Categories (5, object): ['0-60' &lt; '61-120' &lt; '121-180' &lt; '181-240' &lt; '241 or more']</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="question-9-1" class="level1 unnumbered">
+<h1 class="unnumbered">Question 9</h1>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-10-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-1" role="tab" aria-controls="tabset-10-1" aria-selected="true" href=""><strong>Question</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-10-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-2" role="tab" aria-controls="tabset-10-2" aria-selected="false" href=""><strong>Hint</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-10-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-3" role="tab" aria-controls="tabset-10-3" aria-selected="false" href=""><strong>Solution</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-10-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-10-1-tab">
+<ol type="a">
+<li><p>How many missing values are there in the ‘num_cast’ column of the movies DataFrame?</p></li>
+<li><p>Fill in the missing values of the column with the mean number of cast numbers from the column overall. Ensure that this is rounded to the correct number of decimal places.</p></li>
+</ol>
+</div>
+<div id="tabset-10-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-10-2-tab">
+<ol type="a">
+<li><p>.isna()</p></li>
+<li><p>Remember that we use .fillna() for filling in values and round() for rounding.</p></li>
+</ol>
+</div>
+<div id="tabset-10-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-10-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (a)</span></span>
+<span id="cb27-2"><a aria-hidden="true" tabindex="-1"></a>num_cast_missing <span class="op">=</span> movies[<span class="st">'num_cast'</span>].isna().<span class="bu">sum</span>()</span>
+<span id="cb27-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"There are"</span>, num_cast_missing, <span class="st">"missing values in the num_cast column."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>There are 426 missing values in the num_cast column.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (b)</span></span>
+<span id="cb29-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a aria-hidden="true" tabindex="-1"></a>movies[<span class="st">'num_cast'</span>].fillna(value <span class="op">=</span> <span class="bu">round</span>((movies[<span class="st">'num_cast'</span>].mean()), <span class="dv">1</span>), </span>
+<span id="cb29-4"><a aria-hidden="true" tabindex="-1"></a>                          inplace <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb29-5"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Check</span></span>
+<span id="cb29-7"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a aria-hidden="true" tabindex="-1"></a>movies[<span class="st">'num_cast'</span>].isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="question-10-1" class="level1 unnumbered">
+<h1 class="unnumbered">Question 10</h1>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-11-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-1" role="tab" aria-controls="tabset-11-1" aria-selected="true" href=""><strong>Question</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-11-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-2" role="tab" aria-controls="tabset-11-2" aria-selected="false" href=""><strong>Hint</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-11-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-3" role="tab" aria-controls="tabset-11-3" aria-selected="false" href=""><strong>Solution</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-11-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-11-1-tab">
+<ol type="a">
+<li><p>What’s the median runtime of the movie data?</p></li>
+<li><p>What’s the mean runtime of the movie data?</p></li>
+<li><p>What’s the variance of the runtime of the movie data? Use it to find the standard deviation (without the .std() function!).</p></li>
+</ol>
+</div>
+<div id="tabset-11-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-11-2-tab">
+<ol type="a">
+<li><p>The function for this is the same as the word.</p></li>
+<li><p>The function for this is the same as the word.</p></li>
+<li><p>Remember that the standard deviation is the square root of the variance (np.sqrt()).</p></li>
+</ol>
+</div>
+<div id="tabset-11-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-11-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (a)</span></span>
+<span id="cb31-2"><a aria-hidden="true" tabindex="-1"></a>movies[<span class="st">"runtime"</span>].median()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>98.0</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (b)</span></span>
+<span id="cb33-2"><a aria-hidden="true" tabindex="-1"></a>movies[<span class="st">"runtime"</span>].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>99.30797842663195</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (c)</span></span>
+<span id="cb35-2"><a aria-hidden="true" tabindex="-1"></a>var_runtime <span class="op">=</span> movies[<span class="st">"runtime"</span>].var()</span>
+<span id="cb35-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a aria-hidden="true" tabindex="-1"></a>std_runtime <span class="op">=</span> np.sqrt(var_runtime)</span>
+<span id="cb35-5"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(var_runtime, std_runtime)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>814.0111584310821 28.53088078610757</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="question-11-1" class="level1 unnumbered">
+<h1 class="unnumbered">Question 11</h1>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-12-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-1" role="tab" aria-controls="tabset-12-1" aria-selected="true" href=""><strong>Question</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-12-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-2" role="tab" aria-controls="tabset-12-2" aria-selected="false" href=""><strong>Hint</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-12-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-3" role="tab" aria-controls="tabset-12-3" aria-selected="false" href=""><strong>Solution</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-12-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-12-1-tab">
+<ol type="a">
+<li><p>Sort the movies DataFrame to find the longest movie and return just the columns title and runtime for this data.</p></li>
+<li><p>Sort the movies DataFrame by release_year <strong>and</strong> runtime to find the oldest movie with the longest runtime, returning its director, title, runtime, release year and rating. Remember to reset the index and drop that column in the result.</p></li>
+</ol>
+</div>
+<div id="tabset-12-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-12-2-tab">
+<ol type="a">
+<li><p>Remember that we must use a list within the index statement to select multiple columns, df[[my_cols]].</p></li>
+<li><p>Remember that order is important so it will order by year first and then runtime. We can use .reset_index() and the optional parameter ‘drop’ to accomplish this.</p></li>
+</ol>
+</div>
+<div id="tabset-12-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-12-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (a)</span></span>
+<span id="cb37-2"><a aria-hidden="true" tabindex="-1"></a>sorted_movies <span class="op">=</span> movies[[<span class="st">"title"</span>, <span class="st">"runtime"</span>]].sort_values(<span class="st">"runtime"</span>, ascending <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb37-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a aria-hidden="true" tabindex="-1"></a>sorted_movies.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; overflow-x: scroll; width:100%; "><table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">   </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> title </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> runtime </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 957 </td>
+   <td style="text-align:left;"> Black Mirror: Bandersnatch </td>
+   <td style="text-align:right;"> 312 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 6850 </td>
+   <td style="text-align:left;"> The School of Mischief </td>
+   <td style="text-align:right;"> 253 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 4490 </td>
+   <td style="text-align:left;"> No Longer kids </td>
+   <td style="text-align:right;"> 237 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 3694 </td>
+   <td style="text-align:left;"> Lock Your Girls In </td>
+   <td style="text-align:right;"> 233 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 5108 </td>
+   <td style="text-align:left;"> Raya and Sakina </td>
+   <td style="text-align:right;"> 230 </td>
+  </tr>
+</tbody>
+</table></div>
+
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (b)</span></span>
+<span id="cb38-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a aria-hidden="true" tabindex="-1"></a>short_movie_high_ratings <span class="op">=</span> movies[[<span class="st">"title"</span>, <span class="st">"director"</span>, <span class="st">"runtime"</span>, <span class="st">"rating"</span>, <span class="st">"release_year"</span>]].sort_values([<span class="st">"release_year"</span>, <span class="st">"runtime"</span>], ascending <span class="op">=</span> [<span class="va">True</span>, <span class="va">False</span>]).reset_index(drop <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb38-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a aria-hidden="true" tabindex="-1"></a>short_movie_high_ratings.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; overflow-x: scroll; width:100%; "><table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> title </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> director </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> runtime </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> rating </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> release_year </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Prelude to War </td>
+   <td style="text-align:left;"> Frank Capra </td>
+   <td style="text-align:right;"> 52 </td>
+   <td style="text-align:left;"> TV-14 </td>
+   <td style="text-align:right;"> 1942 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> The Battle of Midway </td>
+   <td style="text-align:left;"> John Ford </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:left;"> TV-14 </td>
+   <td style="text-align:right;"> 1942 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Why We Fight: The Battle of Russia </td>
+   <td style="text-align:left;"> Frank Capra, Anatole Litvak </td>
+   <td style="text-align:right;"> 82 </td>
+   <td style="text-align:left;"> TV-PG </td>
+   <td style="text-align:right;"> 1943 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Undercover: How to Operate Behind Enemy Lines </td>
+   <td style="text-align:left;"> John Ford </td>
+   <td style="text-align:right;"> 61 </td>
+   <td style="text-align:left;"> TV-PG </td>
+   <td style="text-align:right;"> 1943 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> WWII: Report from the Aleutians </td>
+   <td style="text-align:left;"> John Huston </td>
+   <td style="text-align:right;"> 45 </td>
+   <td style="text-align:left;"> TV-PG </td>
+   <td style="text-align:right;"> 1943 </td>
+  </tr>
+</tbody>
+</table></div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="question-12-1" class="level1 unnumbered">
+<h1 class="unnumbered">Question 12</h1>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-13-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-1" role="tab" aria-controls="tabset-13-1" aria-selected="true" href=""><strong>Question</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-2" role="tab" aria-controls="tabset-13-2" aria-selected="false" href=""><strong>Hint</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-3" role="tab" aria-controls="tabset-13-3" aria-selected="false" href=""><strong>Solution</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-13-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-13-1-tab">
+<p>Group the Netflix data by the primary country and find the mean number of cast listed.</p>
+</div>
+<div id="tabset-13-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-13-2-tab">
+<p>Remember that we first .groupby(), followed with the column name [] and then the summary statistic.</p>
+</div>
+<div id="tabset-13-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-13-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a aria-hidden="true" tabindex="-1"></a>mean_cast_per_country <span class="op">=</span> netflix.groupby(<span class="st">"primary_country"</span>)[<span class="st">"num_cast"</span>].mean()</span>
+<span id="cb39-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a aria-hidden="true" tabindex="-1"></a>mean_cast_per_country.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>primary_country
+Argentina     7.000000
+Australia     7.600000
+Austria       7.166667
+Bangladesh    7.500000
+Belarus       2.000000
+Name: num_cast, dtype: float64</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="question-13-1" class="level1 unnumbered">
+<h1 class="unnumbered">Question 13</h1>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-14-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-14-1" role="tab" aria-controls="tabset-14-1" aria-selected="true" href=""><strong>Question</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-14-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-14-2" role="tab" aria-controls="tabset-14-2" aria-selected="false" href=""><strong>Hint</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-14-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-14-3" role="tab" aria-controls="tabset-14-3" aria-selected="false" href=""><strong>Solution</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-14-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-14-1-tab">
+<p>Group the Netflix data by type and rating and obtain the overall counts of each <strong>type</strong> and the average <strong>cast numbers</strong> for each group.</p>
+</div>
+<div id="tabset-14-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-14-2-tab">
+<p>Remember that grouping by multiple columns requires a list to be specified and we must use the .agg({key:value}) function for multiple aggregations.</p>
+</div>
+<div id="tabset-14-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-14-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a aria-hidden="true" tabindex="-1"></a>rating_by_type <span class="op">=</span> netflix.groupby([<span class="st">"type"</span>, <span class="st">"rating"</span>]).agg({<span class="st">"type"</span>: <span class="st">"count"</span>, <span class="st">"num_cast"</span>:<span class="st">"mean"</span>})</span>
+<span id="cb41-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a aria-hidden="true" tabindex="-1"></a>rating_by_type</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  type   num_cast
+type    rating                   
+Movie   G           39  10.631579
+        NC-17        3   9.666667
+        NR          79   7.112903
+        PG         247   9.954357
+        PG-13      386  10.066138
+        R          663   9.441221
+        TV-14     1272   7.350043
+        TV-G       111   6.422222
+        TV-MA     1845   6.723304
+        TV-PG      505   6.854801
+        TV-Y       117   7.805825
+        TV-Y7       95   8.471910
+        TV-Y7-FV     5   6.333333
+        UR           5  11.200000
+TV Show NR           5  10.400000
+        R            2  12.000000
+        TV-14      659   7.945092
+        TV-G        83   5.391304
+        TV-MA     1018   9.623303
+        TV-PG      301   6.305221
+        TV-Y       163   5.683099
+        TV-Y7      176   9.196319
+        TV-Y7-FV     1   8.000000</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="question-14-1" class="level1 unnumbered">
+<h1 class="unnumbered">Question 14</h1>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-15-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-15-1" role="tab" aria-controls="tabset-15-1" aria-selected="true" href=""><strong>Question</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-15-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-15-2" role="tab" aria-controls="tabset-15-2" aria-selected="false" href=""><strong>Hint</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-15-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-15-3" role="tab" aria-controls="tabset-15-3" aria-selected="false" href=""><strong>Solution</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-15-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-15-1-tab">
+<p>Join the imdb data to the Netflix data to add rating scores to the overall dataset. In your join you should include the column that specifies whether the value came from the left or right DataFrame.</p>
+</div>
+<div id="tabset-15-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-15-2-tab">
+<p>Remember that there are two ways to do this, left joining from A to B or right joining from B to A. The column we should join on is the same in both DataFrames.</p>
+</div>
+<div id="tabset-15-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-15-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a aria-hidden="true" tabindex="-1"></a>netflix_imdb <span class="op">=</span> netflix.merge(imdb_scores, on <span class="op">=</span> <span class="st">"title"</span>, how <span class="op">=</span> <span class="st">"left"</span>, indicator <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb43-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># OR </span></span>
+<span id="cb43-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a aria-hidden="true" tabindex="-1"></a><span class="co"># netflix_imdb = pd.merge(left = netflix, right = imdb_scores, on = "title", how = "left", indicator = True)</span></span>
+<span id="cb43-6"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a aria-hidden="true" tabindex="-1"></a><span class="co"># netflix_imdb = pd.merge(left = imdb_scores, right = netflix, on = "title", how = "right", indicator = True)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; overflow-x: scroll; width:100%; "><table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">   </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> show_id </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> type </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> title </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> director </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> cast </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> primary_country </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> country_2 </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> country_3 </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> country_4 </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> countries_5_up </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> date_added </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> release_year </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> rating </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> duration </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> listed_in </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> description </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> num_cast </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> average_rating </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> num_votes </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> _merge </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;"> s1 </td>
+   <td style="text-align:left;"> TV Show </td>
+   <td style="text-align:left;"> 3% </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> João Miguel, Bianca Comparato, Michel Gomes, Rodolfo Valente, Vaneza Oliveira, Rafael Lozano, Viviane Porto, Mel Fronckowiak, Sergio Mamberti, Zezé Motta, Celso Frateschi </td>
+   <td style="text-align:left;"> Brazil </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> August 14, 2020 </td>
+   <td style="text-align:right;"> 2020 </td>
+   <td style="text-align:left;"> TV-MA </td>
+   <td style="text-align:left;"> 4 Seasons </td>
+   <td style="text-align:left;"> International TV Shows, TV Dramas, TV Sci-Fi &amp; Fantasy </td>
+   <td style="text-align:left;"> In a future where the elite inhabit an island paradise far from the crowded slums, you get one chance to join the 3% saved from squalor. </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> NaN </td>
+   <td style="text-align:right;"> NaN </td>
+   <td style="text-align:left;"> both </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:left;"> s2 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> 07:19 </td>
+   <td style="text-align:left;"> Jorge Michel Grau </td>
+   <td style="text-align:left;"> Demián Bichir, Héctor Bonilla, Oscar Serrano, Azalia Ortiz, Octavio Michel, Carmen Beato </td>
+   <td style="text-align:left;"> Mexico </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> December 23, 2016 </td>
+   <td style="text-align:right;"> 2016 </td>
+   <td style="text-align:left;"> TV-MA </td>
+   <td style="text-align:left;"> 93 min </td>
+   <td style="text-align:left;"> Dramas, International Movies </td>
+   <td style="text-align:left;"> After a devastating earthquake hits Mexico City, trapped survivors from all walks of life wait to be rescued while trying desperately to stay alive. </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 5.9 </td>
+   <td style="text-align:right;"> 611 </td>
+   <td style="text-align:left;"> both </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:left;"> s3 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> 23:59 </td>
+   <td style="text-align:left;"> Gilbert Chan </td>
+   <td style="text-align:left;"> Tedd Chan, Stella Chung, Henley Hii, Lawrence Koh, Tommy Kuan, Josh Lai, Mark Lee, Susan Leong, Benjamin Lim </td>
+   <td style="text-align:left;"> Singapore </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> December 20, 2018 </td>
+   <td style="text-align:right;"> 2011 </td>
+   <td style="text-align:left;"> R </td>
+   <td style="text-align:left;"> 78 min </td>
+   <td style="text-align:left;"> Horror Movies, International Movies </td>
+   <td style="text-align:left;"> When an army recruit is found dead, his fellow soldiers are forced to confront a terrifying secret that's haunting their jungle island training camp. </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 4.6 </td>
+   <td style="text-align:right;"> 915 </td>
+   <td style="text-align:left;"> both </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 3 </td>
+   <td style="text-align:left;"> s4 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> 9 </td>
+   <td style="text-align:left;"> Shane Acker </td>
+   <td style="text-align:left;"> Elijah Wood, John C. Reilly, Jennifer Connelly, Christopher Plummer, Crispin Glover, Martin Landau, Fred Tatasciore, Alan Oppenheimer, Tom Kane </td>
+   <td style="text-align:left;"> United States </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> November 16, 2017 </td>
+   <td style="text-align:right;"> 2009 </td>
+   <td style="text-align:left;"> PG-13 </td>
+   <td style="text-align:left;"> 80 min </td>
+   <td style="text-align:left;"> Action &amp; Adventure, Independent Movies, Sci-Fi &amp; Fantasy </td>
+   <td style="text-align:left;"> In a postapocalyptic world, rag-doll robots hide in fear from dangerous machines out to exterminate them, until a brave newcomer joins the group. </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> NaN </td>
+   <td style="text-align:right;"> NaN </td>
+   <td style="text-align:left;"> both </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 4 </td>
+   <td style="text-align:left;"> s5 </td>
+   <td style="text-align:left;"> Movie </td>
+   <td style="text-align:left;"> 21 </td>
+   <td style="text-align:left;"> Robert Luketic </td>
+   <td style="text-align:left;"> Jim Sturgess, Kevin Spacey, Kate Bosworth, Aaron Yoo, Liza Lapira, Jacob Pitts, Laurence Fishburne, Jack McGee, Josh Gad, Sam Golzari, Helen Carey, Jack Gilpin </td>
+   <td style="text-align:left;"> United States </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> NaN </td>
+   <td style="text-align:left;"> January 1, 2020 </td>
+   <td style="text-align:right;"> 2008 </td>
+   <td style="text-align:left;"> PG-13 </td>
+   <td style="text-align:left;"> 123 min </td>
+   <td style="text-align:left;"> Dramas </td>
+   <td style="text-align:left;"> A brilliant group of students become card-counting experts with the intent of swindling millions out of Las Vegas casinos by playing blackjack. </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> NaN </td>
+   <td style="text-align:right;"> NaN </td>
+   <td style="text-align:left;"> both </td>
+  </tr>
+</tbody>
+</table></div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Summary</h1>
+<p>In this case study you have had the opportunity to apply some of the techniques you have learned to some new data. This is not exhaustive however; have a look at the data and experiment with other techniques you can use.</p>
+<p>A good start would be to continue cleaning the movies dataset, analysing the other columns’ missing values and seeing what can be done with them, as there are some that are more complex to consider!</p>
+<p>For additional datasets we recommend exploring:</p>
+<ul>
+<li><a href="https://www.kaggle.com/">Kaggle</a></li>
+<li><a href="https://github.com/rfordatascience/tidytuesday">Tidy Tuesday</a></li>
+<li><a href="https://data.gov.uk/">Data.gov</a></li>
+</ul>
+</section>
+<section id="whats-next" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> What’s Next?</h1>
+<p>Congratulations! You have reached the end of the compulsory materials for Core Part 1 of Introduction to Python. You have consolidated the variety of skills shown throughout the course in a large structured exercise and you should feel very accomplished!</p>
+<p>You have two options on where to go next, you can either take a look at the Part 1 Reference Materials that build on some more advanced concepts at this level, or you can move on to Core Part 2 that introduces more programmatic concepts in Python that are key to developing your technical skills!</p>
+<p>Whatever you chose to do, thank-you so much for your dedication in completing these materials! Please do give your honest feedback in the post course survey as we are always looking to improve the quality of our training offering.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

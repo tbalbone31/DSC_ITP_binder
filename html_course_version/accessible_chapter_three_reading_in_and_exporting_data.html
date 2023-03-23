@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.120">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 3 - Reading In and Exporting Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="chapter_three_reading_in_and_exporting_data_files/libs/clipboard/clipboard.min.js"></script>
+<script src="chapter_three_reading_in_and_exporting_data_files/libs/quarto-html/quarto.js"></script>
+<script src="chapter_three_reading_in_and_exporting_data_files/libs/quarto-html/popper.min.js"></script>
+<script src="chapter_three_reading_in_and_exporting_data_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="chapter_three_reading_in_and_exporting_data_files/libs/quarto-html/anchor.min.js"></script>
+<link href="chapter_three_reading_in_and_exporting_data_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="chapter_three_reading_in_and_exporting_data_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="chapter_three_reading_in_and_exporting_data_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="chapter_three_reading_in_and_exporting_data_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="chapter_three_reading_in_and_exporting_data_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#script-structure-and-packages" id="toc-script-structure-and-packages" class="nav-link active" data-scroll-target="#script-structure-and-packages"><span class="toc-section-number">1</span>  Script Structure and Packages</a>
+  <ul class="collapse">
+  <li><a href="#script-structure" id="toc-script-structure" class="nav-link" data-scroll-target="#script-structure"><span class="toc-section-number">1.1</span>  Script Structure</a></li>
+  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages"><span class="toc-section-number">1.2</span>  Packages</a>
+  <ul class="collapse">
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="toc-section-number">1.2.1</span>  Exercise</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#project-structure" id="toc-project-structure" class="nav-link" data-scroll-target="#project-structure"><span class="toc-section-number">2</span>  Project Structure</a>
+  <ul class="collapse">
+  <li><a href="#setting-working-directories" id="toc-setting-working-directories" class="nav-link" data-scroll-target="#setting-working-directories"><span class="toc-section-number">2.1</span>  Setting Working Directories</a>
+  <ul class="collapse">
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="toc-section-number">2.1.1</span>  Example</a></li>
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="toc-section-number">2.1.2</span>  Example</a></li>
+  </ul></li>
+  <li><a href="#relative-vs-absolute-file-paths" id="toc-relative-vs-absolute-file-paths" class="nav-link" data-scroll-target="#relative-vs-absolute-file-paths"><span class="toc-section-number">2.2</span>  Relative vs Absolute file Paths</a></li>
+  <li><a href="#a-note-on-file-paths" id="toc-a-note-on-file-paths" class="nav-link" data-scroll-target="#a-note-on-file-paths"><span class="toc-section-number">2.3</span>  A note on file paths</a>
+  <ul class="collapse">
+  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="toc-section-number">2.3.1</span>  Example</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#flat-files" id="toc-flat-files" class="nav-link" data-scroll-target="#flat-files"><span class="toc-section-number">3</span>  Flat Files</a>
+  <ul class="collapse">
+  <li><a href="#reading-in-flat-files" id="toc-reading-in-flat-files" class="nav-link" data-scroll-target="#reading-in-flat-files"><span class="toc-section-number">3.1</span>  Reading in flat files</a>
+  <ul class="collapse">
+  <li><a href="#example-3" id="toc-example-3" class="nav-link" data-scroll-target="#example-3"><span class="toc-section-number">3.1.1</span>  Example</a></li>
+  <li><a href="#example-4" id="toc-example-4" class="nav-link" data-scroll-target="#example-4"><span class="toc-section-number">3.1.2</span>  Example</a></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2"><span class="toc-section-number">3.1.3</span>  Exercise</a></li>
+  <li><a href="#example-5" id="toc-example-5" class="nav-link" data-scroll-target="#example-5"><span class="toc-section-number">3.1.4</span>  Example</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#excel-files" id="toc-excel-files" class="nav-link" data-scroll-target="#excel-files"><span class="toc-section-number">4</span>  Excel Files</a>
+  <ul class="collapse">
+  <li><a href="#reading-in-excel-files" id="toc-reading-in-excel-files" class="nav-link" data-scroll-target="#reading-in-excel-files"><span class="toc-section-number">4.1</span>  Reading in excel files</a>
+  <ul class="collapse">
+  <li><a href="#example-6" id="toc-example-6" class="nav-link" data-scroll-target="#example-6"><span class="toc-section-number">4.1.1</span>  Example</a></li>
+  <li><a href="#exercise-4" id="toc-exercise-4" class="nav-link" data-scroll-target="#exercise-4"><span class="toc-section-number">4.1.2</span>  Exercise</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#reading-in-other-file-types" id="toc-reading-in-other-file-types" class="nav-link" data-scroll-target="#reading-in-other-file-types"><span class="toc-section-number">5</span>  Reading in Other File types</a></li>
+  <li><a href="#exporting-data" id="toc-exporting-data" class="nav-link" data-scroll-target="#exporting-data"><span class="toc-section-number">6</span>  Exporting Data</a>
+  <ul class="collapse">
+  <li><a href="#using-pandas-to-save-files" id="toc-using-pandas-to-save-files" class="nav-link" data-scroll-target="#using-pandas-to-save-files"><span class="toc-section-number">6.1</span>  Using pandas to save files</a>
+  <ul class="collapse">
+  <li><a href="#example-7" id="toc-example-7" class="nav-link" data-scroll-target="#example-7"><span class="toc-section-number">6.1.1</span>  Example</a></li>
+  <li><a href="#exercise-6" id="toc-exercise-6" class="nav-link" data-scroll-target="#exercise-6"><span class="toc-section-number">6.1.2</span>  Exercise</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary"><span class="toc-section-number">7</span>  Chapter Summary</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 3 - Reading In and Exporting Data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><img src="../images/AF_DSC_banner.png" class="img-fluid" alt="Government Analysis Function and Data Science Campus Logos."></p>
+<div class="cell">
+
+</div>
+<p>This is a HTML document. The Introduction to Python course is written and intended to be used in a Jupyter Notebook file. These HTML documents have been made available for users who require screen readers or other accessibility needs. These HTML documents have been tested, but if you notice any errors or any compatibility issues please contact us on the GSS Capability email inbox.</p>
+<p>If you are using a screen reader you will need to set your punctuation level (sometimes called verbosity) to full, especially for the code sections.</p>
+<p><em>Chapter Overview and Learning Objectives</em>:</p>
+<ul>
+<li><p><a href="#packages">Script Structure and Packages</a></p>
+<ul>
+<li>Script Structure</li>
+<li>Packages in this session</li>
+</ul></li>
+<li><p><a href="#structure">Project Structure</a></p>
+<ul>
+<li>Setting Working Directories</li>
+<li>Relative vs Absolute file Paths</li>
+<li>A note on file paths</li>
+</ul></li>
+<li><p><a href="#flat_files">Reading Flat Files</a></p></li>
+<li><p><a href="#excel_files">Reading Excel Files</a></p></li>
+<li><p><a href="#other_files">Reading in other file types</a></p></li>
+<li><p><a href="#export">Exporting Data</a></p></li>
+</ul>
+<p><a id="packages" href=""></a></p>
+<section id="script-structure-and-packages" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Script Structure and Packages</h1>
+<section id="script-structure" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="script-structure"><span class="header-section-number">1.1</span> Script Structure</h2>
+<p>Scripts should be read like books, from top to bottom and left to right. As such, packages and data should be loaded at the top of the script, which ensures that they’re available to use right from the start of your work.</p>
+<p>Your code should also include explanatory comments, as well as following the naming conventions we talked about in chapter 2. You may understand your code now, but will you still understand it 6 months down the line, or will your co-worker understand it when you leave?</p>
+</section>
+<section id="packages" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="packages"><span class="header-section-number">1.2</span> Packages</h2>
+<p>In this session we will use pandas, and give it the nickname pd.</p>
+<section id="exercise" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="exercise"><span class="header-section-number">1.2.1</span> Exercise</h3>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href=""><strong>Exercise</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href=""><strong>Show Answer</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="unnumbered tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Import Pandas into your session.</p>
+</div>
+<div id="tabset-1-2" class="unnumbered tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p><a id="structure" href=""></a></p>
+</section>
+</section>
+</section>
+<section id="project-structure" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Project Structure</h1>
+<p>There’s many important reasons to structure our projects:</p>
+<p>You may have noticed the clean folder structure of the intro_to_python.zip folder you downloaded. As our projects grow we can end up with a large amount of data files; notebook files and outputs. Keeping them structured is a really important aspect of managing your data. Imagine if you sent your colleague a folder that looked like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/cluttered.png" class="img-fluid figure-img" alt="A cluttered folder structure with many mixed filetypes."></p>
+<p></p><figcaption class="figure-caption">An image of a cluttered folder structure</figcaption><p></p>
+</figure>
+</div>
+<p>Finding the right files within here is tricky, and this is just the content we’ve explored so far on the course!</p>
+<p>Having a folder structure like the following (sometimes known as a tree like structure), helps to keep our data organised. Of course, if there are guidelines at your organisation, ensure you organise your files according to that.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/folderstructure.png" class="img-fluid figure-img" alt="An organised folder structure, a folder for each element that separates filetypes."></p>
+<p></p><figcaption class="figure-caption">An organised folder structure, there is a folder for each element, such as data, solutions, and outputs</figcaption><p></p>
+</figure>
+</div>
+<section id="setting-working-directories" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="setting-working-directories"><span class="header-section-number">2.1</span> Setting Working Directories</h2>
+<p>The working directory is the place where Python automatically looks for our files, you can think of it as where we are currently located in the files of the computer itself.</p>
+<section id="example" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="example"><span class="header-section-number">2.1.1</span> Example</h3>
+<p>You can check what your working directory is by using the magic command in Jupyter.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pwd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This stands for “Print Working Directory”.</p>
+<p>If you’re using another IDE (such as Spyder or VSCode scripts) you can find your working directory using:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os <span class="co"># This library has many functions for interacting with the file system of the computer</span></span>
+<span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>os.getcwd()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'/Users/jakemarshall/Desktop/curriculum_review_repos/af_introduction_to_python/html_course_version'</code></pre>
+</div>
+</div>
+<p>This stands for “Get Current Working Directory”</p>
+<p>Note that the output here of os.getcwd() will be different to yours! Yours is likely to be:</p>
+<p>‘C:\Users\username\Intro_to_Python\notebooks’</p>
+<p>If you work within ONS. This is because we saved this zip file into our C Drive. If you saved to a different location the first part may be different.</p>
+<p>No matter what the first part is, you will always have Intro_to_Python\notebooks as the end part of the folder path. We’ll see why this happens in a second.</p>
+<p>What if we want to change our current working directory?</p>
+</section>
+<section id="example-1" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="example-1"><span class="header-section-number">2.1.2</span> Example</h3>
+<p>You can change your working directory by using the command (in Jupyter)</p>
+<p>%cd ‘filepath_of_new_directory’</p>
+<p>e.g.</p>
+<p>%cd //fa1rvwapxx333/Intro_to_Python/Notebooks</p>
+<p>for other IDEs you will need to do (these lines are commented out as I don’t want to run it in this HTML document) the following:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># import os</span></span>
+<span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># os.chdir("//fa1rvwapxx333/Intro_to_Python/Notebooks")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This stands for “Change Directory” and changes our current directory to the one we have specified. You may want to change your directory if you are working with large data files; or working on a group project from a shared network drive. It is important to note that shared network drives have two forward slashes at the start.</p>
+</section>
+</section>
+<section id="relative-vs-absolute-file-paths" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="relative-vs-absolute-file-paths"><span class="header-section-number">2.2</span> Relative vs Absolute file Paths</h2>
+<p>If I want to give you a location of a file, I can use the <strong>absolute file path</strong>. Let’s say, for example, that I have saved the “Intro_to_Python” folder in my C Drive and I want to access the file animals.csv.</p>
+<p>The full or <strong>absolute</strong> location of this file is:</p>
+<p>“C:/Users/username/Intro_to_Python/Data/animals.csv”</p>
+<p>This is clear and explicit about where the data is stored. However, if you were to use this link you would need to change elements of it, for example your username is not “username”.</p>
+<p>Because my working directory is automatically set to “C:/Users/marshj1/Intro_to_Python/notebooks”, I can use what’s called a relative path.</p>
+<p>A <strong>relative</strong> path is the location relative to the working directory, i.e., we specify the filepath starting from where we currently are in the folder structure.</p>
+<p>For example, I can load the same file as above using the path</p>
+<p>“../data/animals.csv”</p>
+<p>This will work for any user, as long as their working directory is set to the Notebooks Folder in the Into_to_Python folder. You may notice here I’ve used two full stops, which is something we have yet to see. This refers to us moving back one level in the folder structure.</p>
+<p>Since animals.csv is within the data folder, not notebooks where we currently are, we must back out to the parent folder “Intro_to_Python” before we can specify the path to the dataset (which is within the data folder!).</p>
+<p>Note that stringing these together as ../.. moves back two folders in the structure and so on, allowing us total control over relative file paths.</p>
+<p>Here’s a very handy diagram that explains the principle of relative filepaths.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/relativefilepath.jpg" class="img-fluid figure-img" alt="Image to demonstrate how relative filepaths function."></p>
+<p></p><figcaption class="figure-caption">An image demonstarting how relative file paths function</figcaption><p></p>
+</figure>
+</div>
+<p>The black arrow leads from the starting location; or the working directory “notebooks”, and moves to the parent Intro_to_Python” folder, using the “..” notation. The blue arrow moves forwards into the required folder, which is “/data” and the purple arrow selects our file name “/animals.csv”.</p>
+</section>
+<section id="a-note-on-file-paths" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="a-note-on-file-paths"><span class="header-section-number">2.3</span> A note on file paths</h2>
+<p>We highly recommend using forward slashes “/” within file paths. However, when copying a file path from Windows Explorer it will often have the backslash character instead of a forward slash.</p>
+<p>This causes issues in two ways. Firstly, this is a Windows exclusive issue, as Mac and Linux operating systems use the forward slash /. Secondly the backslash symbol is often used as an escape character within Python. Thirdly; although Python will often accept backslashes, other commonly used languages, like the statistical programming language “R” will not. It’s worth getting into the good practice of using forward slashes.</p>
+<p>Lastly, if you absolutely must use backslashes you should preface the string with the letter r, to ensure it’s passed as a raw string, rather than a unique character in Python. This is commented out below due to conflicts with the software these notes are written in, but will work for you if you have followed thus far!</p>
+<section id="example-2" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="example-2"><span class="header-section-number">2.3.1</span> Example</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># school = pd.read_csv(r"..\data\schools_data.csv")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Don’t worry about the function itself for now, this will be discussed in the next section! Note that this is commented out in the HTML to prevent issues with it running.</p>
+<p><a id="flat_files" href=""></a></p>
+</section>
+</section>
+</section>
+<section id="flat-files" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Flat Files</h1>
+<p>Flat files are files like .csv (Comma Separated Value), .txt files etc. The data is stored in a single table, with a specific delimiter (this is the comma in csv’s) used to separate values into columns.</p>
+<section id="reading-in-flat-files" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="reading-in-flat-files"><span class="header-section-number">3.1</span> Reading in flat files</h2>
+<p>We use pandas to read in our files in this course. There are ways of reading in files without using this package; however, using pandas will bring in our data as the specialised data type we introduced in the last chapter, a DataFrame.</p>
+<p>To import a .csv file we need to give the data an identifier or a variable name as we want to assign the object we are creating. To start, let’s import the animals data, give it the variable name animals and use an = to assign to it.</p>
+<p>I’m using one of the read functions from pandas. So I use the pd abbreviation before calling my function. This group of functions starts .read_ and there are a large variety of them as part of the pandas package, a few of which we will see here.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/read_autocomplete.png" class="img-fluid figure-img" alt="Showing how tab shows autocomplete options for pd.read_ methods."></p>
+<p></p><figcaption class="figure-caption">An image showing how using tab shows autocomplete options for pd.read_ methods</figcaption><p></p>
+</figure>
+</div>
+<section id="example-3" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="example-3"><span class="header-section-number">3.1.1</span> Example</h3>
+<p>To read in a file, we must choose the appropriate read method, in this example we are using a flat file (csv) from the data folder:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>animals <span class="op">=</span> pd.read_csv(<span class="st">"../data/animals.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The pd.read_ function we want is pd.read_csv(), and in the brackets the only parameter we must specify (mandatory!), is the filepath to the location of the file we wish to read in as a DataFrame. These are strings and as such, should go in quotation marks. We also need the file extension (.csv, .xlsx etc) as we are leading the read function to the <strong>exact</strong> file location and as such need the <strong>exact</strong> file name.</p>
+<p>When we import data into Jupyter notebooks we get no confirmation that this code has worked. The number within the square brackets increases, indicating the cell has run. Whilst this may seem like a red flag, it’s quite the opposite when it comes to reading in data!</p>
+<p>After importing data it may be useful to check that it appears as a variable using the magic command %whos. In IDEs (such as Spyder, VSCode etc) that have a variable explorer, you will see the object we have created appear there with some basic information (like its dimensions).</p>
+<p>We will explore how to investigate and analyse this dataset in-depth in the next chapter, for now we will just do some viewing of the object we have created. For small datasets we can print it by inputting the name, however for large data sets this is not practical.</p>
+</section>
+<section id="example-4" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="example-4"><span class="header-section-number">3.1.2</span> Example</h3>
+<p>Let’s get a birds eye view of our dataset! To do so, give Python the DataFrame name and then call the .head() method. This returns the top 5 rows by default.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>animals.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  IncidentNumber    DateTimeOfCall  CalYear  ... AnimalClass  Code        London
+0         139091  01/01/2009 03:01     2009  ...      Mammal  00AH  Outer London
+1         275091  01/01/2009 08:51     2009  ...      Mammal  00AH  Outer London
+2        2075091  04/01/2009 10:07     2009  ...      Mammal  00BF  Outer London
+3        2872091  05/01/2009 12:27     2009  ...      Mammal  00AS  Outer London
+4        3553091  06/01/2009 15:23     2009  ...      Mammal  00AR  Outer London
+
+[5 rows x 19 columns]</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise-2" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="exercise-2"><span class="header-section-number">3.1.3</span> Exercise</h3>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href=""><strong>Exercise</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href=""><strong>Show Answer</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="unnumbered tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<ol type="a">
+<li><p>Import the data schools_data.csv from the data folder with an appropriate variable name.</p></li>
+<li><p>Use the optional parameter n = (which specifies the number of rows to return) in the .head() method to view the top 12 rows of the dataset.</p></li>
+<li><p>Look at the bottom of the data using the .tail() method. All of our missing data is at the bottom, so you may see lots of <strong>nan</strong> values, which stands for not a number.</p></li>
+</ol>
+</div>
+<div id="tabset-2-2" class="unnumbered tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (a)</span></span>
+<span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a>school <span class="op">=</span> pd.read_csv(<span class="st">"../data/schools_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (b)</span></span>
+<span id="cb11-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a aria-hidden="true" tabindex="-1"></a>school.head(n <span class="op">=</span> <span class="dv">12</span>)</span>
+<span id="cb11-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a aria-hidden="true" tabindex="-1"></a><span class="co"># OR school.head(10), you don't need to specify the argument name in this case!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       URN  ... 16 - 19 study programmes
+0   100000  ...                      9.0
+1   100005  ...                      9.0
+2   100006  ...                      9.0
+3   100007  ...                      9.0
+4   100008  ...                      9.0
+5   100009  ...                      9.0
+6   100010  ...                      9.0
+7   100011  ...                      9.0
+8   100012  ...                      9.0
+9   100013  ...                      9.0
+10  100014  ...                      9.0
+11  100015  ...                      9.0
+
+[12 rows x 19 columns]</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># (c)</span></span>
+<span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>school.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          URN  ... 16 - 19 study programmes
+21960  143927  ...                      NaN
+21961  143938  ...                      NaN
+21962  143939  ...                      NaN
+21963  143940  ...                      NaN
+21964  143946  ...                      NaN
+
+[5 rows x 19 columns]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>For this initial read in we only used the mandatory paramter of the filepath, but when we look at the docstring we can see that there are many other arguments we can specify. This includes:</p>
+<ul>
+<li>Changing the delimiter (an example would be .tsv, tab separated value)</li>
+<li>Skipping Rows</li>
+<li>Parsing in date columns (breaking down into component parts)</li>
+<li>Manually specifying additional missing values</li>
+</ul>
+<p>Recall that to look at the docstring for read_csv(), we use help(read_csv).</p>
+<p>We have seen parameters and arguments a few times throughout the course, but have yet to formally define them. A <strong>parameter</strong> is a name or a label for an <em>argument</em> that follows it.</p>
+<p>As we’ll see later some parameters are optional, and Python can identify what they relate to by the order we pass them to our method. However, it’s less ambiguous to both python (and whoever reads your code) if you include the parameter (the name) as well.</p>
+<p>It’s worth noting here that most of these parameters have default arguments. A good example of this is the sep= argument of the read in function, it tells Python that the argument that follows will be what the separator/delimiter type is in the file. The comma “,” is the default argument, so without specifying it, Python assumes sep = ‘,’, which we can change if we desire.</p>
+</section>
+<section id="example-5" class="level3" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="example-5"><span class="header-section-number">3.1.4</span> Example</h3>
+<p>If my separator was a semi colon I could write my pd.read_csv() statment like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># school = pd.read_csv("../data/schools_data.csv", sep=";")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><a id="excel_files" href=""></a></p>
+</section>
+</section>
+</section>
+<section id="excel-files" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Excel Files</h1>
+<p>As mentioned earlier we can also use the pd.read_ functions to read in excel files. These have the file extension xlsx and differ slightly from comma separated value files.</p>
+<section id="reading-in-excel-files" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="reading-in-excel-files"><span class="header-section-number">4.1</span> Reading in excel files</h2>
+<p>The function for reading in these files is pd.read_excel(), which also takes a minimum of one argument; the location of the file including the file extension.</p>
+<section id="example-6" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="example-6"><span class="header-section-number">4.1.1</span> Example</h3>
+<p>Here we will read in a file called titanic.xlsx from the usual data folder, calling it the object titanic. Let’s also bring back .sample() to display just one random row of the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a>titanic <span class="op">=</span> pd.read_excel(<span class="st">"../data/titanic.xlsx"</span>)</span>
+<span id="cb16-2"><a aria-hidden="true" tabindex="-1"></a>titanic.sample()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Like with pd.read_csv(), pd.read_excel() has additional parameters we can set. Have a look at the docstring using help(pd.read_excel) and note the interesting ways Python can interact with Excel workbooks.</p>
+</section>
+<section id="exercise-4" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="exercise-4"><span class="header-section-number">4.1.2</span> Exercise</h3>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href=""><strong>Exercise</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href=""><strong>Show Answer</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="unnumbered tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<p>Import the data police_data.xlsx. We specifically want the second sheet, this has the name “Table P1”. You will need to specify some additional parameters. Look in the help documentation to see which one you should specify.</p>
+<p><strong>Hint</strong> - If referencing the sheet by index position; remember that Python starts counting at 0!</p>
+</div>
+<div id="tabset-3-2" class="unnumbered tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1</span></span>
+<span id="cb17-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a aria-hidden="true" tabindex="-1"></a>police <span class="op">=</span> pd.read_excel(<span class="st">"../data/police_data.xlsx"</span>, sheet_name<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb17-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a aria-hidden="true" tabindex="-1"></a>police.head()</span>
+<span id="cb17-6"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Option 2</span></span>
+<span id="cb17-8"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a aria-hidden="true" tabindex="-1"></a><span class="co"># police = pd.read_excel("../data/police_data.xlsx", sheet_name = "Table P1")</span></span>
+<span id="cb17-10"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Note if you're using an older version of Pandas ( &lt; 0.21.0 ) the parameter is sheetname = with no space. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Area Codes  ... Fraud
+0  E23000013  ...    97
+1  E23000008  ...    48
+2  E23000007  ...   147
+3  E23000006  ...   347
+4  E23000002  ...   127
+
+[5 rows x 27 columns]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><a id="other_files" href=""></a></p>
+</section>
+</section>
+</section>
+<section id="reading-in-other-file-types" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Reading in Other File types</h1>
+<p>We can also import a wide variety of other file types using the pd.read_ family of functions. For example we have:</p>
+<ul>
+<li>json</li>
+<li>sas</li>
+<li>sql</li>
+<li>stata</li>
+<li>pickles</li>
+</ul>
+<p>While we don’t cover these in this course you can explore the docstrings for each of these file types.</p>
+<p>There are other packages available if you wish to load other file types. For ONS users this may require you downloading other packages. You can find instructions on how to do this from <a href="https://www.yammer.com/ons.gov.uk/#/Threads/show?threadId=131432635932672&amp;search_origin=global&amp;scoring=linear1Y-prankie-group-private-higher&amp;match=any-exact&amp;search_sort=relevance&amp;page=1&amp;search=pip.ini">Yammer</a>.</p>
+<p>For users outside of ONS you may wish to consult your department; or if you are using a non-networked laptop you can see <a href="https://jakevdp.github.io/blog/2017/12/05/installing-python-packages-from-jupyter/">here</a> for instructions.</p>
+<p><a id="export" href=""></a></p>
+</section>
+<section id="exporting-data" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Exporting Data</h1>
+<p>As well as reading in data we can also export data from Python.</p>
+<p>When we load data into Python using Pandas we create a temporary copy of it within our session. Any changes we make to the data won’t be reflected in the saved file. For example if you deleted columns, and closed your Python script <strong>without</strong> exporting the data, your data would still have all of it’s columns when you import it in again (reload).</p>
+<section id="using-pandas-to-save-files" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="using-pandas-to-save-files"><span class="header-section-number">6.1</span> Using pandas to save files</h2>
+<section id="example-7" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="example-7"><span class="header-section-number">6.1.1</span> Example</h3>
+<p>To save our files we use the to_csv() after our DataFrame object, with the mandatory parameter being the filepath (or location) where to save the new file we are creating.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a>titanic.to_csv(<span class="st">"../outputs/my_titanic.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Again, nothing seems to have actioned within Jupyter - the line number has increased so we know the code has run. If you check the outputs folder in File Explorer you will see the new file there. As we talked about earlier; having the outputs in a different folder to the raw data is a good step for keeping our projects organised, plus it prevents us from making any mistakes overwriting or removing incorrect files.</p>
+<p>If you type “pd.to_” and place your cursor after the underscore in the cell above and hit tab. You will see that there are many other file formats we can export to, just as there are many that we can import. Each of these has additional parameters you can specify to get the exact exported file you want.</p>
+</section>
+<section id="exercise-6" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="exercise-6"><span class="header-section-number">6.1.2</span> Exercise</h3>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href=""><strong>Exercise</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href=""><strong>Show Answer</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="unnumbered tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<p>Export the animals dataset as an excel file, remember that the file extension is “.xlsx”. Ensure that you save it in the Outputs folder.</p>
+</div>
+<div id="tabset-4-2" class="unnumbered tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># load in the animals and titanic dataset </span></span>
+<span id="cb20-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a aria-hidden="true" tabindex="-1"></a>animals.to_excel(<span class="st">"../outputs/animals.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p><a id="END" href=""></a></p>
+</section>
+</section>
+</section>
+<section id="chapter-summary" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Chapter Summary</h1>
+<p>Fantastic job, you have completed chapter 3 of the Introduction to Python course!</p>
+<p>In Chapter 4 you can look forward to a deep dive into DataFrames, covering all aspects of working with them, such as:</p>
+<ul>
+<li>Exploring Data</li>
+<li>Sorting Data</li>
+<li>Subsetting Data</li>
+<li>Filtering Data</li>
+<li>Merging Datasets</li>
+</ul>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

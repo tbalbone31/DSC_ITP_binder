@@ -1,0 +1,913 @@
+---
+title: "Chapter 12 - Functions"
+format:
+  html:
+    highlight: null
+    theme: default
+    toc: true
+    toc-title: Contents
+    toc-location: right
+    toc-depth: 3
+    number-sections: true 
+    link-external-newwindow: true
+---
+
+![](../images/AF_DSC_banner.png){fig-alt="Government Analysis Function and Data Science Campus Logos."}
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+Sys.setenv(RETICULATE_PYTHON = "/Users/jakemarshall/Library/r-miniconda-arm64/envs/my_python/bin/python") # Set path for my venv
+library(reticulate) # Initialise
+library(kableExtra) # For tables
+``` 
+
+This is a HTML document. The Introduction to Python course is written and intended to be used in a Jupyter Notebook file. These HTML documents have been made available for users who require screen readers or other accessibility needs. These HTML documents have been tested, but if you notice any errors or any compatibility issues please contact us on the GSS Capability email inbox.
+
+If you are using a screen reader you will need to set your punctuation level (sometimes called verbosity) to full, especially for the code sections.
+
+*Chapter Overview and Learning Objectives*:
+
+* [Packages](#packages)
+
+* [Functions](#functions)
+  - Basic structure
+  - Named parameters
+  - Default Values
+  - Scope
+  - Docstrings
+  - Indentation
+
+* [Lambda Functions](#lambda)
+  - Anonymous Functions
+  - Syntax
+  - Functions within Functions
+
+* [Functions for DataFrames](#functions_dataframes)
+  - Example
+  - Better Practice with Functions
+
+<a id='packages'></a>
+
+# Packages and Datasets
+
+## Packages
+
+In this chapter we will use pandas, and give it the nickname pd. It was written using Pandas version 1.4.2, Python Version 3.8.3 and Anaconda 2020.07. Note that Python is generally versatile with backwards and forwards compatability.
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+
+Import the package pandas and give it the well known nickname pd.
+
+### **Show Answer**{-}
+```{python}
+import pandas as pd
+```
+
+:::
+
+## Datasets
+
+In this course we’ll be using the following datasets:
+
+| variable name | file name  |
+| --- |  --- |
+| animals | animals.csv |
+| titanic | titanic.xlsx |
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+Load in the datasets mentioned above using the pd.read_ family of functions.
+
+### **Show Answer**{-}
+```{python}
+animals = pd.read_csv("../data/animals.csv")
+titanic = pd.read_excel("../data/titanic.xlsx")
+```
+
+:::
+
+<a id='functions'></a>
+
+# Functions
+
+Throughout the past 11 chapters, we have used an enormous number of **built-in** functions that come as a part of base Python, or its many libraries such as pandas (pd), numpy (np) and more. However, you must have thought up to now what it would be like to write functions from scratch (as all of these once were!) to be able to perform bespoke tasks for your specific workflow. 
+
+It is important to note that we should always check the available functions first before proceeding to write your own, as you may end up wasting valuable project time. In many cases though, there is no alternative and we need specific functions to perform extremely specific tasks, which is very common in industry and is one of the most in demand skills for Data Science in the modern day. 
+
+To break down the topic, functions within Python generally fall into three categories (we will focus on User Defined and Lambda Functions in this chapter):
+
+Type | Description
+--------|---------------
+[Built in Functions](https://docs.python.org/3.6/library/functions.html) | These are built into Python and always available for use <br> Examples – pow(), print(), help()
+User Defined Functions | Created by users to carry out specific tasks. <br> Declared using the def keyword.
+ Anonymous Functions – “lambda functions” |  User defined - generally one line functions <br> used within a larger piece of code.
+
+We will begin by discussing User Defined Functions (UDFs). The code inside of these is not run (executed) until we call or run the function. If your code has correct syntax but produces errors this will not be clear until the code is called and executed. 
+
+These functions allow us to organise chunks of reusable code. This can help optimise our code and create blocks of code dedicated to performing a specific procedure or task (such as a cleaning routine that is applied each time!). Functions can help us to write code that is consistent, readable, maintainable and reproducible.
+
+
+## Structure of a Function
+
+``` {python, eval = FALSE}
+def my_function_name(parameter_1, parameter_2,..):
+    function_actions
+    ...
+    return function_output
+```
+
+Let's break down the syntax a little bit!
+
+* Our functions start with the keyword def (define) with syntax highlighting, which is followed by our function name. This:
+  * Must start with a letter or an underscore,
+  * Should be lowercase (by python convention),
+  * Should be short and descriptive,
+  * Can’t have the same name as a python keyword,
+  * Shouldn’t have the name of an existing function (it will overwrite it locally).
+
+* Following the function name is brackets. These can contain any necessary parameters that the function will take. It is finished with a colon, the same as our loops and control flow from Chapter 10.
+
+* The code below is indented (by 4 spaces, 1 tab or automatically) and is what is executed when the function is called.
+
+* The keyword return will return whatever value is after it. When the return statement is executed the function will stop at that line and return the given value. **No code after the return statement will be executed**. 
+
+Note that the keyword return is not necessary; but any function without a return statement will return a value of None, it will produce no output for future code to work with. This is important because we often assign the output of functions to variables for use within more functions and so on (this is usually how a Data Pipeline is formed!).
+
+### Example
+
+Here is a function that adds together two values and returns their sum, this is a good showcase of the structure of a function and how they use the parameters you give them. Note that we must run the cell to declare the function into our environment, it can then be used repeatedly.
+
+```{python}
+# Function to add two values
+def add_two_values(value_1, value_2):
+    total = value_1 + value_2
+    return total
+  
+```
+
+```{python}
+# I can now run my function
+add_two_values(1, 2)
+```
+Writing functions really allows you to appreciate and understand the processes we use in Data Science, as you are essentially "generalising" the process into a repeatable routine that will save you alot of time coding.
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+
+(a) Remember the exercise in Chapter 10 where you converted from Celsius to Fahrenheit? Let's create a function that does this for us, which we can reuse! Using the equation below, create a function that performs this task.
+
+$C= \frac{5}{9}(F - 32)$
+
+Expected outputs (these are rounded, you don't need to worry about that for now):
+
+* fahrenheit_to_degrees_celsius(32) returns: 0
+
+* fahrenheit_to_degrees_celsius(11) returns: -11.7
+
+* fahrenheit_to_degrees_celsius(81.3) returns: 27.4
+
+(b) Update your function so it rounds to 1 decimal place.
+
+### **Show Answer**{-}
+```{python}
+# (a)
+def fahrenheit_to_degrees_celsius(degrees_f):
+    degrees_c = (5 / 9) * (degrees_f - 32)
+    return degrees_c
+  
+fahrenheit_to_degrees_celsius(degrees_f=81.3)
+```
+
+```{python}
+# (b) Way 1
+def rnd_fahrenheit_to_degrees_celsius(degrees_f):
+    degrees_c = (5 / 9) * (degrees_f - 32)
+    return round(degrees_c, 1)  
+  
+rnd_fahrenheit_to_degrees_celsius(81.3)
+# Note the round() function has to be in the return statement as the rounded value is what we wish to be output!
+
+# Way 2 - Assigning the rounded value to a variable
+# def rnd1_fahrenheit_to_degrees_celsius(degrees_f):
+#    degrees_c = (5/9) * (degrees_f- 32)
+#    rounded_c = round(degrees_c, 1 )  
+#    return rounded_c
+#rnd1_fahrenheit_to_degrees_celsius(81.3)
+```
+:::
+
+## Named parameters
+
+We called the parameters value_1 and value_2 in the previous examples, where we could expect to pass two values to be added together, as the function states. You may see similar functions written like this
+
+``` {python, eval = FALSE}
+def add_two_values(x, y) :
+    total = x + y
+    return total
+```
+
+However, x and y as argument names are not very descriptive, especially if we were writing a more complicated function. As we have seen through the course we can also use the parameter names here when calling the function and pass the arguments using an = sign.
+
+### Examples
+
+```{python}
+add_two_values(value_1=3, value_2=10)
+```
+
+As we’ve talked about previously using named parameters means we can pass them in any order we please.
+
+```{python}
+add_two_values(value_2=10, value_1=3)
+```
+
+## Default Values
+
+We can also set default values when we declare a function so that when we run a function without any parameters it uses these preset values as its inputs. This is incredibly useful for more complex functions that go beyond mathematical operations (of course, if you wanted to always add 1 to something, maybe having a default value of 1 would be useful!).
+
+### Examples
+
+Here I’ve set value_1=10 and value_2=5, so unless we change them by assigning them ourselves, they will be these by **default**.
+
+```{python}
+def add_two_values(value_1=10 , value_2=5):
+    total = value_1 + value_2
+    return total
+  
+add_two_values()
+```
+
+Now if I just pass value_2 it will use the default for value_1 and add it to my specified value_2.
+
+```{python}
+add_two_values(value_2=15)
+```
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**
+Create a function that has three arguments where we:
+
+* Compute the square of the first number and add that to the second number
+* Divide the result by the third number
+
+Ensure to use named parameters and set the defaults as 1 for each parameter. Make sure rounding to 2dp is involved to deal with recurring decimals.
+
+Expected output:
+
+* function(2, 3, 4) = (4 + 3)/4 = 7/4 = 1.75
+* function(2, 5, 3) = (4 + 5)/3 = 3
+* function() = (1 + 1)/1 = 2
+* function(val_2 = 5, val_3 = 2) = (1 + 5)/2 = 3
+
+### **Show Answer**
+```{python}
+def square_sum_divide(val_1 = 1, val_2 = 1, val_3 = 1):
+  expression = ((val_1 ** 2) + val_2) / val_3
+  return round(expression, ndigits = 2)
+
+# Use 1 - default
+square_sum_divide()
+
+# Use 2 - Partly (must specify names)
+square_sum_divide(val_2 = 5, val_3 = 2)
+
+# Use 3 - Fully (Don't need to specify names but good practice dictates you should)
+square_sum_divide(2, 3, 4)
+```
+:::
+
+### Aside - Datatypes
+
+One last aside that I wish to make is that the datatypes of what we pass into the function don't matter, provided that the routine inside of the function is applicable for that datatype. For example, if we use lists as an input, we must be utilising functions, methods, attributes etc applicable to lists inside it.
+
+### Example 1 - For Loop
+
+Let's see an example where we pass a list into a function as it's input and use a for loop to print the elements!
+
+```{python}
+# Let's use a list inside the function
+def print_list(ls):
+  for element in ls:
+    print(element)
+    
+# Notice the multiple indents when we use control flow inside the function! We also don't need the return keyword as we are just printing here!
+print_list([1, 2, 3, 4])
+```
+I wonder if we can use list comprehensions? Of course we can!
+
+### Example 2 - List Comprehension
+
+Let's use a list comprehension to double each value in a list to create a new one, output by the function!
+
+```{python}
+# Use list comprehension within a function
+def create_double_my_list(ls):
+  double_list = [(ls * 2) for ls in ls]
+  return double_list
+
+# Try it out
+create_double_my_list([1, 3, 5, 7])
+```
+
+## Scope
+
+It’s important to notice here that the variables I create within my functions, like total are not available outside of my function. This has to do with **scope**, which is one of the most important concepts to understand when creating your own functions. There are two types, namely **global** scope and **local** scope.
+
+Variables with **global** scope are visible and can be accessed anywhere (they are in the general environment), however ones with **local** scope are only visible and can only be used within the local area. When we create a new function we effectively create a new local scope, so the variables we declare within our functions are only available within that local scope.
+
+Trying to return the value stored under total will return a "NameError". Effectively total is created when the function is run, and then cleaned up and removed by Python after completion. This makes **return**ing variables very important, as we are effectively returning them from the local scope, to the global one.
+
+This also relates to why we often assign the outputs of functions to variables, storing them in the global environment under the name/label we choose.
+
+
+```{python, eval = FALSE}
+total
+```
+
+## Docstrings
+
+We heavily promote looking at **docstrings** (which means document strings), the inbuilt "help" documents in our courses. They’re very useful for finding out what a function or method does, what our parameters are called, and what we should expect to be passed as arguments. 
+
+Including our own docstrings in a function makes our code the most accessible and readable it can be, and as we often write multi-use functions who's use encompasses more than just us, this is an important practice.
+
+### Example
+
+We start a docstring by using three sets of speech marks to surround the information we want to include.
+
+For this function it is total overkill, but an excellent way to see this in practice! 
+
+```{python}
+def add_two_values(value_1, value_2) :
+    """ 
+    This function will add together two values
+    
+    Parameters
+    ----------
+    value_1 : The first value to add
+    value_2 : The second value to add
+    
+    Returns
+    -------
+    total: The sum / concatenation of the two values specified.
+    
+    Examples
+    --------
+    add_two_values(1, 2) 
+    returns 3
+    
+    add_two_values(4.7,  3.2) 
+    returns 7.9 
+    
+    add_two_values("Hello", "World") 
+    returns "HelloWorld" (The + symbol concatenates strings)
+    
+    Errors will occur if adding together strings and numerics, unless you use str() around the numeric.
+    
+    """
+    total = value_1 + value_2
+    return total
+```
+
+We can now access our docstring in the same ways we do for inbuilt functions:
+
+```{python}
+help(add_two_values)
+```
+
+This may seem laborious, but you will be all the better coder for it as it allows you to check that you know what your function is doing, what it's parameters are and their datatypes and so on! Remember that we would never be able to understand the ins and outs of pandas functions like groupby() and its many parameters without these docstrings. 
+
+It is worth noting that many organisations have their own guidelines on how to write docstrings and readable, reproducible code in general. This section should be seen as a showcase of the technique, rather than the best way to structure one.
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**
+In the previous exercise you created the sum_square_divide function. Recreate it here but with a docstring including the following:
+
+* Definition
+* Parameters (and their default values)
+* What it returns 
+* One example of the default
+* One example with no named parameters
+* One example with two of the three parameters (with names)
+
+### **Show Answer**
+
+```{python}
+def square_sum_divide(val_1 = 1, val_2 = 1, val_3 = 1):
+  """
+  This function will square the first value (raise to the power of 2) and add it to the second value. Then this resultant sum will be divided by the third value.
+  
+  Parameters
+  ----------
+  val_1: A numeric value with default value 1.
+  val_2: A numeric value with default value 1.
+  val_3: A numeric value with default value 1.
+  
+  Returns
+  -------
+  expression: The formula ((val_1 ** 2) + val_2)/val_3 is computed.
+  
+  Examples
+  --------
+  square_sum_divide()
+  returns 2
+  
+  square_sum_divide(2, 3, 4)
+  returns 1.75
+  
+  square_sum_divide(val_2 = 5, val_3 = 2)
+  returns 3
+  
+  Note that we cannot use strings in this function as they are incompatible with exponentiation and division.
+  
+  """
+  expression = ((val_1 ** 2) + val_2) / val_3
+  return round(expression, ndigits = 2)
+```
+
+:::
+
+## Helpful Indentation hint!
+
+The indentation of code in functions and loops is incredibly important! If we’re copying code from other places (like Stack Overflow for example!) it can often be not indented correctly to run in our new function.
+
+If you highlight the code you wish to “move” and press:
+
+* tab to increase the indent one “level”
+* shift + tab will decrease the indent one level.
+
+These can really help you solve the problem quickly!
+
+### Example
+
+```{python, eval = F}
+# This cell will give an error - our indentation is off!
+def whos_the_best(print_x_times):
+for each_num in range(print_x_times):
+    print("Jake is a queen!")
+    
+# Use the function
+whos_the_best(10)
+```
+
+This will give us an error! However, if we highlight everything from the for line down and hit tab we get a working function which prints out a very important statement!
+
+```{python}
+def whos_the_best(print_x_times):
+    
+    for each_num in range(print_x_times):
+        print("Jake is a queen!")
+        
+# Use the function
+whos_the_best(10)
+```
+
+##  Larger Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+
+Let's return to the FizzBuzz exercise from Chapter 10 and generalise it, as it previously worked over a hard coded number of values (1-30). Here I'd like you to
+
+**Create a function so the user can find fizzbuzz values for any range of numbers **
+
+* If you've used a for loop an example could be 1 to 100,
+
+* If you've used a while loop your top number could be 100.
+
+* Make sure you include a docstring (Don't worry about a full example, just give individual numbers).
+
+### **Reminder of Original Exercise**
+
+Write a loop containing control flow with an if, elif and else statement, that loops through the numbers from 1 to 30. It should have the following properties:
+
+* If the number is a multiple of both 3 and 5, print FizzBuzz. 
+
+* If the number is a mutiple of 3, print the word Fizz. 
+
+* If the number is a mutiple of 5, print the word Buzz.
+
+* For all other values print the number.
+
+You can use the modulus operator for this, which is the % in python, and shows us our remainder when dividing integers. 
+
+For example checking if something is completely divisible by 7 we could do
+
+item % 7 == 0
+
+If this returns True we know it's divisible by 7, if it returns False then it's not!
+
+### **Pseudo Code**{-}
+
+This is pseudo code!
+Code written in english to help you stucture your code.
+It will not work if you run it
+
+def my_function(my_iterable):
+
+    """
+    information about my function in this docstring
+    
+    """
+
+
+    for each_thing in my_iterable:
+
+        if my first conditon(s) :
+            action for first conditon
+
+        elif my second conditon:
+            action for second conditon
+
+        elif my third conditon:
+            action for third conditon    
+
+        else:
+            action for everything else
+            
+
+my_function(an_iterable)
+
+
+### **Show Answer**{-}
+```{python}
+def fizz_buzz(my_iterable):
+    """
+    fizz_buzz takes an iterable and applies some control flow:
+    
+    if numbers are divisible by 3 and 5 and returns the value of "FizzBuzz"
+    
+    if numbers are divisible by 3 return "Fizz"
+    if numbers are divisible by 5 return "Fizz"
+    else print out the number
+    
+    Parameters
+    ----------
+    my_iterable: An iterable of integers, such as a list, tuple etc.
+    
+    Returns
+    -------
+    An output for each value in the iterable in accordance with the control flow established in the definition.
+    
+    Examples
+    --------
+    fizz_buzz([15, 6, 10, 2])
+    returns 
+    FizzBuzz
+    Fizz
+    Buzz
+    2
+    
+    """
+    for each_number in my_iterable:
+        if (each_number % 3 == 0) & (each_number % 5 == 0) :
+            print("FizzBuzz")
+        elif (each_number % 3) == 0 :
+            print("Fizz")
+        elif (each_number % 5) == 0 :
+            print("Buzz")
+        else:
+            print(each_number)
+            
+            
+# Run the function - I'm passing a iterable using the range() function (which is exclusive!)
+fizz_buzz(range(1, 31))
+# Way 2 - While Loop
+#def fizzbuzz_while(max_number):
+#    max_number +=1 # As the last number is exclusive, we can add 1 here
+#    number = 1
+#    while number < max_number:
+#        if (number % 3 == 0) & (number % 5 == 0):
+#            print("FizzBuzz")
+#        elif (number % 3 == 0):
+#            print("Fizz")
+#        elif (number % 5 == 0):
+#            print("Buzz")
+#        else:
+#            print(number)
+#        number += 1
+```
+
+::: 
+
+
+<a id='lambda'></a>
+
+# Lambda Functions
+
+Sometimes we have need of functions that are very small and perform one express purpose to a given argument. As such it is laborious and inefficient to create a large, well written function with a docstring for something as small as:
+
+* Printing out a value
+* Squaring a value 
+
+Which can also take place inside of another function that we will show here. It may not seem apparent yet why these are useful, but I will show some examples that will illustrate the use of this method soon. For comparison purposes, their utility is similar to comprehension from Chapter 11, where they allow you to encompass a large process in one line of code, but quickly become unmanageable for larger tasks (where a UDF would be preferred).
+
+## Structure of a Lambda Function
+
+Syntax wise, the lambda function is built as follows:
+
+```{python, eval = FALSE}
+lambda arguments : expression
+```
+
+* We use the lambda keyword (with syntax highlighting) to begin the definition of the anonymous function.
+
+* We follow this keyword with the argument(s), which can be as simple as x or y here. A colon follows this :.
+
+* Lastly is the expression itself, where we specify what we will do to the argument(s).
+
+* This is often assigned to a throwaway variable like x (especially when they are used inside of another function).
+
+### Examples
+
+Here let's create a lambda function that prints the value given to it.
+
+```{python}
+# Smallest lambda function - print the value
+x = lambda a : print(a) 
+
+# Examples
+x(4)
+x("Jake")
+x(9.7)
+```
+Saying this in words, just like comprehension from the previous chapter demystifies the syntax. 
+"We are creating an object x, which is an anonymous function acting on a, where it prints a."
+
+What about using mathematical operations?
+
+```{python}
+# Adding values in a lambda function
+y = lambda a : a + 12
+
+# Examples
+y(10)
+y(109)
+```
+We can also define multiple arguments and combine them together!
+
+```{python}
+# Multiple values in a lambda function
+z = lambda a, b : (a + b)/2
+
+# Examples
+z(10, 12)
+z(20, 22)
+```
+
+## Exercise
+::: {.panel-tabset}
+### **Exercise**
+
+Remember our lovely problem from before? Squaring the first number, adding it to the second and then dividing the sum by the third? Let's create a lambda function that does just that! Make sure it rounds to 2 decimal places as well. 
+
+Use the examples (1, 2, 3) and (23, 24, 25) to check it.
+
+Don't worry I haven't run out of ideas, I just see the **function** in consistency throughout these courses.
+
+### **Show Answer**
+
+```{python}
+# Lambda function computing an expression
+t = lambda a, b, c : round(((a ** 2) + b)/c, ndigits = 2)
+
+# Examples
+t(1, 2, 3)
+t(23, 24, 25)
+```
+:::
+
+## Why we use Lambda Functions
+
+I promised to show you why these are so useful, and I intend to make right on that here in this section. Much of this section is adapted from the excellent [W3Schools](https://www.w3schools.com/python/python_lambda.asp) tutorial on Lambda Functions. We often see the use of them when considering anonymous functions inside another UDF, as they can alter the **function** of UDFs (oh my this is horrible to write, thankfully we have UDF shorthand!) based on what input we give. This then gives us a template to create functions that perform a certain task, which we can then tweak ourselves!
+
+In essence, we can set up a UDF using def whose input is then passed to a lambda function which is in the return statement and hence alters the output that that lambda function gives by using the input. A great example of this is that we can take a function that say, multiplies a number by some arbitrary n (the input to the overall UDF), to create a function that doubles all inputs by giving 2 as the value of n, a function that triples all inputs by giving 3 as the value of n and so on. 
+
+This sounds very confusing, but becomes more clear with an example.
+
+### Example
+
+Here we will construct a UDF that carries within it a lambda function that multiplies its value supplied by an arbitrary n, which is the input to our UDF. 
+
+Therefore, whenever we change the value of n and assign it to something, we are creating a new function that we can then use! This is very powerful and popular amongst those building pipelines.
+
+```{python}
+# Create a UDF that contains a lambda function to allow control over its function
+def my_func(n):
+  return lambda a : a * n 
+# Notice that the lambda is part of the return, which is key here!
+
+# Examples
+my_doubler = my_func(2) # This is now a function that doubles the input!
+# See that it is a function!
+print(type(my_doubler))
+
+# Example
+print(my_doubler(11))
+my_tripler = my_func(3) # This is now a function that triples the input!
+print(type(my_tripler))
+print(my_tripler(22))
+```
+This is incredibly powerful as you can see, essentially allowing us to create templates with which to create functions from that perform particular tasks dependent on the input to the UDF.
+
+# Resources for Further Learning
+
+This chapter is an introduction to UDFs and Lambda Functions and how they work, however there’s a whole lot more to be explored; including returning multiple values, optional arguments (a big one that is worth exploring!) and more. 
+
+Some additional information about functions can be found:
+
+* [W3Schools Functions](https://www.w3schools.com/python/python_functions.asp) page is fantastic. In fact their entire repertoire of tutorials comes highly recommended for the way it breaks down concepts with examples. They even provide consoles for you to practice that open in separate webpages!
+
+* [Datacamp Python Functions Tutorial](https://www.datacamp.com/community/tutorials/functions-python-tutorial)
+
+* [Geeks for Geeks Python Functions Tutorial](https://www.geeksforgeeks.org/functions-in-python/)
+
+* [Python Lambda – Anonymous Functions](https://www.geeksforgeeks.org/python-lambda-anonymous-functions-filter-map-reduce/)
+
+
+<a id='functions_dataframes'></a>
+
+# Functions for DataFrames
+
+So far we’ve seen how functions work and how to create them, but how can we apply them to our DataFrames?
+
+Say this is my cleaning routine for multiple dataframes:
+* Remove spaces from my column names and change to underscores
+* Change column names to lower case
+* Select just the columns of the “object” data Type.
+
+If I have a few of them to run this on the process can mean a lot of lines of code used which becomes less readable as more is added. We can use functions to wrap up these processes into a cleaning routine function.
+
+## Example
+
+Let's make a copy of our animals data frame and see what the routine looks like applied to it. This is great revision of the content in Chapter 4 - Working with DataFrames, which you should revisit if you find the concepts harder to pick back up.
+
+```{python}
+# Make a copy
+animals_new = animals.copy()
+```
+
+Now the cleaning routine:
+
+```{python eval = FALSE}
+# replace column spaces with "_"
+animals_new.columns = animals_new.columns.str.replace(" ", "_")
+
+# lower case the columns names
+animals_new.columns = animals_new.columns.str.lower()
+animals_new_objects = animals_new.select_dtypes(["O"])
+animals_new_objects
+```
+
+```{python include=FALSE}
+animals_new.columns = animals_new.columns.str.replace(" ", "_")
+# lower case the columns names
+animals_new.columns = animals_new.columns.str.lower()
+animals_new_objects = animals_new.select_dtypes(["O"])
+display = animals_new_objects.head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%")
+```
+
+Without a function for each DataFrame I wanted to do this on I’d have to go in and change the object names. Let's make a function to generalise this process, allowing us to utilise it on any DataFrame of our choosing.
+
+```{python}
+def clean_frame_give_objects(dataframe):
+    """
+    Function that cleans the column names of the input frame, selecting only those columns with object data at the same time.
+    
+    Parameters
+    ----------
+        dataframe: A pandas dataframe
+        
+    Returns
+    -------
+        dataframe_objects: The cleaned columns from dataframe with only object datatypes selected.
+        
+    """
+    dataframe.columns = dataframe.columns.str.replace(" " , "_")
+    dataframe.columns = dataframe.columns.str.lower()
+    dataframe_objects = dataframe.select_dtypes(include = ["O"] )
+    
+    return dataframe_objects
+```
+
+Our function does the same as our script did.
+
+```{python eval = FALSE}
+clean_frame_give_objects(animals)
+```
+
+```{python include=FALSE }
+display = clean_frame_give_objects(animals).head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%")
+```
+
+We could also expand this loop to allow us to perform the function on multiple DataFrames. This would allow us to clean multiple DataFrames at once and store them in a list object for example.
+
+### Example - Looping through a list of DataFrames
+
+```{python}
+# We can then loop through the list of frames and process them one after another
+# Collect our list of frames
+list_of_frames = [animals, titanic]
+
+# Create a new blank list to store our frames in
+new_frames = []
+
+# Use a for loop to apply our function
+for each_frame in list_of_frames:
+    clean_frame = clean_frame_give_objects(each_frame)
+    new_frames.append(clean_frame)
+```
+
+We can then sub-select each DataFrame from our list like so:
+
+```{python eval = FALSE}
+# selects the datafame at position 0 in our list
+new_frames[0].head()
+```
+
+```{python include=FALSE }
+display = new_frames[0].head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%")
+```
+
+```{python eval = FALSE}
+# selects the datafame at position 1 in our list
+new_frames[1].head()
+```
+
+```{python include=FALSE }
+display = new_frames[1].head()
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%")
+```
+
+## Better Practice with regards to Functions
+
+There are a few points to make about the concepts discussed here, namely that looping through a list of dataframes may not always be the most efficient way to accomplish something when the dfs themselves are particularly large and there is a large number of them. In fact, this would be considered bad practice in general.
+
+Thankfully, there is a solution to this in the form of the **map** function (for those of you who use R, you will be reminded of the apply family of functions when thinking about map). The map() function allows us to apply a specified function of our choice to an iterable (so a list or tuple for example) to circumvent the need for looping (and as such is much faster), creating what is called a map object. 
+
+This may sound like it could be a problem, but thankfully, we have the list() function to covert this back to a list, so we must remember to convert the datatype as a final step. I personally think this is well worth the extra step when it is a much more efficient solution and has wider uses than loops in general. It is often said that a loop should be used as a last resort for this kind of application if such a function as map() is not applicable.
+
+The syntax for map is as follows:
+
+```{python, eval = FALSE}
+map(function, iterable)
+```
+
+Where the function is a UDF or a built in function and the iterable is the list, tuple etc of our choice!
+
+### Example
+
+```{python}
+# Use the map function to circumvent the need for a loop!
+frame_list = [animals.copy(), titanic.copy()]
+
+# Use the map function 
+new_frames = list(map(clean_frame_give_objects, frame_list))
+```
+
+This opens you up to the world of **functional programming**, which is its own discipline within programming and could be a series of courses in itself! This is something that the programming language R was built for but is now possible in Python as well. For more information on the map function, consult this excellent [article](https://realpython.com/python-map-function/)
+
+One last point I wish to make is with regards to the cleaning function we wrote before, namely that it performs two tasks in one, namely:
+
+* Cleaning column names
+* Selecting object datatypes
+
+This was done for convenience here and to show a good example of using functions for dataframes **but** is not good practice. The Best Practice in Programming and Modular Programming in Python courses on the Learning Hub would cry if they saw this, as we should always strive to make functions as simple as possible, performing only one task each unless impossible to separate them.
+
+As such, we should create a smaller function to clean the column names, outputting a dataframe that can then be passed to an object selector function and so on in a pipeline. This is food for thought for now but I would advise taking these courses and learning more about the good practice of function writing should you need to do this in your role.
+
+
+<a id='end'></a>
+
+# Chapter Summary
+
+Fantastic function writing! This is not only the end of the chapter but the end of Core Part 2 and hence the Introduction to Python course as a whole! You should be so proud of what you have achieved throughout this course as there has been so much to learn from this wonderful programming language we all now know and (hopefully!) love.
+
+As a reminder, the best follow up to this course is the Best Practice in Programming course, you can then follow that up with a multitude of courses. This can lead you into Visualization for example, Statistics in Python and for those that want the next step in your programmatic toolset, Modular Programming in Python!
+
+See you in the next course!

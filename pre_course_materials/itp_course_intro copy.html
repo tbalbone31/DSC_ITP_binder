@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.120">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Intro to Python - Pre Course Materials</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="itp_course_intro_files/libs/clipboard/clipboard.min.js"></script>
+<script src="itp_course_intro_files/libs/quarto-html/quarto.js"></script>
+<script src="itp_course_intro_files/libs/quarto-html/popper.min.js"></script>
+<script src="itp_course_intro_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="itp_course_intro_files/libs/quarto-html/anchor.min.js"></script>
+<link href="itp_course_intro_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="itp_course_intro_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="itp_course_intro_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="itp_course_intro_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="itp_course_intro_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#intro-to-python" id="toc-intro-to-python" class="nav-link active" data-scroll-target="#intro-to-python"><span class="toc-section-number">1</span>  Intro to Python</a></li>
+  <li><a href="#course-materials" id="toc-course-materials" class="nav-link" data-scroll-target="#course-materials"><span class="toc-section-number">2</span>  Course Materials</a></li>
+  <li><a href="#file-formats" id="toc-file-formats" class="nav-link" data-scroll-target="#file-formats"><span class="toc-section-number">3</span>  File Formats</a></li>
+  <li><a href="#software-requirements" id="toc-software-requirements" class="nav-link" data-scroll-target="#software-requirements"><span class="toc-section-number">4</span>  Software Requirements</a>
+  <ul class="collapse">
+  <li><a href="#software-package-versions" id="toc-software-package-versions" class="nav-link" data-scroll-target="#software-package-versions"><span class="toc-section-number">4.1</span>  Software / Package Versions</a></li>
+  </ul></li>
+  <li><a href="#installing-anaconda-suite" id="toc-installing-anaconda-suite" class="nav-link" data-scroll-target="#installing-anaconda-suite"><span class="toc-section-number">5</span>  Installing Anaconda Suite</a>
+  <ul class="collapse">
+  <li><a href="#ons-colleagues---service-desk-call" id="toc-ons-colleagues---service-desk-call" class="nav-link" data-scroll-target="#ons-colleagues---service-desk-call"><span class="toc-section-number">5.1</span>  ONS Colleagues - Service Desk Call</a></li>
+  </ul></li>
+  <li><a href="#opening-jupyter-notebooks" id="toc-opening-jupyter-notebooks" class="nav-link" data-scroll-target="#opening-jupyter-notebooks"><span class="toc-section-number">6</span>  Opening Jupyter Notebooks</a></li>
+  <li><a href="#jupyter-notebook-dashboard" id="toc-jupyter-notebook-dashboard" class="nav-link" data-scroll-target="#jupyter-notebook-dashboard"><span class="toc-section-number">7</span>  Jupyter Notebook Dashboard</a></li>
+  <li><a href="#checking-your-working-directory" id="toc-checking-your-working-directory" class="nav-link" data-scroll-target="#checking-your-working-directory"><span class="toc-section-number">8</span>  Checking your working directory</a>
+  <ul class="collapse">
+  <li><a href="#opening-the-course-materials" id="toc-opening-the-course-materials" class="nav-link" data-scroll-target="#opening-the-course-materials"><span class="toc-section-number">8.1</span>  Opening the course materials</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Intro to Python - Pre Course Materials</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<hr style="width:100%;height:4px;border-width:0;color:gray;background-color:#dd4814; opacity:1">
+<p><img src="../images/AF_DSC_banner.png" class="img-fluid" alt="Government Analysis Function and Data Science Campus Logos"></p>
+<hr style="width:100%;height:4px;border-width:0;color:gray;background-color:#dd4814; opacity:1">
+<!--- Date course last updated and a contact for any help needed. --->
+<center>
+<a href="mailto:Data.Science.Campus.Faculty@ons.gov.uk?subject=Help with Introduction to Python">Need help? Contact the team.</a>
+</center>
+<section id="intro-to-python" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Intro to Python</h1>
+<p>This is an introductory level course aimed to introduce the programming language, Python. This course will cover introductory concepts and give you the confidence to work independently within Python. It is split into <strong>Core</strong> and <strong>Reference</strong> materials, where <strong>Core</strong> is mandatory and further split into <strong>Part 1</strong> and <strong>Part 2</strong>; where <strong>Part 1</strong> introduces the language and builds up skills in Data Analysis; and <strong>Part 2</strong> builds upon the programming toolbox to introduce Control Flow, Loops and Functions. <strong>Reference</strong> material is optional and acts as an excellent reference tool (hence the name :D) when building some more advanced skills as well as introducing more data types and techniques that are outside the scope of the course, but inside the scope of more complex modules like <strong>Introduction to Machine Learning in Python</strong>.</p>
+<p>No prior coding or statistical knowledge is assumed when taking this course from the start, however, <strong>Core Part 2</strong> requires you to have covered <strong>Core Part 1</strong> and the <strong>Reference</strong> materials assume that you have covered both sets of <strong>Core</strong> materials. This ensures the course flows in the way it was intended to, allowing you to gain that solid foundation in <strong>Core Part 1</strong>, build the toolbox in <strong>Core Part 2</strong> and expand upon this in <strong>Reference</strong> materials if and when you cover them.</p>
+</section>
+<section id="course-materials" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Course Materials</h1>
+<p>The <strong>zipped</strong> course materials can be found on the Learning Hub under the header “Course Material”. You should see a folder icon named “Intro to Python” with some information underneath that is summarised here. Click this folder and then the structure of the folder (like a tree of files) will be shown. Please click the “download folder” button to begin the process of downloading the materials.</p>
+<ul>
+<li>Chrome: This should save the .zip folder to your download folder.</li>
+<li>Internet Explorer: Choose “Save” from the yellow bar</li>
+</ul>
+<p>Now to unzip the folder and begin utilising the materials, follow these steps:</p>
+<ol type="1">
+<li><p>In your file explorer (The folder icon on your taskbar, or you can type this into the search bar) find the .zip folder that you downloaded.</p></li>
+<li><p>Right click on the folder and choose extract all.</p></li>
+<li><p>Change the destination folder to be the folder to your default working directory (think of this like your main working area where you tend to save most of your work) - this is probably <code>C/Users/Your_Username</code>. Of course, you are more than welcome to save this where you would like, you can even right click in the area of your choice and select “New Folder” which can be named and then used as the destination to save the materials. If you are unsure of your working directory instructions can be found later in this notebook under “Checking your working directory”.</p></li>
+</ol>
+<p>The course materials are in several folders:</p>
+<ul>
+<li><p>course_materials - HTML Documents containing the pre-course materials (such as this one!) as well as the images taken from Binder that are used within them.</p></li>
+<li><p>data - contains the data we will use during the course, a mixture of csv (Comma Separated Value) files and xlsx (Excel spreadsheet) files.</p></li>
+<li><p>html_course_version - The HTML versions of the course materials.</p></li>
+<li><p>images - The images used throughout the course HTMLs.</p></li>
+<li><p>notebooks - Contains the Jupyter Notebooks (.ipynb files) that we’ll use in the course. These are a kind of Python file where both text and code are contained. This will be introduced in <strong>Chapter 1</strong> of the course materials.</p></li>
+<li><p>outputs - A location to save files (you can put your filled in exercises here for example).</p></li>
+<li><p>solutions - Contains python files (.py) used within the notebooks to give answers to the questions. These are loaded from within the Jupyter Notebook.</p></li>
+</ul>
+</section>
+<section id="file-formats" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> File Formats</h1>
+<p>This course contains documents in the following formats:</p>
+<ul>
+<li>HTML Files</li>
+<li>CSV Files</li>
+<li>Excel Files (.xlsx files)</li>
+<li>Jupyter Notebook Files (.ipynb files)</li>
+</ul>
+<p>Some departments have issues with reading excel files into Python. If you have run the solution code and still get an error you may need to save as a different file type in excel (you can click “Save as” and change the filetype to .csv for example <strong>but</strong> this comes with the caveat of possibly altering formatting!). You will also need to contact your department for guidance about how to read excel files, in case there is a way to do this without resorting to a change of file type.</p>
+</section>
+<section id="software-requirements" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Software Requirements</h1>
+<ul>
+<li>Anaconda Suite ONS Current version - ANACONDA Anaconda 2020.07 (64 bit) for Python 3.8.3 - (The version numbers may change over time - as long as Anaconda is listed this is fine.)</li>
+</ul>
+<p>Some Users may also have Python Anaconda 4.4 for Python 3.6 which is also fine.</p>
+<p>Anaconda Suite is a collection of software (including Jupyter Notebooks, Spyder and Jupyter QT console) and packages (including Pandas, Numpy and Matplotlib) that are used for this course. It also has its own built in command line via the Anaconda Prompt, where packages can be installed, updated etc. Details on using these interfaces can be found in the <strong>Command Line Basics</strong> course.</p>
+<ul>
+<li>Web browser</li>
+</ul>
+<p><em>Internet connection not necessary</em></p>
+<ul>
+<li>Excel / Spreadsheet program</li>
+</ul>
+<p><em>Viewing .csv and .xlsx documents in the native program can be useful at times.</em></p>
+<section id="software-package-versions" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="software-package-versions"><span class="header-section-number">4.1</span> Software / Package Versions</h2>
+<p>Contents of this course are written for specific software and package versions. Usually, packages are backwards compatible but there may be some slight parameter differences (names for example may differ) which may need to be troubleshooted. In the majority of cases, the course code will still function as expected.</p>
+<p>We will explore how to find your version after we load each package in the main course materials. Note that ONS currently uses the following versions:</p>
+<ul>
+<li>Anaconda 2020.07</li>
+<li>Python 3.8.3</li>
+<li>Pandas 1.0.1</li>
+</ul>
+<p>This course has also been tested on another common version used in the ONS:</p>
+<ul>
+<li>Anaconda 4.4</li>
+<li>Python 3.6</li>
+<li>Pandas 0.20.1</li>
+</ul>
+</section>
+</section>
+<section id="installing-anaconda-suite" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Installing Anaconda Suite</h1>
+<p>The following advice and guidance applies to staff at the Office for National Statistics (ONS). If you are part of another government department and are using a networked laptop please approach your IT team for how to install Anaconda Suite. This is something that varies across many Public Sector departments and is imperative to sort as soon as you can. Getting this out of the way now during the Introductory course will pave the way for more complicated modules later on, should you take them. Plus it also ensures that incorporating this into your workflow is made easier.</p>
+<p>If you are using an off-network laptop and have permission to do so please follow the instructions <a href="https://www.anaconda.com/distribution/">on the anaconda website</a>. Please choose the version starting Python 3 and the right Operating System (OS).</p>
+<section id="ons-colleagues---service-desk-call" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="ons-colleagues---service-desk-call"><span class="header-section-number">5.1</span> ONS Colleagues - Service Desk Call</h2>
+<ol type="1">
+<li>From Reggie choose “Service Desk”, where you may need to enter your email address.</li>
+<li>Choose “I want something”</li>
+<li>Choose “Software, Applications and Platforms”</li>
+<li>Choose “Computer Software - Add/Transfer”</li>
+<li>Choose “Install”</li>
+<li>In the box underneath “Please select the Desktop/Laptop software you need to be Installed/Removed/Transferred” type “ANACONDA Anaconda 2020.07 (64 bit) for Python 3.8.3” and click to select. n.b (The version numbers may change over time - as long as Anaconda is listed this is fine.)</li>
+<li>Add your asset number (on a sticker on your device, usually starts with ONS).</li>
+<li>Does this software need to be installed on/removed from multiple PCs? - Choose No</li>
+<li>Choose Order Now.</li>
+</ol>
+<p>During busy times it may take a few days for software to be installed. Please plan accordingly if you are on a course; online alternatives (Binder, Google Colab, Kaggle) are available if you cannot get software installed in time. In fact, it is recommended that if you have access, to create a Kaggle account as this is a fantastic platform for Data Scientists of all skill levels, even those who are just interested in the field. They hold competitions regularly that are incredibly popular, attracting an audience that ranges internationally and works at different skill levels (there are Exploratory Data Analysis projects, Machine Learning projects, Natural Language Processing projects, etc).</p>
+<p>This is a fabulous opportunity for networking as well as putting your skills to the test on an interesting piece of data that has been chosen for you. Kaggle is also an open source platform that has it’s own versions of notebooks that can run <strong>both</strong> Python and R code. We have used this as an ad-hoc teaching tool in the past and found it incredibly useful. You can also host open source, non-sensitive datasets on Kaggle, as well as use others that have been uploaded by users just for some exploration, or even to prepare a competition entry.</p>
+<p><a href="https://www.kaggle.com">Kaggle</a></p>
+</section>
+</section>
+<section id="opening-jupyter-notebooks" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Opening Jupyter Notebooks</h1>
+<p>This step may vary depending on your operating system as well as whether the software is natively downloaded to your machine or not. If you are using a VDI for example, or another alternative solution to the native download of Anaconda, consult your IT department for help in opening the software.</p>
+<ul>
+<li><p>Windows: From the Start menu choose All Programs <code>-&gt;</code> Anaconda 3 (64bit) <code>-&gt;</code> Jupyter Notebook.</p></li>
+<li><p>Mac: From the taskbar on the dekstop choose Launchpad <code>-&gt;</code> Anaconda-Navigator <code>-&gt;</code> When this opens (it takes a little while to get started) choose Jupyter Notebook.</p></li>
+</ul>
+<p>Jupyter Notebook will then open in your default internet browser - usually Chrome/Edge or Chrome/Safari.</p>
+</section>
+<section id="jupyter-notebook-dashboard" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Jupyter Notebook Dashboard</h1>
+<p>This is the page that is launched when you first open Jupyter Notebook. It is the area where you will create new notebooks as well as open existing ones. The files and folders that are stored here are the exact same as your current working directory (for me that’s <code>C:/users/hodgeh</code>). The familiarity of the files and folder system should make this easier to navigate. The reason we requested that you save the course materials here is that they will now appear on this screen and the .ipynb files can thus be opened.</p>
+</section>
+<section id="checking-your-working-directory" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Checking your working directory</h1>
+<p>To check your working directory you will need to open a new Jupyter notebook to type some code. To do this:</p>
+<ol type="1">
+<li>Click “New” on the right-hand side of the screen and choose “Python 3”. This is known as the <strong>kernel</strong> and is what code interpreter is run in the background (this will be explained further in Chapter 1 of the course materials). This will open a new blank notebook ready to be filled with code and markdown.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/newnotebook.png" class="img-fluid figure-img" alt="Creating a blank Jupyter Notebook"></p>
+<p></p><figcaption class="figure-caption">Creating a blank notebook</figcaption><p></p>
+</figure>
+</div>
+<ol start="2" type="1">
+<li>The notebook contains a box surrounded with a border - this is called a cell, where code can be typed and run. In the cell type the following and press <code>CTRL</code> + <code>ENTER</code>:</li>
+</ol>
+<p><code>%pwd</code></p>
+<p>Note that some versions will accept a space between the % and pwd - some will not which may require some trial and error. This stands for Present Working Directory and tells you where you computer currently points to (where you are located).</p>
+<ol start="3" type="1">
+<li>Below the cell an output will appear - this is your present working directory.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/findingworkingdirectory.png" class="img-fluid figure-img" alt="Finding the working directory"></p>
+<p></p><figcaption class="figure-caption"><em>Finding the working directory</em></figcaption><p></p>
+</figure>
+</div>
+<p>This is the location you will need to save the course materials to.</p>
+<section id="opening-the-course-materials" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="opening-the-course-materials"><span class="header-section-number">8.1</span> Opening the course materials</h2>
+<p>Now you have saved the course documents in your present working directory you should be able to see a folder called “Intro to Python” in the home tab of Jupyter Notebook. To follow these instructions, you can now start the course! Follow the last set of steps below to open Chapter 1 and get started on your Python journey!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/introtopythonfolder.png" class="img-fluid figure-img" alt="Selecting the Intro to Python folder"></p>
+<p></p><figcaption class="figure-caption"><em>Selecting the Intro to Python Folder</em></figcaption><p></p>
+</figure>
+</div>
+<ol type="1">
+<li>Click on folder name “Intro to Python”</li>
+<li>Choose Notebooks</li>
+<li>Choose “Chapter_1_Getting_Started_with_Python.ipynb”</li>
+<li>Chapter 1 will now load in a new tab. Note that multiple chapters can be opened simultaneously if you need to refer to multiple sections at once.</li>
+</ol>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

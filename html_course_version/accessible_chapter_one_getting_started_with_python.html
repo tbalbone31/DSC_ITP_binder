@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.120">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter One - Getting Started with python</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="chapter_one_getting_started_with_python_files/libs/clipboard/clipboard.min.js"></script>
+<script src="chapter_one_getting_started_with_python_files/libs/quarto-html/quarto.js"></script>
+<script src="chapter_one_getting_started_with_python_files/libs/quarto-html/popper.min.js"></script>
+<script src="chapter_one_getting_started_with_python_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="chapter_one_getting_started_with_python_files/libs/quarto-html/anchor.min.js"></script>
+<link href="chapter_one_getting_started_with_python_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="chapter_one_getting_started_with_python_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="chapter_one_getting_started_with_python_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="chapter_one_getting_started_with_python_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="chapter_one_getting_started_with_python_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#background-of-python" id="toc-background-of-python" class="nav-link active" data-scroll-target="#background-of-python"><span class="toc-section-number">1</span>  Background of Python</a></li>
+  <li><a href="#interacting-with-jupyter" id="toc-interacting-with-jupyter" class="nav-link" data-scroll-target="#interacting-with-jupyter"><span class="toc-section-number">2</span>  Interacting with Jupyter</a>
+  <ul class="collapse">
+  <li><a href="#cells" id="toc-cells" class="nav-link" data-scroll-target="#cells"><span class="toc-section-number">2.1</span>  Cells</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="toc-section-number">2.2</span>  Exercise</a></li>
+  <li><a href="#markdown-cells" id="toc-markdown-cells" class="nav-link" data-scroll-target="#markdown-cells"><span class="toc-section-number">2.3</span>  Markdown Cells</a>
+  <ul class="collapse">
+  <li><a href="#mini-markdown-tutorial" id="toc-mini-markdown-tutorial" class="nav-link" data-scroll-target="#mini-markdown-tutorial"><span class="toc-section-number">2.3.1</span>  Mini Markdown Tutorial</a></li>
+  </ul></li>
+  <li><a href="#headers" id="toc-headers" class="nav-link" data-scroll-target="#headers">Headers</a></li>
+  <li><a href="#cell-modes" id="toc-cell-modes" class="nav-link" data-scroll-target="#cell-modes"><span class="toc-section-number">2.4</span>  Cell Modes</a></li>
+  <li><a href="#working-with-a-new-notebook" id="toc-working-with-a-new-notebook" class="nav-link" data-scroll-target="#working-with-a-new-notebook"><span class="toc-section-number">2.5</span>  Working with a new notebook</a></li>
+  <li><a href="#fonts" id="toc-fonts" class="nav-link" data-scroll-target="#fonts"><span class="toc-section-number">2.6</span>  Fonts</a></li>
+  <li><a href="#saving-notebooks" id="toc-saving-notebooks" class="nav-link" data-scroll-target="#saving-notebooks"><span class="toc-section-number">2.7</span>  Saving Notebooks</a></li>
+  <li><a href="#saving-notebooks-to-share" id="toc-saving-notebooks-to-share" class="nav-link" data-scroll-target="#saving-notebooks-to-share"><span class="toc-section-number">2.8</span>  Saving Notebooks to Share</a></li>
+  </ul></li>
+  <li><a href="#accessing-help" id="toc-accessing-help" class="nav-link" data-scroll-target="#accessing-help"><span class="toc-section-number">3</span>  Accessing help</a></li>
+  <li><a href="#interacting-with-python-in-other-ways" id="toc-interacting-with-python-in-other-ways" class="nav-link" data-scroll-target="#interacting-with-python-in-other-ways"><span class="toc-section-number">4</span>  Interacting with Python in other ways</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary"><span class="toc-section-number">5</span>  Chapter Summary</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter One - Getting Started with python</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><img src="../images/AF_DSC_banner.png" class="img-fluid" alt="Government Analysis Function and Data Science Campus Logos."></p>
+<div class="cell">
+
+</div>
+<p>This is a HTML document. The Introduction to Python course is written and intended to be used in a Jupyter Notebook file. These HTML documents have been made available for users who require screen readers or have other accessibility needs. These HTML documents have been tested and run through a correction process courtesy of the accessrmd package (git repo <a href="https://github.com/datasciencecampus/accessrmd">here</a>). However, there are issues that can elude this package, so if you notice any errors or any compatibility issues please contact us at the Data Science Campus Faculty inbox from the link above, so that this can be logged for review.</p>
+<p>If you are using a screen reader you will need to set your punctuation level (sometimes called verbosity) to full, especially for the code sections.</p>
+<p>As you progress through these training materials, please run the code as you encounter it as this will preserve the flow of the course itself.</p>
+<p><em>Chapter Overview/ Learning Objectives</em></p>
+<ul>
+<li><p><a href="#background">Background of Python</a></p></li>
+<li><p><a href="#interacting_jp">Interacting with Jupyter</a></p>
+<ul>
+<li>Creating a blank file</li>
+<li>Cells</li>
+<li>Markdown Cells</li>
+<li>Working with a new notebook</li>
+<li>Settings</li>
+<li>Fonts</li>
+<li>Saving Notebooks</li>
+<li>Saving Notebooks to Share</li>
+</ul></li>
+<li><p><a href="#help">Accessing Help</a></p></li>
+<li><p><a href="#other_software">Interacting with Python in other ways</a></p></li>
+</ul>
+<p><a id="background" href=""></a></p>
+<section id="background-of-python" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Background of Python</h1>
+<p>Python was created by Guido van Rossum and first released in 1991. It was named this way as a reference to Monty Python’s Flying Circus, which you can be sure will be referenced throughout the course (how could we not!). It is a general-purpose programming language that has four key aims:</p>
+<ul>
+<li>An easy and intuitive programming language that’s still powerful in performance.</li>
+<li>Open source (so anyone can contribute to the development).</li>
+<li>Understandable in plain English (this is often referred to as ‘readable’).</li>
+<li>Suitable for everyday tasks, which allows for short development times when compared with other languages.</li>
+</ul>
+<p>By learning Python you’re in good company, as in <a href="https://madnight.github.io/githut/#/pull_requests/2022/1">2022 Quarter 1</a> GitHub ranked it as the most commonly used language and many websites list it as a key tool to learn for Data Science.</p>
+<p>Due to Python’s open source nature there’s a wide variety of support out there for it. At the time of writing (September 2022) Stack Overflow has <a href="https://stackoverflow.com/questions/tagged/python">2,019,866 questions</a> tagged with “Python”, the <a href="https://www.reddit.com/r/Python/">r/Python subreddit</a> has over 1,000,000 members, and countless tutorials, Github projects and guides are available online.</p>
+<p>Python is extensible – we can use a broad range of additional packages to enhance our code and make processes easier. These are also (mostly) open source, and often have great support from the developers. Your Anaconda Distribution gives you access to a lot <a href="https://docs.anaconda.com/anaconda/packages/old-pkg-lists/4.4.0/py35/">(for version 4.4.0)</a> of these packages without having to download anything else. In this course we’ll use the incredibly popular (and useful!) Pandas and Numpy packages.</p>
+<p>Python has a strong set of “guiding principles” written to influence the design of the programming language. This was written by Tim Peters and was dubbed the “Zen of Python”, posted on the mailing list in 1999.</p>
+<p>We can load it by using the keyword import and the word this. We’ll look at how to run code in a second.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">import</span> this</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!</code></pre>
+</div>
+</div>
+<p><a id="interacting_jp" href=""></a></p>
+</section>
+<section id="interacting-with-jupyter" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Interacting with Jupyter</h1>
+<p>Python files or “scripts” can be written in a variety of programmes, from the base Python Interpreter to numerous different IDEs (Integrated Development Environments) that range in terms of their features, performance as well as user friendliness. For the purpose of these training courses, we introduce Jupyter Notebooks (which has the file extension .ipynb which stands for I Python Notebook) as they are an excellent way to weave together course notes and explanation along with code cells to introduce the syntax (or language) of Python.</p>
+<p>Whilst Jupyter Notebook is a fantastic IDE for learning the language of Python, when it comes to developing in the language (utilising multiple scripts together to accomplish numerous tasks, even for regular publication!), it is not the recommended choice as automation is more difficult within it. What IDEs you chose to use is down to not only personal preference, but also to the team you are situated in, as there are often one or two choices that apply across whole teams. Another layer to this is security and access concerns across the public sector, some are more restrictive than others when it comes to the IDEs that you can use. You should always consult with your IT department when it comes to these software questions.</p>
+<p>If you would like a recommendation from us for a fantastic IDE, then this would be Microsoft’s <a href="https://code.visualstudio.com">Visual Studio Code</a> which allows you to open up numerous Python scripts, Jupyter Notebooks and also provides Version Control built in. This is one of the most popular IDEs used worldwide and is an excellent tool for writing code in a reproducible way for a production focused environment (it is even popular for more experimental work as well!). You will see some screenshots of this IDE at the end of the chapter, but please investigate and compare them in your own time.</p>
+<p>We should open .ipynb files in a program like Jupyter Notebook as opening them from file explorer will often not work and result in your computer not knowing what to open them in by default. To avoid having to manually set this, open Jupyter Notebook first and then you can open any notebooks from there.</p>
+<p>So what is Jupyter Notebook? It is an open-source web application that allows you to create and share documents that contain live code, equations, visualisations and narrative text, which make it an excellent tool for scientific reporting. Whilst it can support over 40 languages, it is most commonly used for Python coding and the notebooks created can be shared easily with other users (e.g.&nbsp;by email or through Gitlab or GitHub), furthering its popularity.</p>
+<p>Notebooks have an interactive output. We can have explanatory cells (like this one) alongside code cells and output cells. Combining these together into a single file which can be rendered in various formats (including HTMLs, PDFs and more), is a great way to produce self contained data analyses. For this reason, they are widely used in the private sector (Google, IBM, Soundcloud, NASA), the education sector (University of Sheffield, NYU, Berkley) and within Public Sector organisations.</p>
+<p>Breaking down the software itself, Jupyter has two main components, these are kernels and a dashboard. The kernel is the part that runs and examines the code we write (it contains an interpreter for the programming language you chose) and the dashboard is the notebook itself, which allows us to add, delete and alter the cells we write code in, communicates with the kernel and even provides a friendly user interface to work with.</p>
+<section id="cells" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="cells"><span class="header-section-number">2.1</span> Cells</h2>
+<p>In Jupyter Notebooks we write our document in a sequence of multiple line input boxes called cells. The default is a code cell (we’ll look at how to change the type later). If you click into a cell you’ll notice a box on the menu bar that says code - if your output doesn’t behave as expected, check this box. It can be easy to accidentally toggle between the options using keyboard shortcuts.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/cell_type.jpg" class="img-fluid figure-img" alt="Image showing code type cell."></p>
+<p></p><figcaption class="figure-caption">image showing the cell type as code</figcaption><p></p>
+</figure>
+</div>
+<p>In code cells you can edit existing code or write new code. Jupyter also gives us some nice features, like syntax highlighting and tab completion (these will be explained when we see them in action going forward!).</p>
+<p>In a cell type the Python code: print(“Hello World”)</p>
+<p>When we run this cell we get the output “Hello World” displayed below the cell (this is the ouput cell!). To run the cell click into it, then press the CTRL key and the ENTER key simultaneously (In later parts of this course keyboard combinations with a plus will be used to indicate ‘and’ - e.g.&nbsp;CTRL + ENTER).</p>
+<p>For Mac users the keys are different. This course will use Windows shortcuts, so please use the following substitutes:</p>
+<ul>
+<li>Ctrl for command key ⌘</li>
+<li>Shift for Shift ⇧</li>
+<li>Alt for option ⌥</li>
+</ul>
+<p>Please note cells shown in this HTML document are <strong>not</strong> interactive; you’ll need to write the code in your python editor.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello World"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hello World</code></pre>
+</div>
+</div>
+<p>Try changing “Hello World” to your name. It must be in either ‘single’ or “double” quote marks – and needs to be within the round brackets () of the print function. Remember that you cannot start with a single quote and end with a double as this will cause issues in Python. You must end with the same quotation mark you started the sentence/phrase/word with.</p>
+<p>You can add in new cells in a variety of ways;</p>
+<ul>
+<li>ALT + ENTER runs the selected cell and adds in a new blank one below</li>
+<li>From the menu bar choose Insert and choose either Insert Cell Above or Insert Cell Below</li>
+<li>On the menu bar press the + symbol</li>
+</ul>
+</section>
+<section id="exercise" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="exercise"><span class="header-section-number">2.2</span> Exercise</h2>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href=""><strong>Exercise</strong></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href=""><strong>Show Answer</strong></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="unnumbered tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Let’s practise running and adding some new cells. Perform the following mathematical operations – <strong>One per cell, utilising the various ways of adding new cells as you go.</strong></p>
+<p>We’ve given you the first blank cell.</p>
+<ul>
+<li>3 * 5 (three multiplied by five)</li>
+<li>(10 - 3) ** 3 (ten minus three, to the power of three)</li>
+<li>97623 / 9 (ninety seven thousand six hundred and twenty three divided by nine)</li>
+</ul>
+</div>
+<div id="tabset-1-2" class="unnumbered tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="op">*</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>15</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="dv">10</span><span class="op">-</span><span class="dv">3</span>) <span class="op">**</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>343</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="dv">97623</span><span class="op">/</span><span class="dv">9</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>10847.0</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>You can display line numbers inside your cells. This can be helpful, especially when someone is reviewing your code. For example, saying “the code on line 5 showed an error” rather than just “there is an error in the code”. To turn on line numbering choose “view” and then “toggle line numbers” to turn them on or off.</p>
+<p>We can add comments into our code, an essential feature when the code we have written is more complicated or contains methods we would like to remind ourselves of upon returning to it. Another reason to include comments is to do with code maintenance as well as sharing, we want someone else to be able to pick up our code and understand what we did and why we did it, rather than having to spend hours deciphering it. However, it is good to remember not to overdo it with the comments as this becomes unreadable in a counter-intuitive way (you added comments to make the code readable but made it unreadable in the process!). There is more information in the “Clean Code” course on the Learning Hub.</p>
+<p>To begin commenting we use the # symbol. Anything following this symbol is a comment and is ignored by the Python interpreter.</p>
+<p>This is on the right of my keyboard, next to the at symbol (@) For users with a numeric keypad the alt code is ALT 35. For Mac users the keyboard shortcut for the hash symbol is ALT and 3.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># It is good practice to comment your code regularly</span></span>
+<span id="cb11-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"comments are cool!"</span>) <span class="co"># comments can also go on the end of lines</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>comments are cool!</code></pre>
+</div>
+</div>
+</section>
+<section id="markdown-cells" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="markdown-cells"><span class="header-section-number">2.3</span> Markdown Cells</h2>
+<p>Here we introduce another type of cell, namely the Markdown cell. These allow you to add explanatory text to your notebooks, allowing you to explain your rationale behind techniques you implemented, to explain outputs and much more. You may want to use markdown cells to make notes as you follow along with this course. <strong>Markdown</strong> is the language used for this and has its own syntax for formatting text as we write it.</p>
+<p>You can toggle between “code” and “markdown” cells by using the drop down cell type menu, which is set to “code” by default (see the following).</p>
+<p><img src="../images/cell_type.jpg" class="img-fluid" alt="image showing the cell type as code">{“Image showing cell type window highlighted.”}</p>
+<p>When we run a markdown cell the borders disappear, and it looks like part of the text document. We run these cells in exactly same way as our code ones (e.g CTRL + ENTER) and this embeds the text (and any formatting) into the document itself. Try it now yourself, insert a markdown cell under this one and type something (not the word ‘something’ :) ).</p>
+<section id="mini-markdown-tutorial" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="mini-markdown-tutorial"><span class="header-section-number">2.3.1</span> Mini Markdown Tutorial</h3>
+<p>As eluded to previously, we can do much more than just plain text within Markdown cells.</p>
+<p><strong>Bold</strong> text is created with two asterisks either side - “<strong>bold</strong>”</p>
+<p><em>Italics</em> text is created one asterisk either side - “<em>italics</em>”</p>
+<p><del>Strikethrough</del> text is created with two tilde (squiggles) either side - “<del>Strikethrough</del>”</p>
+<p><strong><em>Bold and Italic</em></strong> text is created with three asterisks either side - “<strong><em>Bold and Italic</em></strong>”</p>
+</section>
+</section>
+<section id="headers" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="headers">Headers</h2>
+<p>are created using the hash or pound symbol # followed by a space. Smaller headers have 2 or more ## symbols. This allows you to create a heirarchy of headings, with the major chapter/section headings being one hash, sub-chapters with two hashes and further sub-headings at three hash or more.</p>
+<ul>
+<li>Bullet Points Are created by an asterisk followed by a space.
+<ul>
+<li>They can also be nested by tabbing in before placing the second asterisk!</li>
+</ul></li>
+</ul>
+<p>There’s lots more you can do with Markdown too – here’s a <a href="https://jupyter-notebook.readthedocs.io/en/stable/examples/Notebook/Working%20With%20Markdown%20Cells.html">link</a> if you’d like to learn more. Mastering some formatting of markdown cells will really improve the resultant Jupyter Notebooks you create and hence structuring a scientific report much easier in the long run.</p>
+</section>
+<section id="cell-modes" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="cell-modes"><span class="header-section-number">2.4</span> Cell Modes</h2>
+<p>Cells have two modes:</p>
+<ul>
+<li><p>Edit Mode: The cell has a green border and can have edits made to it. A pencil icon will appear in the top right, next to the words “Python 3”.</p></li>
+<li><p>Command Mode: The cell has a blue border. In this mode you can use keyboard shortcuts to control the overall notebook. Try pressing the d key twice quickly when a cell is in blue mode – it will delete it.</p></li>
+</ul>
+<p>Jupyter has some very useful tutorials and advice built into the software that can make its introduction a little less daunting (along with these materials of course!!). Keyboard shortcuts can be found in the help menu under ‘keyboard shortcuts’, which can really improve your workflow. Saving a few seconds on a process each time really adds up (running cells for example and entering a new one with ALT + ENTER). There is also an interface tour that covers the Jupyter interface; it can be useful to look at, but we cover the same concepts in this chapter.</p>
+</section>
+<section id="working-with-a-new-notebook" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="working-with-a-new-notebook"><span class="header-section-number">2.5</span> Working with a new notebook</h2>
+<p>In this tutorial you are working with a pre-populated notebook, which ensures that you have the explanatiry text alongside code cells and room to practise your own code by inserting new cells. However, when you work on your own projects you will want to start a new notebook for each project. It is recommended that you keep both this tab and your new notebook tab open whilst progressing through this material.</p>
+<p>To create a new notebook choose:</p>
+<p>File -&gt; New Notebook -&gt; Python 3</p>
+<p>This will open a new tab with a blank notebook, which looks like the following (quite unremarkable compared to this one!):</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/m1_new_notebook.png" class="img-fluid figure-img" alt="Image showing a blank Jupyter Notebook."></p>
+<p></p><figcaption class="figure-caption">A Blank Jupyter Notebook</figcaption><p></p>
+</figure>
+</div>
+<p>Note that this notebook is saved in the same place as our current notebook - In your C/Users/Your_Username/intro_to_python/notebooks location.</p>
+<p>You can change the name of the notebook by clicking on the title – e.g.&nbsp;“Untitled”. This brings up an interface where you can alter the name of your notebook.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/m1_rename_notebook.png" class="img-fluid figure-img" alt="An image showing the name of the notebook being changed."></p>
+<p></p><figcaption class="figure-caption">Changing the notebook name</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="fonts" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="fonts"><span class="header-section-number">2.6</span> Fonts</h2>
+<p>Some may find the fonts in Jupyter Notebooks difficult to read due to the zoomed out nature of them. To rectify this we can use a very useful keyboard shortcut that applies to HTML documents, webpages and more. You can zoom in by using CTRL and + and zoom out by using CTRL and -</p>
+<p>You can globally change the fonts to one of your preference. There is a HTML Document called <a href="../course_materials/Changing_Jupyter_font.html">“Setting Fonts”</a> in the Supporting Documents folder which demonstrates how to change this. It also discusses the reasons why this is really important for sharing documents, particularly with accessibility in mind.</p>
+</section>
+<section id="saving-notebooks" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="saving-notebooks"><span class="header-section-number">2.7</span> Saving Notebooks</h2>
+<p>Notebooks, by default, are saved to the location Jupyter notebooks was installed in. For many of us this will be C:/users/username e.g C:/users/hodgeh. Please note that this is the physical hard drive of your device; so ensure important documents are backed up. We recommend using Git, as this also allows version control; for more information, there is the Introduction to Git course on the Learning Hub.</p>
+<p>To Save your notebook you can choose:</p>
+<ul>
+<li>File -&gt; Save and Checkpoint</li>
+<li>Click the floppy disk icon on the menu bar</li>
+<li>Press CTRL + S</li>
+</ul>
+</section>
+<section id="saving-notebooks-to-share" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="saving-notebooks-to-share"><span class="header-section-number">2.8</span> Saving Notebooks to Share</h2>
+<p>If we want to save notebooks to share with someone else, we need to download them. From the main menu choose:</p>
+<ul>
+<li>File -&gt; Download As</li>
+</ul>
+<p>This gives several options; among them are the following:</p>
+<ul>
+<li>The .ipynb is Jupyter Notebook’s native file type and retains all code and markdown.</li>
+<li>The .py is python’s native file type and denotes a ‘script’ in the language. Markdown code will be commented out.</li>
+<li>The .html is an uneditable file in the form of a rendered webpage; this is a great alternative for sharing with users as they do not need to have Jupyter installed to view the content.</li>
+</ul>
+<p><a id="help" href=""></a></p>
+</section>
+</section>
+<section id="accessing-help" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Accessing help</h1>
+<p>We’ll look at how to access help for our functions, methods and properties within Jupyter later in the course. Some general places to get help</p>
+<ul>
+<li>The Training team – Data.Science.Campus.Faculty@ons.gov.uk</li>
+</ul>
+<p>If you have any issues with this course; or notice any errors, please contact the faculty team on the email above. They may are be able to help with any Python questions you have after you have completed the course. This is also a great place to contact if you encounter issues with the course itself, problems with materials etc. Please be aware that due to training commitments there may be a small wait before we respond to your query. We also expect that you have attempted to solve your query yourself before contacting us.</p>
+<p>When asking others for help following the GOOD approach can be very beneficial. Adapted from <a href="https://realpython.com/lessons/ask-good-questions/">realpython.com</a></p>
+<p>G: <strong>Give context</strong> on what you are trying to do, clearly describing the problem.</p>
+<p>O: <strong>Outline</strong> the things you have already tried to fix the issue.</p>
+<p>O: <strong>Offer your best guess</strong> as to what the problem might be. This helps the person who is helping you to not only know what you are thinking, but also know that you have done some thinking on your own.</p>
+<p>D: <strong>Demo what is happening </strong>. Include the code, a traceback error message, and an explanation of the steps you executed that resulted in the error. This way, the person helping does not have to try to recreate the issue.</p>
+<ul>
+<li><a href="https://govdatascience.slack.com">Gov Data Science Slack</a></li>
+</ul>
+<p>Slack is an online collaboration tool. This Slack channel is for Data Science across government (which includes many more organisations than the ONS!) and is a great way to expand your network as well as obtain some help to a very niche problem.</p>
+<ul>
+<li><a href="https://pandas.pydata.org/">Package Websites (e.g Pandas)</a></li>
+</ul>
+<p>Packages like pandas have their own documentation, both within Python and on their websites. If and when new packages are introduced in the wealth of courses we offer on the Learning Hub, links to the creators’ pages will be provided. There are often excellent examples as well as explanations to supplement what you’ve seen here.</p>
+<ul>
+<li>Your own organisation’s tools.</li>
+</ul>
+<p>Your department may have an active Yammer or Slack group devoted to Python or Data Science. You may have coffee and coding sessions; or regular webinars. Take advantage of these to enhance your skills.</p>
+<p>Within ONS the Python Usergroup and Coding in the Kitchen Yammer may be helpful.</p>
+<ul>
+<li>Web Searches</li>
+</ul>
+<p>Searching “X process in Python” will return thousands of results. Remember to read through multiple sources, and to evaluate the content provided to you. As Python is a constantly evolving software also ensure your results are from a recent time period. Test on a small sample of your data to ensure it produces the result you are expecting.</p>
+<p>It cannot be stressed enough that the skill you aim to develop here is not to know syntax and code verbatim as this is impossible (there is just too much of it!), it is more how to search and what to search for. The true understanding you will reach with time is to know what problem you are attempting to solve and how to concisely search this in Google (or the search engine of your choice). This sounds like an easy task but it is far from it, requiring practice to develop the skill.</p>
+<p>Another option is to take the last line of an error message (where the type of error is specified, normally starts with ‘xxxError:’) and pasting it into a google search. This doesn’t always work due to how specific the problem we are trying to solve is (and in this case, a concise search is better), but often provides some good examples of the error and ways of solving it.</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/python">Stack Overflow</a></li>
+</ul>
+<p>Stack Overflow is a forum with questions and answers around multiple languages; Python among them. These forums usually are returned as part of a web search and if one shows up, it should be the first one that you click on. At first the content may seem daunting (and the attitudes of some of the posters don’t help!); however most users also give examples and explain what they are attempting to do (which can help you to pinpoint it yourself for more concise searching!).</p>
+<p><em>When searching for help please be aware of the version of Python and the packages you have installed. These will often be referenced in posts online.</em></p>
+<p><a id="other_software" href=""></a></p>
+</section>
+<section id="interacting-with-python-in-other-ways" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Interacting with Python in other ways</h1>
+<p>Jupyter Notebooks is far from the only way to work with Python code.</p>
+<p>As part of the Anaconda Suite install you also have</p>
+<ul>
+<li>Jupyter QT Console (Similar to a command line interface -&gt; Command Line Basics course on the Learning Hub!)</li>
+<li>Spyder (an IDE, similar to RStudio for R users)</li>
+</ul>
+<p>Other environments are also available.</p>
+<p>The images below are screenshots of Visual Studio Code (VSCode). The left window has numerous tabs that can be utilised to view folder structures and navigate files (particularly useful when linked in git) and, most importantly, install extensions.</p>
+<p>By default, VSCode has no dependencies and is totally customisable to your own needs which further adds to its popularity. You see on the left that I have Python and Jupyter installed as extensions (which is simple as clicking install in the extensions tab) and as such I can open both .py scripts and .ipynb Jupyter Notebooks.</p>
+<p>Another recommended install is GitHub Pull Requests and Issues, which allows you to link directly to your GitHub account and provide accurate Version Control from within VSCode (without needing a separate program for the command line!). See the Command Line Basics -&gt; Introduction to Git pathway on the Learning Hub to learn more about Version Control.</p>
+<p>To open new files, we navigate to File -&gt; New text file which allows you to select the Programming Language that the script will be written in, the result is shown below:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/vscode_python.png" class="img-fluid figure-img" alt="Image showing a Python script in VSCode."></p>
+<p></p><figcaption class="figure-caption">Python Script in VSCode</figcaption><p></p>
+</figure>
+</div>
+<p>With Jupyter Notebooks, the easiest way is to navigate to File -&gt; New File and a selection drop down will open displaying the other file types you have installed that you can open! You will see Jupyter Notebooks here.</p>
+<p><img src="../images/vscode_jupyter.png" class="img-fluid" alt="Jupyter Notebook in VSCode">{“Image showing a Jupyter Notebook in VSCode.”}</p>
+<p>Note that this course does not aim to give you an extensive Introduction to VSCode. This is something that is team and organisation dependent (for example extensions vary, filetypes vary, version control varies and much more) and as such this is just a short show and tell of what it looks like and the capabilities it has.</p>
+</section>
+<section id="chapter-summary" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Chapter Summary</h1>
+<p>Congratulations! You have begun your Python journey by completing Chapter 1 of the Introduction to Python Course!</p>
+<p>What’s in store for you in Chapter 2?</p>
+<ul>
+<li>Variables</li>
+<li>Data Types</li>
+<li>Data Structures</li>
+</ul>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

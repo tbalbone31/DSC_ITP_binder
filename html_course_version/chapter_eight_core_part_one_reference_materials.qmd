@@ -1,0 +1,572 @@
+---
+title: "Chapter 8 - Core Part 1 Reference Materials"
+format:
+  html:
+    highlight: null
+    theme: default
+    toc: true
+    toc-title: Contents
+    toc-location: right
+    toc-depth: 3
+    number-sections: true 
+    link-external-newwindow: true
+---
+
+![](../images/AF_DSC_banner.png){fig-alt="Government Analysis Function and Data Science Campus Logos."}
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+Sys.setenv(RETICULATE_PYTHON = "/Users/jakemarshall/Library/r-miniconda-arm64/envs/my_python/bin/python") # Set path for my venv
+
+library(reticulate) # Initialise
+
+library(kableExtra) # For tables
+``` 
+
+This is a HTML document. The Introduction to Python course is written and intended to be used in a Jupyter Notebook file. These HTML documents have been made available for users who require screen readers or other accessibility needs. These HTML documents have been tested, but if you notice any errors or any compatibility issues please contact us on the GSS Capability email inbox.
+
+If you are using a screen reader you will need to set your punctuation level (sometimes called verbosity) to full, especially for the code sections.
+
+*Chapter Overview and Learning Objectives*:
+
+* [Packages and Data](#packages)
+  - Packages
+  - Data
+ 
+* [Selecting with loc and iloc](#loc_iloc)
+
+* [Cross Tabs and Pivot Tables](#crosstabs_pivot)
+  - Cross Tabs
+  - Pivot Tables
+  
+* [Numpy Select Funcion](#np_select)
+
+<a id='packages'></a>
+
+# Packages and Data
+
+## Packages
+
+Good practice dictates that we should always import our packages at the top of our script. In this session we will use pandas, and give it the nickname pd and numpy with the nickname np. 
+
+Note that this material has been written and tested with numpy version 1.22.3.
+
+```{python}
+import pandas as pd
+import numpy as np
+```
+
+The next step is to load in the data that you will be using:
+
+| variable name | file name  |
+| --- | --- | --- |
+| animals | animals.csv |
+| titanic | titanic.xlsx |
+
+```{python}
+animals = pd.read_csv("../data/animals.csv")
+titanic = pd.read_excel("../data/titanic.xlsx")
+
+```
+
+
+<a id='loc_iloc'></a>
+
+# Selecting with loc and iloc
+
+## What are these useful functions?
+
+In the section on updating values in Chapter 4, this course talks about how loc could be used to do the equivalent selecting we had done with indexing. Here we will expand on this function and show more examples of its use, as well as its brother iloc. 
+
+* .loc[] can be used to access groups of rows and columns either by using labels (their name) or a Boolean array as follows:
+
+.loc[row_label, column_label]
+
+* .iloc[] can be used to access groups of rows and columns by using their integer position, rather than having to know the names as follows:
+
+.iloc[row:row, col:col]
+
+We can also use integer positions inside .loc() but there is a subtle way this can go wrong and is why one is used for labels, the other for integer positions. It applies in the particular case that we have indexes that **don't** start from 0, and as such referencing by label may not always return the value that you want, whereas numerically, this will always find the first row and so on.
+
+In both the animals and titanic dataset our row labels are a sequential index starting at 0, so it doesn't matter which of the functions we use, however, since this course aims to follow good practice, we will be using .iloc[] for the integer positions. 
+
+Recall from Chapter 2 that we can use a colon to denote a slice; e.g. 0:5 will return rows 0 to 5. An empty slice (just a semi-colon) tells Python that we want **all** rows/columns.Another subtle difference between the functions comes into play here:
+
+* In .loc[], the slice we give is **inclusive**, therefore both end points are included. 
+
+* In .iloc[], the slice we give is **exclusive** at the end, so the last value is excluded, e.g. 0:5 will return 0-4. 
+
+## Selecting rows and columns with loc and iloc
+
+Let's see some examples using these functions.
+
+### Example
+
+Here this behaviour mimics that of animals.head()
+
+```{python eval = FALSE}
+animals.iloc[0:5, :] # If this was loc, we would 6 rows, not 5!
+```
+
+```{python include=FALSE }
+display = animals.loc[0:5, :]
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+```
+
+## Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+Replicate the above result using loc[] instead of iloc[] to appreciate the differences between them.
+
+### **Show Answer**{-}
+
+```{python}
+animals.loc[0:4, :]
+```
+
+```{python}
+display = animals.loc[0:4, :]
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+```
+
+:::
+
+Columns can be selected with .loc[] by passing either an individual value or a list to the columns label. This can be done as a separate variable and then referenced in the loc statement, or all in one line for the most efficient (albeit less readable) code.
+
+### Example
+```{python eval = FALSE}
+my_columns = ["IncidentNumber", "FinalDescription" ,  "London"]
+
+animals.loc[0:4, my_columns] 
+
+# OR
+
+# animals.loc[0:4, ["IncidentNumber", "FinalDescription", "London"]]
+```
+
+```{python include=FALSE}
+
+my_columns = ["IncidentNumber", "FinalDescription" ,  "London"]
+
+display = animals.loc[0:4, my_columns] 
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+```
+
+When using .iloc[], we can also reference columns by numerical position (either positive or negative, yes negative indexing is still in play!).
+
+### Example
+
+```{python eval = FALSE}
+animals.iloc[0:4, [0, 9 , -1 ]] # First, Eighth and last column
+```
+
+```{python include=FALSE}
+display = animals.iloc[0:4, [0, 9 , -1 ]] 
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+```
+What if we want to return all rows for specific columns? Or all columns for specific rows?
+
+### Examples
+
+If the columns index is left blank all columns are returned.
+
+```{python eval = FALSE}
+animals.loc[0:4]
+```
+
+```{python include=FALSE}
+display = animals.loc[0:4] 
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+```
+
+If you wish to return all rows of a specific column (or set of columns) you must show this by using using a single colon for the rows.
+
+```{python eval = FALSE}
+animals.loc[:, "DateTimeOfCall"]
+```
+
+```{python include=FALSE }
+display = animals.loc[:, "DateTimeOfCall"]
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "500px" ) 
+   
+```
+
+So far we have showed multiple values; but both .loc[] and .iloc[] can be used to retrieve individual values as well. This might not be particularly useful in either of these training datasets; but would be useful for say extracting a singular value from a time series data set.
+
+```{python}
+animals.loc[123, "FinalDescription"]
+```
+## Filtering with loc and iloc
+
+As seen in Chapter 4, .loc[] can also be used as a filter, which we used this to update values; but it can also be used to just return them as well. To do this we pass a filtering condition to the row index. Again this can be done in place (as below) or defined separately. 
+
+### Example
+```{python eval = FALSE}
+animals.loc[animals["AnimalGroupParent"] ==  "Rabbit"]
+```
+
+```{python include=FALSE }
+display = animals.loc[animals["AnimalGroupParent"] ==  "Rabbit"]
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+```
+
+Above we returned all columns but this can be controlled as well.
+
+```{python eval = FALSE}
+
+animals.loc[animals["AnimalGroupParent"] ==  "Rabbit", # Select rows that match the criteria
+            ["IncidentNumber", "SpecialServiceType" ] ] # Select columns
+
+```
+
+```{python include=FALSE }
+display =  animals.loc[animals["AnimalGroupParent"] ==  "Rabbit", # Select rows that match the criteria
+            ["IncidentNumber", "SpecialServiceType" ] ] # Select columns
+
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+```
+
+## Exercise 
+::: {.panel-tabset}
+### **Exercise**{-}
+Locate the rows where the AnimalGroupParent was 'Squirrel' or 'Ferret', returning the columns IncidentNumber and IncidentNominalCost(£). 
+
+Remember that or is denoted with | in Python!
+
+### **Show Answer**{-}
+
+```{python eval = FALSE}
+animals.loc[(animals["AnimalGroupParent"] == "Squirrel") | (animals["AnimalGroupParent"] == "Ferret"), ["IncidentNumber", "IncidentNominalCost(£)"]]
+```
+
+```{python include = FALSE}
+display = animals.loc[(animals["AnimalGroupParent"] == "Squirrel") | (animals["AnimalGroupParent"] == "Ferret"), ["IncidentNumber", "IncidentNominalCost(£)"]]
+```
+
+```{r}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+```
+:::
+
+
+<a id='crosstabs_pivot'></a>
+
+# Cross Tabs and Pivot Tables
+
+In this section we will look at some functions that offer alternate ways of performing aggregation, similar to .groupby(). The first of which is a cross-tabulation table.
+
+## Cross Tabulation Tables
+
+A cross-tabulation table allows you to generate frequencies for combinations of groups of data. They are often referred to as 'contingency tables' and 'two-way tables' and, although there may be some subtle distinctions, these all refer to the setting of one categorical variable against another, creating a matrix, and then counting, or otherwise aggregating by cell values.
+
+### Example
+
+To create cross-tabulations, you can use the pd.crosstab() function with the required parameters index and columns, where the index values are the row categories and the columns are the column categories.
+
+```{python}
+# Crosstab the new variable 'London' by 'AnimalClass'
+
+pd.crosstab(index = animals['London'],
+            columns = animals['AnimalClass'])
+```
+
+This produces cell counts for the cross-tabulation of the two categories, so there were 457 records that were both 'Inner London' and 'Bird'.
+
+We can also augment the cross-tab with some other parameters:
+
+*	margins, to add row and column totals when set to True.
+*	normalize, to create row or column proportions, or overall proportions, rather than frequencies. Keywords are 'index', 'columns' or 'all'.
+
+### Examples
+
+```{python}
+pd.crosstab(index = animals['London'],
+            columns = animals['AnimalClass'], margins=True)
+```
+
+Compute row proportions, with normalize as 'index'
+
+```{python}
+pd.crosstab(index = animals['London'],
+            columns =animals['AnimalClass'],
+            normalize = 'index',
+            margins=True)
+```
+
+Compute overall proportions, with margins. 'all'
+
+```{python}
+pd.crosstab(index= animals['London'],
+            columns= animals['AnimalClass'],
+            normalize = 'all',
+            margins= True)
+```
+
+Finally, by using the 'values' parameter, we can use a column to produce a similar output to the .groupby() on 'AnimalClass' and 'Borough', but in a different data structure. For this to work we also need to specify the parameter 'aggfunc', where we specify (as a string) the summary statistic we want to compute. 
+
+```{python}
+pd.crosstab(index = animals['Borough'],
+            columns = animals['AnimalClass'],
+            values = animals['IncidentNominalCost(£)'],
+            aggfunc='sum').head(6)
+```
+
+### Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+
+Create a cross tabulation table with the following characteristics:
+
+* The row category is 'SpecialServiceTypeCategory'
+* The column category is 'AnimalClass'
+* The values computed are for 'HourlyNominalCost(£)'
+* The aggregation function of choice is the mean
+
+### **Show Answer**{-}
+
+```{python}
+pd.crosstab(index = animals['SpecialServiceTypeCategory'],
+            columns = animals['AnimalClass'],
+            values = animals['HourlyNominalCost(£)'],
+            aggfunc = "mean")
+```
+:::
+
+## Pivot Tables
+
+Pandas also provides a .pivot_table() function, which acts a bit like the .groupby() and .crosstab() function combined, but is set out in a way that may be more intuitive to people used to using pivot tables in spreadsheets, as opposed to crosstabs or aggregations in statistical software.
+
+### Example
+
+Here we reproduce the two-group aggregation behaviour of groupby and crosstab.
+
+```{python}
+pd.pivot_table(data = animals,
+               values = 'IncidentNominalCost(£)', 
+               index='Borough',
+               columns='AnimalClass',
+               aggfunc='sum',
+               fill_value=0).head()
+```
+
+In addition, pivot tables can also behave almost identically to .groupby() if you want an aggregation by a single group (which crosstab cannot do):
+
+```{python}
+pd.pivot_table(data=animals,values='IncidentNominalCost(£)',
+               index='AnimalClass',
+               aggfunc='sum')
+```
+
+In this sense, your approach to aggregating data can be led by whichever method you feel more comfortable applying as there is clearly overlap between the functions. In terms of clarity, directed use of .crosstab() or .groupby() may be more instructive to reader than .pivot_table() as pivot table necessarily requires a little more engagement to understand exactly what process data are undergoing.
+
+
+<a id='np_select'></a>
+
+# Numpy Select Function
+
+Whilst a chapter introducing Numpy's exclusive datatype, the array will be added to this course at a later date, we feel that it is a good time to introduce one of the packages' incredibly useful functions, which provides an alternative to some of the pandas methodology. This function is the np.select() function and it can be used to apply conditions to a DataFrame. 
+
+## Example - Breaking it Down
+
+I want to add in a new column to the titanic dataset with the country people embarked in. For Southampton (S) this would be England, Cherbourg (C) that would be France and for Queenstown (Q) that would be Ireland. There’s also 2 missing values in this column that I want to put a default value “Unknown” in.
+
+While this can all be done in one line; here the steps have been split out to make it easier to comprehend.
+ 
+First we need to create some conditions. These are created as a list, and are the same as filtering conditions we looked at in Chapter 4.
+
+```{python}
+conditions = [
+    (titanic["embarked"] == "S"),
+    (titanic["embarked"] == "C"),
+    (titanic["embarked"] == "Q"),
+]
+
+```
+
+We then create the values that will be used in our new column (what the conditions will be assigned to) these are in the same order as our conditions we created above.
+
+```{python}
+values = ["England", "France", "Ireland"]
+```
+
+We can now use these values in our np.select() statement. First we create a new column, here we will call it embarked_country; again if we wanted to we could overwrite an existing column. The function takes three arguments:
+
+* condlist =  which is the list of our conditions
+* choicelist = which is the list of values we want to use when conditions are met (evaluate to True)
+* default =  which is the value that will be used if none of the conditions are met.
+
+Note that in the below where I am samplying using .sample(), I have set something called a random_state = which can be any numeric value. This sets what's called a **seed** of the randomiser and makes it so that we get the same result each time we run this cell. The initial run will be randomised, but it is then **fixed** from that point on. This is particularly useful when we want to make our results reproducible. 
+
+```{python eval = FALSE}
+titanic["embarked_country"] = np.select(condlist = conditions, choicelist= values, default= "Unknown")
+
+titanic.sample(10, random_state = 42)
+```
+
+```{python include=FALSE}
+
+titanic["embarked_country"] = np.select(condlist = conditions, choicelist= values, default= "Unknown")
+
+display = titanic.sample(10, random_state = 42)
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+```
+
+If we use a filter we can see the "Unknown" values show where embarked was NaN.
+
+```{python eval = FALSE}
+titanic[titanic["embarked_country"] == "Unknown"]
+```
+
+```{python include=FALSE }
+display = titanic[titanic["embarked_country"] == "Unknown"]
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+```
+
+## Example 2 - The Use of Default
+
+You see here that default =  is very useful, as it can be set to a column; if none of the values in our condlist =  match then it uses the value from an existing cell.
+
+Again this is a very artificial scenario, but I want to label anyone travelling with more than 5 family members on board (sibsp + parch + themselves) as part of a “Big” family. Anyone travelling by themselves as a “None” family on board. For all other family sizes I want to just display the size of the family by referencing the values in the columns.
+
+I’ve used .loc[] (see above) to select some specific rows so the effect can be seen.
+
+```{python eval = FALSE}
+family_size = [
+    ( (titanic["parch"] + titanic["sibsp"] + 1 ) >= 5 ),
+    ( (titanic["parch"] + titanic["sibsp"] + 1 ) == 1 ) ]
+
+family_size_string = ["Big", "None"]
+
+titanic["family_on_board"] = np.select(condlist = family_size,
+                                       choicelist= family_size_string,
+                                       default= (titanic["parch"] + titanic["sibsp"] + 1 ))
+
+# .loc used here to show one row with each of the values
+titanic.loc[ [111,1237,140, 3]]
+
+```
+
+```{python include=FALSE}
+family_size = [
+    ( (titanic["parch"] + titanic["sibsp"] + 1 ) >= 5 ),
+    ( (titanic["parch"] + titanic["sibsp"] + 1 ) == 1 ) ]
+
+family_size_string = ["Big", "None"]
+
+titanic["family_on_board"] = np.select(condlist = family_size,
+                                       choicelist= family_size_string,
+                                       default= (titanic["parch"] + titanic["sibsp"] + 1 ))
+
+# .loc used here to show one row with each of the values
+display = titanic.loc[[111,1237,140, 3]]
+
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+```
+
+## Exercise
+::: {.panel-tabset}
+### **Exercise**{-}
+
+Use the np.select() function to create a new column 'pclass_string' which assigns the values first, second, and third to pclass conditions of =1, =2 and =3. Set the default value to unknown and display the results using .sample() with a random state of your choice to observe the effect.
+
+### **Show Answer**{-}
+
+```{python eval = FALSE}
+titanic['pclass_string'] = np.select(condlist = [(titanic['pclass'] == 1), (titanic['pclass'] == 2), (titanic['pclass'] == 3)],
+                                     choicelist = ['first', 'second', 'third'],
+                                     default = 'unknown')
+
+titanic.sample(10, random_state = 2022)
+```
+
+```{python include = FALSE}
+titanic['pclass_string'] = np.select(condlist = [(titanic['pclass'] == 1), (titanic['pclass'] == 2), (titanic['pclass'] == 3)],
+                                     choicelist = ['first', 'second', 'third'],
+                                     default = 'unknown')
+
+display = titanic.sample(10, random_state = 2022)
+```
+
+```{r echo=FALSE}
+kable(py$display) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>% 
+  scroll_box(width = "100%", height = "100%" ) 
+   
+```
+
+:::
+
+## End of Chapter
+
+Congratulations! You have reached the end of the reference materials for Core Part 1 of Introduction to Python. You should be so proud of yourself tackling the advanced content, which puts you in a great stead for continuing your development as a Python Pro!
+
+Any suggestions for content to add to this material would be very much appreciated! Remember that content on Control Flow, Loops, Functions and more is relegated to Core Part 2, so any suggestions for Core Part 1 should not require those as a pre-requisite!
+
+Thank-you so much for your dedication in completing this material! Now you can move on to Core Part 2, where more programmatic concepts in Python will be introduced. 

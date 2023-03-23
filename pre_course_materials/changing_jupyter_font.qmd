@@ -1,0 +1,63 @@
+---
+title: "Changing Jupyter Notebook Fonts"
+format:
+  html:
+    highlight-style: tango
+    theme: united
+    toc: true
+    toc-title: Contents
+    toc-location: right
+    toc-depth: 3
+    link-external-newwindow: true
+---
+
+![](../images/AF_DSC_banner.png){fig-alt="Government Analysis Function and Data Science Campus Logos"}
+
+<center><a href="mailto:Data.Science.Campus.Faculty@ons.gov.uk?subject=Help with Jupyter Fonts">Need help? Contact the team.</a></center>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+When working with notebooking software, the type of text we use is incredibly important when it comes to the accessibility of our materials. The default text setting in Jupyter Notebooks is a sans-serif font which is deemed as inaccessible for those with visual impairment, dyslexia and other conditions that require the use of a screen reader. 
+
+If you are developing materials or even just writing a report in Jupyter to share later, this is a consideration you should make, as for too long people with extra needs have been left out of the conversation and this can cause a decline in morale as well as limit the potential reach of the content you are creating. 
+
+To change the font within Jupyter Notebook, follow the steps below: 
+
+1)	Close Jupyter Notebook.
+
+2)	In the working directory for Jupyter (Usually 'C:/your_username') there's a folder called .jupyter.
+
+3)	Go into that folder and create a new folder inside of it (right click, create new folder), naming it 'custom'.
+
+4)	Open up the 'notepad' program from the start menu. To do this:
+Start `->` All Programmes `->` accessories `->` notepad (wordpad on Windows 7).
+If you are working on windows 10, Magnifying Glass `->' Type "notepad" `->` Press Enter
+
+5)	Paste the following text into the notepad file (wordpad on Windows 7).
+
+```{css eval = FALSE}
+.CodeMirror pre, .CodeMirror-dialog, .CodeMirror-dialog .CodeMirror-search-field, .terminal-app .terminal {
+    font-family: Arial;
+    font-size: 12pt;
+}
+```
+
+6)	This is some CSS (Cascading Style Sheet) code - that affects how Jupyter displays within the browser. Using this, you can change the font (e.g. Arial) to whatever you like, and also increase the font-size as well. 
+
+7)	Choose File `->` Save As
+
+8) Save the resulting `.txt` file in the custom folder you set up earlier.
+
+9)	Name the file `custom.css`. 
+
+10)	Change "Save as type" to "All Files".
+
+11)	Close notepad.
+
+When you load Jupyter again, the change will have taken place and your font will change to your chosen new font within the code blocks and markdown cells. Remember you need only close Jupyter, change the font and size in the `custom.css` file, save it and then close it to alter it again. 
+
+If the text is still too small for your liking, remember that you can use `CTRL and +` to zoom in and `CTRL and -` to zoom out within any browser.
