@@ -1,5 +1,7 @@
 # Introduction to Python 
 
+## NOTE **This repo is a copy of the main DSC one and solely for the delivery of ITP.  Any changes to the general course materials MUST be made in the private repo, NOT here.**
+
 ### **Course Summary**
 
 This course provides a soft Introduction to the programming language Python, detailing its history, interaction (via an IDE and Notebook software), syntax,
@@ -72,3 +74,7 @@ The course has been written in the following versions of software and packages. 
 
 Guidance on installing the relevant software is contained within the instructions document **Intro to Python Instructions** contained within the 
 course materials.
+
+If you're struggling to access this material on your network, please use the following link to setup a BINDER repo.  You should be able to interact with everything in the same way however progress isn't saved long-term and you'll need to download the notebook at the end of the day.  We'll explain this in the course.
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/tbalbone31/DSC_ITP_binder/HEAD)
